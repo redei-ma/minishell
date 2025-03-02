@@ -1,32 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_printfd.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/02 19:26:02 by redei-ma         ###   ########.fr       */
+/*   Created: 2024/12/09 19:07:01 by redei-ma          #+#    #+#             */
+/*   Updated: 2025/02/13 17:50:01 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef FT_PRINTFD_H
+# define FT_PRINTFD_H
 
-# include "libft/libft.h"
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <signal.h>
-# include <sys/stat.h>
-# include <sys/types.h>
-# include <sys/wait.h>
+# include "libft.h"
 
-typedef struct s_shell
-{
-	char	*input;
-	char	**cmd;
-}   t_shell;
+int		ft_checkd(char c, va_list params, int fd);
 
-int		is_empty(char *str);
+int		ft_putchard(char c, int fd);
+size_t	ft_putstrd(char *s, int fd);
+int		ft_putnbrd(long long n, int fd);
+int		ft_puthexd(long long n, char c, int fd);
+int		ft_putptrd(unsigned long long n, int fd);
 
 #endif

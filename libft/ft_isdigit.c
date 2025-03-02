@@ -1,32 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/02 19:26:02 by redei-ma         ###   ########.fr       */
+/*   Created: 2024/11/18 11:43:33 by redei-ma          #+#    #+#             */
+/*   Updated: 2024/12/05 16:58:54 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include "libft/libft.h"
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <signal.h>
-# include <sys/stat.h>
-# include <sys/types.h>
-# include <sys/wait.h>
-
-typedef struct s_shell
+int	ft_isdigit(int c)
 {
-	char	*input;
-	char	**cmd;
-}   t_shell;
+	if (c >= 48 && c <= 57)
+		return (1);
+	return (0);
+}
 
-int		is_empty(char *str);
-
-#endif
+/* int main(void)
+{
+	int i = ft_isdigit('z');
+	printf("%d", i);
+} */

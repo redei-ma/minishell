@@ -1,32 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/02 19:26:02 by redei-ma         ###   ########.fr       */
+/*   Created: 2024/11/26 16:42:13 by redei-ma          #+#    #+#             */
+/*   Updated: 2025/01/28 15:53:43 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include "libft/libft.h"
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <signal.h>
-# include <sys/stat.h>
-# include <sys/types.h>
-# include <sys/wait.h>
-
-typedef struct s_shell
+int	ft_lstsize(t_list *lst)
 {
-	char	*input;
-	char	**cmd;
-}   t_shell;
+	t_list	*tmp;
+	int		count;
 
-int		is_empty(char *str);
-
-#endif
+	tmp = lst;
+	count = 0;
+	while (tmp)
+	{
+		tmp = tmp->next;
+		count++;
+	}
+	return (count);
+}

@@ -1,32 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/02 19:26:02 by redei-ma         ###   ########.fr       */
+/*   Created: 2024/11/26 15:59:30 by redei-ma          #+#    #+#             */
+/*   Updated: 2024/12/05 17:00:24 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include "libft/libft.h"
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <signal.h>
-# include <sys/stat.h>
-# include <sys/types.h>
-# include <sys/wait.h>
-
-typedef struct s_shell
+t_list	*ft_lstnew(void *content)
 {
-	char	*input;
-	char	**cmd;
-}   t_shell;
+	t_list	*node;
 
-int		is_empty(char *str);
-
-#endif
+	node = (t_list *)malloc(1 * sizeof(t_list));
+	if (!node)
+		return (NULL);
+	node -> content = content;
+	node -> next = NULL;
+	return (node);
+}

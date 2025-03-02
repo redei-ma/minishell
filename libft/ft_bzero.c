@@ -1,32 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/02 19:26:02 by redei-ma         ###   ########.fr       */
+/*   Created: 2024/11/22 10:56:20 by redei-ma          #+#    #+#             */
+/*   Updated: 2024/12/05 16:58:31 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include "libft/libft.h"
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <signal.h>
-# include <sys/stat.h>
-# include <sys/types.h>
-# include <sys/wait.h>
-
-typedef struct s_shell
+void	ft_bzero(void *s, size_t n)
 {
-	char	*input;
-	char	**cmd;
-}   t_shell;
+	ft_memset(s, 0, n);
+}
 
-int		is_empty(char *str);
+/* int main()
+{
+    char str1[50] = "Ciao mondo!";
+    char str2[50] = "Ciao mondo!";
 
-#endif
+    bzero(str1, 6);
+    ft_bzero(str2, 6);
+    printf("Funzione ufficiale:\n%s\n", str1);
+    printf("Funzione ricreata:\n%s", str2);
+
+    return 0;
+} */

@@ -1,32 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_freemat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/02 19:26:02 by redei-ma         ###   ########.fr       */
+/*   Created: 2025/02/13 17:25:24 by redei-ma          #+#    #+#             */
+/*   Updated: 2025/02/19 20:37:17 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include "libft/libft.h"
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <signal.h>
-# include <sys/stat.h>
-# include <sys/types.h>
-# include <sys/wait.h>
-
-typedef struct s_shell
+void	**ft_freemat(void **mat, int size)
 {
-	char	*input;
-	char	**cmd;
-}   t_shell;
+	void	**tmp;
+	int		i;
 
-int		is_empty(char *str);
-
-#endif
+	i = 0;
+	tmp = mat;
+	while (i < size)
+	{
+		free(*tmp);
+		*tmp = NULL;
+		tmp++;
+		i++;
+	}
+	free(mat);
+	return (NULL);
+}

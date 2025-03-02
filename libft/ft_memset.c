@@ -1,32 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/02 19:26:02 by redei-ma         ###   ########.fr       */
+/*   Created: 2024/11/18 12:49:30 by redei-ma          #+#    #+#             */
+/*   Updated: 2024/12/05 17:01:01 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include "libft/libft.h"
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <signal.h>
-# include <sys/stat.h>
-# include <sys/types.h>
-# include <sys/wait.h>
-
-typedef struct s_shell
+void	*ft_memset(void *s, int c, size_t n)
 {
-	char	*input;
-	char	**cmd;
-}   t_shell;
+	unsigned char	*temp;
 
-int		is_empty(char *str);
+	temp = (unsigned char *)s;
+	while (n--)
+	{
+		*temp = c;
+		temp++;
+	}
+	return (s);
+}
 
-#endif
+/* int main()
+{
+	char str1[50] = "Ciao mondo!";
+	char str2[50] = "Ciao mondo!";
+
+	memset(str1, 'X', 6);
+	ft_memset(str2, 'X', 6);
+	printf("Funzione ufficiale:\n%s\n", str1);
+	printf("Funzione ricreata:\n%s", str2);
+} */

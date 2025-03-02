@@ -1,32 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/02 19:26:02 by redei-ma         ###   ########.fr       */
+/*   Created: 2024/11/18 12:39:16 by redei-ma          #+#    #+#             */
+/*   Updated: 2024/12/05 17:01:54 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include "libft/libft.h"
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <signal.h>
-# include <sys/stat.h>
-# include <sys/types.h>
-# include <sys/wait.h>
-
-typedef struct s_shell
+size_t	ft_strlen(const char *str)
 {
-	char	*input;
-	char	**cmd;
-}   t_shell;
+	size_t	n;
 
-int		is_empty(char *str);
+	n = 0;
+	while (str[n] != '\0')
+		n++;
+	return (n);
+}
 
-#endif
+/* int main(void)
+{
+	int i = ft_strlen("ciao bel	li");
+	printf("%d", i);
+} */

@@ -1,32 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/02 19:26:02 by redei-ma         ###   ########.fr       */
+/*   Created: 2024/11/26 16:51:07 by redei-ma          #+#    #+#             */
+/*   Updated: 2025/01/28 15:02:48 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include "libft/libft.h"
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <signal.h>
-# include <sys/stat.h>
-# include <sys/types.h>
-# include <sys/wait.h>
-
-typedef struct s_shell
+void	ft_lstadd_back(t_list **lst, t_list *niu)
 {
-	char	*input;
-	char	**cmd;
-}   t_shell;
+	t_list	*last;
 
-int		is_empty(char *str);
+	if (!lst || !niu)
+		return ;
+	if (!*lst)
+	{
+		*lst = niu;
+		return ;
+	}
+	last = ft_lstlast(*lst);
+	last->next = niu;
+}
 
-#endif
+/* int	main ()
+{
+	
+} */

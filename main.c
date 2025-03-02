@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lacerbi <lacerbi@student.42firenze.it>     +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/26 16:35:37 by lacerbi           #+#    #+#             */
-/*   Updated: 2025/02/27 13:57:33 by lacerbi          ###   ########.fr       */
+/*   Created: 2025/02/26 16:35:37 by redei-ma          #+#    #+#             */
+/*   Updated: 2025/03/02 19:27:12 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,23 +41,6 @@ int is_executable(const char *cmd)
 	return 0;
 }
 
-void	find_cmd(t_shell *shell)
-{
-	char *cmd;
-
-	*cmd = shell->cmd[shell->i];
-	if (is_builtin(cmd))
-		exe_builtin(shell); //da fa'
-	else if (is_executable(cmd))
-		exe_external(shell); //da fa'
-	else if (find_in_path(cmd))
-		exe_external(shell); //da fa'
-	else if (is_redirection(cmd))
-		handle_redirection(shell); //da fa'
-	else
-		ft_printf("minishell: comando non trovato: %s\n", cmd);
-}
-
 void	cmd_manage(t_shell *shell)
 {
 	int	i;
@@ -65,9 +48,23 @@ void	cmd_manage(t_shell *shell)
 	i = 0;
 	while (shell->cmd[i])
 	{
-		shell->i = i;
-		find_cmd(shell);
-		i++;	
+	if (is_builtin(shell->cmd[i]))
+		exe_builtin(shell); //da fa'
+	else if (is_executable(cmd))
+		exe_external(shell); //da fa'
+	else if (is_redirection(shell->cmd[i]))
+		handle_redirection(shell); //da fa'
+	else if (is_quotes(shell->cmd[i]))
+		handle_quotes(shell); //da fa'
+	else if (is_pipe(shell->cmd[i]))
+		handle_pipe(shell); //da fa'
+	else if (is_env(shell->cmd[i]))
+		handle_env(shell); //da fa'
+	else if (is_exit_status(shell->cmd[i]))
+		handle_exit_status(shell); //da fa'
+	else
+		// ft_printf("minishell: comando non trovato: %s\n", shell->cmd[i]);
+		i++;
 	}
 }
 
@@ -79,14 +76,18 @@ int	main(void)
 	{
 		shell.input = readline("minishell> ");
 		if (!shell.input)
-			break ;
-		if (*shell.input)
+		{
+			ft_printfd(1, "exit\n");
+			exit_good();
+		}
+		if (!is_empty(shell.input))
 			add_history(shell.input);
-		shell.cmd = ft_split(shell.input);
+		shell.cmd = ft_nsplit(shell.input);
 		if (!shell.cmd)
-			return ("error");
+			exit_error();
 		free(shell.input);
 		cmd_manage(&shell);
+		ft_freemat((void **)shell.cmd, ft_matlen((void **)shell.cmd));
 	}
 	return 0;
-}
+}	

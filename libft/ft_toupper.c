@@ -1,32 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/02 19:26:02 by redei-ma         ###   ########.fr       */
+/*   Created: 2024/11/22 11:01:53 by redei-ma          #+#    #+#             */
+/*   Updated: 2024/12/05 17:02:28 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include "libft/libft.h"
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <signal.h>
-# include <sys/stat.h>
-# include <sys/types.h>
-# include <sys/wait.h>
-
-typedef struct s_shell
+int	ft_toupper(int c)
 {
-	char	*input;
-	char	**cmd;
-}   t_shell;
+	if (c >= 97 && c <= 122)
+		c -= 32;
+	return (c);
+}
 
-int		is_empty(char *str);
-
-#endif
+/* int main()
+{
+	char a = 90;
+	char b = 100;
+	printf("Funzione ricreata: %d	%d\n", ft_toupper(a), ft_toupper(b));
+	printf("Funzione originale: %d	%d", toupper(a), toupper(b));
+	return 0;
+} */
