@@ -6,13 +6,13 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:35:37 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/03 14:35:12 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/03 16:07:16 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
-void	exe_builtin(t_shell *shell)
+/* void	exe_builtin(t_shell *shell)
 {
 	if (ft_strncmp(shell->cmd[0], "echo", 4) == 0)
 		ft_echo(shell);
@@ -79,25 +79,41 @@ void	cmd_manage(t_shell *shell)
 		cmd_find(shell, i);
 		i++;
 	}
-}
+} */
 
 int	main(void)
 {
 	t_shell	shell;
 
+	// Inizializzazione della libreria readline
 	while (1)
 	{
 		shell.input = readline("minishell> ");
 		if (!shell.input)
-			exit_good();
+		{
+			//exit_good();
+			exit(0);
+		}
 		if (!is_empty(shell.input))
+		{
+			ft_printf("input: %s\n", shell.input);
 			add_history(shell.input);
+		}
 		shell.cmd = ft_nsplit(shell.input);
 		if (!shell.cmd)
-			exit_error();
+		{
+			//exit_error();
+			exit(1);
+		}
 		free(shell.input);
-		cmd_manage(&shell);
-		ft_freemat((void **)shell.cmd, ft_matlen((void **)shell.cmd));
+		int i = 0;
+		while (shell.cmd[i])
+		{
+			ft_printf("cmd[%d]: %s\n", i, shell.cmd[i]);
+			i++;
+		}
+		//cmd_manage(&shell);
+		ft_freemat((void **)shell.cmd, ft_matlen(shell.cmd));
 	}
 	return 0;
-}	0
+}

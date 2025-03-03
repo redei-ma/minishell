@@ -1,8 +1,10 @@
 NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
+READFLAG = -lhistory -lreadline
 
-SRC =
+SRC =	main.c \
+		utils1.c
 
 OBJS = $(SRC:.c=.o)
 
@@ -17,7 +19,7 @@ $(LIBFT):
 
 $(NAME): $(LIBFT) $(OBJS)
 	@echo "Compiling $(NAME)..."
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+	@$(CC) $(CFLAGS) $(READFLAG) $(OBJS) $(LIBFT) -o $(NAME)
 
 %.o: %.c
 	@$(CC) $(CFLAGS) -I$(CURDIR) -I$(LIBFT_DIR) -c $< -o $@

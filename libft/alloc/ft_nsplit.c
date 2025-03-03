@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 17:47:13 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/02 18:51:51 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/03 15:57:14 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,18 @@ static size_t	ft_count_words(const char *s)
 	flag = 0;
 	while (s && *s)
 	{
+		if (*s == 34)
+		{
+			s++;
+			while (*s != 34 && *s)
+				s++;
+		}
+		else if (*s == 39)
+		{
+			s++;
+			while (*s != 39 && *s)
+				s++;
+		}
 		if (ft_isspace(*s))
 			flag = 0;
 		else if (flag == 0)
@@ -30,6 +42,7 @@ static size_t	ft_count_words(const char *s)
 		}
 		s++;
 	}
+	ft_printf("count: %d\n", count);
 	return (count);
 }
 
@@ -56,11 +69,30 @@ static char	**ft_allocate(char **dest, const char *s)
 	start = dest;
 	while (*s)
 	{
+		n = 0;
 		while (ft_isspace(*s))
 			s++;
-		n = 0;
-		while (s[n] && !ft_isspace(s[n]))
-			n++;
+		if (*s == 34)
+		{
+			s++;
+			while (s[n] != 34 && s[n])
+				n++;
+			n += 2;
+			s--;
+		}
+		else if (*s == 39)
+		{
+			s++;
+			while (s[n] != 39 && s[n])
+				n++;
+			n += 2;
+			s--;
+		}
+		else
+		{
+			while (s[n] && !ft_isspace(s[n]))
+				n++;
+		}
 		if (n > 0)
 		{
 			*dest = ft_substr(s, 0, n);

@@ -6,13 +6,13 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 19:01:46 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/02 19:02:23 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/03 15:35:29 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_matlen(void **mat)
+int	ft_matlen(char **mat)
 {
 	int	i;
 
