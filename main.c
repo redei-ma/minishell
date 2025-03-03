@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:35:37 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/03 16:07:16 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/03 16:22:52 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ int	main(void)
 {
 	t_shell	shell;
 
-	// Inizializzazione della libreria readline
 	while (1)
 	{
 		shell.input = readline("minishell> ");
@@ -94,6 +93,7 @@ int	main(void)
 			//exit_good();
 			exit(0);
 		}
+		add_history(shell.input);
 		if (!is_empty(shell.input))
 		{
 			ft_printf("input: %s\n", shell.input);

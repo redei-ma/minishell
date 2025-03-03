@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/03 15:11:06 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/03 16:28:57 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
-#include <threads.h>
 
 /* typedef struct s_flags
 {

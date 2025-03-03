@@ -3,8 +3,8 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 READFLAG = -lhistory -lreadline
 
-SRC =	main.c \
-		utils1.c
+SRC =	utils1.c \
+		test.c
 
 OBJS = $(SRC:.c=.o)
 
