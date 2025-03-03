@@ -5,57 +5,20 @@ CFLAGS = -Wall -Wextra -Werror -I$(CURDIR)
 SRCS = ft_abs.c \
 	ft_atoi.c \
 	ft_bzero.c \
-	ft_calloc.c \
 	ft_freemat.c \
-	ft_isalnum.c \
-	ft_isalpha.c \
-	ft_isascii.c \
-	ft_isdigit.c \
-	ft_isprint.c \
-	ft_isspace.c \
 	ft_itoa.c \
-	ft_lstadd_back.c \
-	ft_lstadd_front.c \
-	ft_lstclear.c \
-	ft_lstdelone.c \
-	ft_lstiter.c \
-	ft_lstlast.c \
-	ft_lstmap.c \
-	ft_lstnew.c \
-	ft_lstsize.c \
-	ft_matlen.c \
-	ft_memchr.c \
-	ft_memcmp.c \
-	ft_memcpy.c \
-	ft_memmove.c \
-	ft_memset.c \
+	ft_matlen.c	\
 	ft_natoi.c \
-	ft_nsplit.c \
-	ft_printf_utils.c \
-	ft_printf.c \
-	ft_printfd_utils.c \
-	ft_printfd.c \
-	ft_putchar_fd.c \
-	ft_putendl_fd.c \
-	ft_putnbr_fd.c \
-	ft_putstr_fd.c \
-	ft_realloc.c \
-	ft_split.c \
-	ft_strchr.c \
-	ft_strdup.c \
-	ft_striteri.c \
-	ft_strjoin.c \
-	ft_strlcat.c \
-	ft_strlcpy.c \
-	ft_strlen.c \
-	ft_strmapi.c \
-	ft_strncmp.c \
-	ft_strnstr.c \
-	ft_strrchr.c \
-	ft_strtrim.c \
-	ft_substr.c \
 	ft_tolower.c \
 	ft_toupper.c \
+	get_next_line_bonus.c \
+	alloc/ft_calloc.c	alloc/ft_nsplit.c	alloc/ft_realloc.c	alloc/ft_split.c	alloc/ft_strdup.c	alloc/ft_strjoin.c	alloc/ft_substr.c \
+	lst/ft_lstadd_back.c	lst/ft_lstadd_front.c	lst/ft_lstclear.c	lst/ft_lstdelone.c \
+	lst/ft_lstiter.c	lst/ft_lstlast.c	lst/ft_lstmap.c	lst/ft_lstnew.c	lst/ft_lstsize.c \
+	mem/ft_memchr.c	mem/ft_memcmp.c	mem/ft_memcpy.c	mem/ft_memmove.c	mem/ft_memset.c \
+	print/ft_printf_utils.c	print/ft_printf.c	print/ft_printfd_utils.c	print/ft_printfd.c	print/ft_putchar_fd.c	print/ft_putendl_fd.c	print/ft_putnbr_fd.c	print/ft_putstr_fd.c \
+	str/ft_strchr.c	str/ft_striteri.c	str/ft_strlcat.c	str/ft_strlcpy.c	str/ft_strlen.c	str/ft_strmapi.c	str/ft_strncmp.c	str/ft_strnstr.c	str/ft_strrchr.c	str/ft_strtrim.c \
+	type/ft_isalnum.c	type/ft_isalpha.c	type/ft_isascii.c	type/ft_isdigit.c	type/ft_isprint.c	type/ft_isspace.c \
 
 OBJS = $(SRCS:.c=.o)
 
@@ -65,7 +28,7 @@ $(NAME): $(OBJS)
 	ar rcs $(NAME) $(OBJS)
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -I$(CURDIR) -c $< -o $@
 
 clean:
 	rm -rf $(OBJS)

@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/02 19:26:02 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/03 14:16:07 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,18 @@
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+#include <threads.h>
+
+/* typedef struct s_flags
+{
+	int	builtin;
+	int	exe;
+	int	redir;
+	int	qutes;
+	int	pipe;
+	int	env;
+	int	exit_status;
+}	t_flags; */
 
 typedef struct s_shell
 {

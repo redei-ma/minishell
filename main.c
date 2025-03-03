@@ -6,39 +6,67 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:35:37 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/02 19:27:12 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/03 14:35:12 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
-int is_builtin(char *cmd)
+void	exe_builtin(t_shell *shell)
 {
-	char *builtins[] = {"cd", "echo", "pwd", "export", "unset", "env", "exit", NULL};
-	//merdoso
-	int i;
-
-	i = 0;
-	while (builtins[i])
-	{
-		if (strcmp(cmd, builtins[i]) == 0)
-			return (1);
-		i++;
-	}
-	return (0);
+	if (ft_strncmp(shell->cmd[0], "echo", 4) == 0)
+		ft_echo(shell);
+	else if (ft_strncmp(shell->cmd[0], "cd", 2) == 0)
+		ft_cd(shell);
+	else if (ft_strncmp(shell->cmd[0], "pwd", 3) == 0)
+		ft_pwd();
+	else if (ft_strncmp(shell->cmd[0], "export", 6) == 0)
+		ft_export(shell);
+	else if (ft_strncmp(shell->cmd[0], "unset", 5) == 0)
+		ft_unset(shell);
+	else if (ft_strncmp(shell->cmd[0], "env", 3) == 0)
+		ft_env(shell);
+	else if (ft_strncmp(shell->cmd[0], "exit", 4) == 0)
+		exit_good();
 }
 
-int is_executable(const char *cmd)
+int	is_builtin(char *cmd)
 {
-	struct stat st; //-> struttura che serve a stat per salvarsi le info sul file
-
-	if (stat(cmd, &st) == -1) //check su esistenza del file
-		return 0;
-//      se file e' regolare     -------------------vari permessi di esecuzione---------------------
-	if (S_ISREG(st.st_mode) && (st.st_mode & S_IXUSR || st.st_mode & S_IXGRP || st.st_mode & S_IXOTH))
+	if(ft_strncmp(cmd, "echo", 4) == 0)
 		return 1;
-	
+	else if(ft_strncmp(cmd, "cd", 2) == 0)
+		return 1;
+	else if(ft_strncmp(cmd, "pwd", 3) == 0)
+		return 1;
+	else if(ft_strncmp(cmd, "export", 6) == 0)
+		return 1;
+	else if(ft_strncmp(cmd, "unset", 5) == 0)
+		return 1;
+	else if(ft_strncmp(cmd, "env", 3) == 0)
+		return 1;
+	else if(ft_strncmp(cmd, "exit", 4) == 0)
+		return 1;
 	return 0;
+}
+
+void	cmd_find(t_shell *shell, int i)
+{
+	if (is_builtin(shell->cmd[i]))
+			exe_builtin(shell);
+	else if (is_executable(shell->cmd[i]))
+		exe_external(shell);
+	else if (is_redirection(shell->cmd[i]))
+		handle_redirection(shell);
+	else if (is_quotes(shell->cmd[i]))
+		handle_quotes(shell);
+	else if (is_pipe(shell->cmd[i]))
+		handle_pipe(shell);
+	else if (is_env(shell->cmd[i]))
+		handle_env(shell);
+	else if (is_exit_status(shell->cmd[i]))
+		handle_exit_status(shell);
+	else
+		ft_printf("minishell: comando non trovato: %s\n", shell->cmd[i]);
 }
 
 void	cmd_manage(t_shell *shell)
@@ -48,22 +76,7 @@ void	cmd_manage(t_shell *shell)
 	i = 0;
 	while (shell->cmd[i])
 	{
-	if (is_builtin(shell->cmd[i]))
-		exe_builtin(shell); //da fa'
-	else if (is_executable(cmd))
-		exe_external(shell); //da fa'
-	else if (is_redirection(shell->cmd[i]))
-		handle_redirection(shell); //da fa'
-	else if (is_quotes(shell->cmd[i]))
-		handle_quotes(shell); //da fa'
-	else if (is_pipe(shell->cmd[i]))
-		handle_pipe(shell); //da fa'
-	else if (is_env(shell->cmd[i]))
-		handle_env(shell); //da fa'
-	else if (is_exit_status(shell->cmd[i]))
-		handle_exit_status(shell); //da fa'
-	else
-		// ft_printf("minishell: comando non trovato: %s\n", shell->cmd[i]);
+		cmd_find(shell, i);
 		i++;
 	}
 }
@@ -76,10 +89,7 @@ int	main(void)
 	{
 		shell.input = readline("minishell> ");
 		if (!shell.input)
-		{
-			ft_printfd(1, "exit\n");
 			exit_good();
-		}
 		if (!is_empty(shell.input))
 			add_history(shell.input);
 		shell.cmd = ft_nsplit(shell.input);
@@ -90,4 +100,4 @@ int	main(void)
 		ft_freemat((void **)shell.cmd, ft_matlen((void **)shell.cmd));
 	}
 	return 0;
-}	
+}	0
