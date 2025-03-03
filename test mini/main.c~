@@ -71,7 +71,6 @@ void	cmd_manage(t_shell *shell)
 	}
 }
 */
-
 int	main(void)
 {
 	t_shell	shell;
@@ -80,31 +79,14 @@ int	main(void)
 	{
 		shell.input = readline("minishell> ");
 		if (!shell.input)
-		{
-			//exit_good();
-			exit(0);
-		}
-		add_history(shell.input);
-		if (!is_empty(shell.input))
-		{
-			printf("input: %s\n", shell.input);
+			break ;
+		if (*shell.input)
 			add_history(shell.input);
-		}
-		shell.cmd = ft_nsplit(shell.input);
+		//shell.cmd = ft_split(shell.input);
 		if (!shell.cmd)
-		{
-			//exit_error();
-			exit(1);
-		}
+			return (1);
 		free(shell.input);
-		int i = 0;
-		while (shell.cmd[i])
-		{
-			printf("cmd[%d]: %s\n", i, shell.cmd[i]);
-			i++;
-		}
 		//cmd_manage(&shell);
-		ft_freemat((void **)shell.cmd, ft_matlen(shell.cmd));
 	}
 	return 0;
 }

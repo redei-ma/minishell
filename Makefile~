@@ -1,7 +1,7 @@
 NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
-READFLAG = -lreadline -lhistory
+READFLAG = -lhistory -lreadline
 
 SRC =	utils1.c \
 		test.c

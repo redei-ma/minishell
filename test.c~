@@ -72,6 +72,18 @@ void	cmd_manage(t_shell *shell)
 }
 */
 
+int	is_empty(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && ft_isspace(str[i]))
+		i++;
+	if (str[i])
+		return (0);
+	return (1);
+}
+
 int	main(void)
 {
 	t_shell	shell;

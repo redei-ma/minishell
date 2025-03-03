@@ -71,7 +71,6 @@ void	cmd_manage(t_shell *shell)
 	}
 }
 */
-
 int	main(void)
 {
 	t_shell	shell;
@@ -90,21 +89,21 @@ int	main(void)
 			printf("input: %s\n", shell.input);
 			add_history(shell.input);
 		}
-		shell.cmd = ft_nsplit(shell.input);
+		/*shell.cmd = ft_nsplit(shell.input);
 		if (!shell.cmd)
 		{
 			//exit_error();
 			exit(1);
-		}
+		}*/
 		free(shell.input);
-		int i = 0;
+		/*int i = 0;
 		while (shell.cmd[i])
 		{
 			printf("cmd[%d]: %s\n", i, shell.cmd[i]);
 			i++;
 		}
 		//cmd_manage(&shell);
-		ft_freemat((void **)shell.cmd, ft_matlen(shell.cmd));
+		ft_freemat((void **)shell.cmd, ft_matlen(shell.cmd));*/
 	}
 	return 0;
 }
