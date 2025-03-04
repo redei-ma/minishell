@@ -60,7 +60,7 @@ static char	**ft_allocate(char **dest, const char *s)
 		while (ft_isspace(*s))
 			s++;
 		while (s[n] && !ft_isspace(s[n]))
-				n++;
+			n++;
 		if (n > 0)
 		{
 			*dest = ft_substr(s, 0, n);

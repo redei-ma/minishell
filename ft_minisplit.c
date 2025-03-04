@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 11:44:50 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/04 13:08:34 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/04 19:19:20 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,10 @@ static size_t	ft_count_words(const char *s)
 
 	count = 0;
 	flag = 0;
+	printf("s: %s\n", s);
 	while (s && *s)
 	{
+		printf("count: %d\n", count);
 		if (*s == 34)
 		{
 			s++;
@@ -33,7 +35,7 @@ static size_t	ft_count_words(const char *s)
 			while (*s != 39 && *s)
 				s++;
 		}
-		if (ft_isspace(*s))
+		else if (ft_isspace(*s))
 			flag = 0;
 		else if (flag == 0)
 		{
@@ -42,7 +44,7 @@ static size_t	ft_count_words(const char *s)
 		}
 		s++;
 	}
-	printf("count: %d\n", count);
+	printf("tot count: %d\n", count);
 	return (count);
 }
 
@@ -72,38 +74,21 @@ static char	**ft_allocate(char **dest, const char *s)
 		n = 0;
 		while (ft_isspace(*s))
 			s++;
-		if (*s == 34)
+		while (s[n] && !ft_isspace(s[n]))
 		{
-			s++;
-			while (s[n] != 34 && s[n])
-				n++;
-			n += 2;
-			s--;
-		}
-		else if (*s == 39)
-		{
-			s++;
-			while (s[n] != 39 && s[n])
-				n++;
-			n += 2;
-			s--;
-		}
-		else
-		{
-			while (s[n] && !ft_isspace(s[n]))
-				n++;
 			if (s[n] == 34)
 			{
+				n++;
 				while (s[n] != 34 && s[n])
 					n++;
 			}
 			else if (s[n] == 39)
 			{
+				n++;
 				while (s[n] != 39 && s[n])
 					n++;
 			}
-			while (s[n] && !ft_isspace(s[n]))
-				n++;
+			n++;
 		}
 		if (n > 0)
 		{
@@ -142,6 +127,7 @@ int main(int ac, char **av)
 
 	if (ac != 2)
 		return (1);
+	printf("av[1]: %s\n", av[1]);
 	i = 0;
 	cmd = ft_minisplit(av[1]);
 	while (cmd[i])
