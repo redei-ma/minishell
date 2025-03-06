@@ -3,8 +3,7 @@ CC = cc
 CFLAG = -Wall -Wextra -Werror -g
 VALGRIND = valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-origins=yes --quiet --log-file=valgrind-log.txt
 
-SRC =	main.c \
-	builtin.c \
+SRC =	builtin.c \
 		utils1.c
 
 LIBFT_DIR = ./libft
