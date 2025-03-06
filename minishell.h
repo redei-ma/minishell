@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lacerbi <lacerbi@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/03 16:28:57 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/06 16:22:30 by lacerbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,12 @@
 	int	env;
 	int	exit_status;
 }	t_flags; */
+
+typedef struct	s_env
+{
+	int		max;
+	char	**env;
+}	t_env;
 
 typedef struct s_shell
 {

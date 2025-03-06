@@ -1,9 +1,10 @@
 NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
-READFLAG = -lhistory -lreadline
+READFLAG = -lreadline -lhistory
 
 SRC =	utils1.c \
+	builtin.c \
 		test.c
 
 OBJS = $(SRC:.c=.o)

@@ -3,16 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lacerbi <lacerbi@student.42firenze.it>     +#+  +:+       +#+        */
+/*   By: lacerbi <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 14:17:37 by lacerbi           #+#    #+#             */
-/*   Updated: 2025/03/06 17:07:49 by lacerbi          ###   ########.fr       */
+/*   Updated: 2025/03/05 18:02:23 by lacerbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_env(t_env **e, char **envp)
+typedef struct	s_env
+{
+	int	max;
+	char	**env;
+}	t_env;
+
+void	init_env(t_env *e, char **envp)
 {
 	int	n;
 	int	i;
@@ -21,16 +27,16 @@ void	init_env(t_env **e, char **envp)
 	i = 0;
 	while (envp[n])
 		n++;
-	(*e)->env = ft_calloc((n + 1), sizeof(char *));
-	if (!(*e)->env)
+	e->env = malloc(sizeof(char *) * (n + 1));
+	if (!e->env)
 		exit(1);
 	while(i < n)
 	{
-		(*e)->env[i] = ft_strdup(envp[i]);
+		e->env[i] = ft_strdup(envp[i]);
 		i++;
 	}
-	(*e)->max = n;
-	(*e)->env[n] = NULL;
+	e->max = n;
+	e->env[n] = NULL;
 }
 
 //------------------------------------------------------------------------------------------------
@@ -214,7 +220,7 @@ int	ft_env(char **e)
 	while (e[i])
 	{
 		if (find_eq_sn(e[i]) != -1)
-			ft_printf("%s\n", e[i]);
+			printf("%s\n", e[i]);
 		i++;
 	}
 	return (0);
@@ -264,21 +270,10 @@ int	ft_echo(char *string, int flag, int fd)
 
 int	main(int argc, char *argv[], char **envp)
 {
-	t_env *e;
-	char **h = ft_nsplit("_____________qualscosa=qualcosa__________");
-	char **h2 = ft_nsplit("_____________qualscosa");
-	char *empty_args[1];
-	empty_args[0] = NULL;
+	t_env *e = NULL;
+
 	argc+=1;
-	argv[0] = argv[0];
-	e = malloc(sizeof(t_env));
-	init_env(&e, envp);
-	ft_export(e, empty_args);
-	ft_printf("\n\n");
-	ft_export(e, h);
-	ft_printf("\n\n");
-	ft_export(e, empty_args);
-	ft_unset(e, h2);
-	ft_export(e, empty_args);
+	init_env(e, envp);
+	ft_export(e, argv);
 	return (0);
 }

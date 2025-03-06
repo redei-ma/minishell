@@ -4,7 +4,7 @@ CFLAGS = -Wall -Wextra -Werror -g
 READFLAG = -lreadline -lhistory
 
 SRC =	utils1.c \
-		test.c
+	builtin.c \
 
 OBJS = $(SRC:.c=.o)
 
