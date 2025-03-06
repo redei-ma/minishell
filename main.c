@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:35:37 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/04 11:43:59 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/06 18:06:09 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,12 +92,18 @@ int	main(void)
 			exit(0);
 		if (!is_empty(shell.input))
 			add_history(shell.input);
-		shell.cmd = ft_nsplit(shell.input);
+		shell.cmd = ft_minisplit(shell.input);
 		if (!shell.cmd)
-			//exit_error();
+			// exit_error();
 			exit(1);
+		// cmd_manage(&shell);
+		int i = 0;
+		while (shell.cmd[i])
+		{
+			ft_printf("cmd: %s\n", shell.cmd[i]);
+			i++;	
+		}
 		free(shell.input);
-		//cmd_manage(&shell);
 		ft_freemat((void **)shell.cmd, ft_matlen(shell.cmd));
 	}
 	return 0;
