@@ -1,8 +1,8 @@
 NAME = libft.a
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -I$(CURDIR)
+CFLAGS = -Wall -Wextra -Werror -g -I$(CURDIR)
 
-SRCS = ft_abs.c \
+SRC = ft_abs.c \
 	ft_atoi.c \
 	ft_bzero.c \
 	ft_freemat.c \
@@ -20,23 +20,25 @@ SRCS = ft_abs.c \
 	str/ft_strchr.c	str/ft_striteri.c	str/ft_strlcat.c	str/ft_strlcpy.c	str/ft_strlen.c	str/ft_strmapi.c	str/ft_strncmp.c	str/ft_strnstr.c	str/ft_strrchr.c	str/ft_strtrim.c \
 	type/ft_isalnum.c	type/ft_isalpha.c	type/ft_isascii.c	type/ft_isdigit.c	type/ft_isprint.c	type/ft_isspace.c \
 
-OBJS = $(SRCS:.c=.o)
+OBJDIR = obj
+OBJ = $(SRC:%.c=$(OBJDIR)/%.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	ar rcs $(NAME) $(OBJS)
+$(NAME): $(OBJ)
+	@ar rcs $(NAME) $(OBJ)
 
-%.o: %.c
-	$(CC) $(CFLAGS) -I$(CURDIR) -c $< -o $@
+$(OBJDIR)/%.o: %.c
+	@mkdir -p $(@D)
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm -rf $(OBJS)
+	@rm -rf $(OBJDIR)
 
 fclean: clean
-	rm -rf $(NAME)
+	@rm -rf $(NAME)
 
 re: fclean all
 
-.SILENT: all clean fclean re
 .PHONY: all clean fclean re
+.SILENT:

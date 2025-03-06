@@ -1,12 +1,11 @@
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
-READFLAG = -lreadline -lhistory
+CFLAG = -Wall -Wextra -Werror -g
+VALGRIND = valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-origins=yes --quiet --log-file=valgrind-log.txt
 
-SRC =	utils1.c \
-		test.c
-
-OBJS = $(SRC:.c=.o)
+SRC =	main.c \
+	builtin.c \
+		utils1.c
 
 LIBFT_DIR = ./libft
 LIBFT = ./libft/libft.a
@@ -17,16 +16,15 @@ $(LIBFT):
 	@echo "Compiling libft..."
 	@$(MAKE) -C $(LIBFT_DIR) --quiet
 
-$(NAME): $(LIBFT) $(OBJS)
+$(NAME): $(LIBFT) $(SRC)
 	@echo "Compiling $(NAME)..."
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(READFLAG) -o $(NAME)
+	@$(CC) $(CFLAG) -lreadline $(SRC) $(LIBFT) -I$(CURDIR) -o $(NAME)
 
-%.o: %.c
-	@$(CC) $(CFLAGS) -I$(CURDIR) -I$(LIBFT_DIR) -c $< -o $@
+valgrind:
+	$(VALGRIND) ./$(NAME)
 
 clean:
 	@echo "Removing object files..."
-	@rm -rf $(OBJS)
 	@$(MAKE) -C $(LIBFT_DIR) clean --quiet
 
 fclean: clean
