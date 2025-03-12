@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lacerbi <lacerbi@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/12 16:02:36 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/06 16:22:30 by lacerbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,26 +32,18 @@
 	int	exit_status;
 }	t_flags; */
 
-typedef struct s_cmd
+typedef struct	s_env
 {
-	char	*cmd;
-	char	**args;
-	int		file_i;
-	int		file_o;
-	int		file_a;
-	struct s_cmd	*next;
-}	t_cmd;
+	int		max;
+	char	**env;
+}	t_env;
 
 typedef struct s_shell
 {
 	char	*input;
-	char	**mat;
-	s_cmd	*cmds;
-	char	**env;
-	int 	max;
-}	t_shell;
+	char	**cmd;
+}   t_shell;
 
 int		is_empty(char *str);
-char	**ft_minisplit(char const *s);
 
 #endif
