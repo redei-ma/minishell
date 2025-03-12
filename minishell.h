@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/03 16:28:57 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/06 18:07:26 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,9 @@ typedef struct s_shell
 {
 	char	*input;
 	char	**cmd;
-}   t_shell;
+}	t_shell;
 
 int		is_empty(char *str);
+char	**ft_minisplit(char const *s);
 
 #endif

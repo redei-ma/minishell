@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:35:37 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/03 16:22:52 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/06 18:06:09 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,30 +89,21 @@ int	main(void)
 	{
 		shell.input = readline("minishell> ");
 		if (!shell.input)
-		{
-			//exit_good();
 			exit(0);
-		}
-		add_history(shell.input);
 		if (!is_empty(shell.input))
-		{
-			ft_printf("input: %s\n", shell.input);
 			add_history(shell.input);
-		}
-		shell.cmd = ft_nsplit(shell.input);
+		shell.cmd = ft_minisplit(shell.input);
 		if (!shell.cmd)
-		{
-			//exit_error();
+			// exit_error();
 			exit(1);
-		}
-		free(shell.input);
+		// cmd_manage(&shell);
 		int i = 0;
 		while (shell.cmd[i])
 		{
-			ft_printf("cmd[%d]: %s\n", i, shell.cmd[i]);
-			i++;
+			ft_printf("cmd: %s\n", shell.cmd[i]);
+			i++;	
 		}
-		//cmd_manage(&shell);
+		free(shell.input);
 		ft_freemat((void **)shell.cmd, ft_matlen(shell.cmd));
 	}
 	return 0;
