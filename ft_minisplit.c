@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 17:47:13 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/06 18:05:53 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/12 12:53:46 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,44 @@
 
 static size_t	ft_count_words(const char *s)
 {
-	int	count;
-	int	flag;
-	int	quote;
+	size_t	count;
+	int		in_word;
+	char	quote;
 
 	count = 0;
-	flag = 0;
-	quote = 1;
-	while (s && *s)
+	in_word = 0;
+	while (*s)
 	{
-		if(*s == 34 || *s == 39)
-			quote = -quote;
-		if (ft_isspace(*s))
-			flag = 0;
-		else if (flag == 0 && quote == 1)
+		while (ft_isspace(*s))
+		{
+			in_word = 0;
+			s++;
+		}
+		if (!*s)
+			break;
+		if (!in_word)
 		{
 			count++;
-			flag = 1;
+			in_word = 1;
 		}
-		s++;
+		if (*s == '"' || *s == '\'')
+		{
+			quote = *s;
+			s++;
+			while (*s && *s != quote)
+				s++;
+			if (*s == quote)
+				s++;
+		}
+		else
+		{
+			while (*s && !ft_isspace(*s) && *s != '"' && *s != '\'')
+				s++;
+		}
 	}
 	return (count);
 }
+
 
 static char	**ft_cleanmat(char **dest)
 {
@@ -54,35 +70,39 @@ static char	**ft_cleanmat(char **dest)
 
 static char	**ft_allocate(char **dest, const char *s)
 {
-	char	**start;
-	int		n;
-	int		quote;
+	int		i;
+	int		j;
+	char	quote;
 
-	quote = 1;
-	start = dest;
+	j = 0;
 	while (*s)
 	{
-		n = 0;
+		i = 0;
 		while (ft_isspace(*s))
 			s++;
-		if (*s == 34 || *s == 39)
-			quote = -quote;
-		while (s[n] && (!ft_isspace(s[n]) || quote == -1))
+		if (!*s)
+			break;
+		while (s[i] && (!ft_isspace(s[i]) || (i > 0 && s[i - 1] == '\\')))
 		{
-			if (s[n] == 34 || s[n] == 39)
-				quote = -quote;
-			n++;
+			if (s[i] == '"' || s[i] == '\'')
+			{
+				quote = s[i];
+				i++;
+				while (s[i] && s[i] != quote)
+					i++;
+				if (s[i] == quote)
+					i++;
+			}
+			else
+				i++;
 		}
-		if (n > 0)
-		{
-			*dest = ft_substr(s, 0, n);
-			if (!*dest)
-				return (ft_cleanmat(start));
-			dest++;
-		}
-		s += n;
+		dest[j] = ft_substr(s, 0, i);
+		if (!dest[j])
+			return (ft_cleanmat(dest));
+		s += i;
+		j++;
 	}
-	return (start);
+	return (dest);
 }
 
 char	**ft_minisplit(char const *s)
@@ -93,6 +113,9 @@ char	**ft_minisplit(char const *s)
 	if (!s)
 		return (NULL);
 	words = ft_count_words(s);
+	if (words == 0)
+		return (NULL);
+	printf("words: %zu\n", words);
 	dest = (char **)ft_calloc(words + 1, sizeof(char *));
 	if (!dest)
 		return (NULL);
@@ -101,4 +124,16 @@ char	**ft_minisplit(char const *s)
 		return (NULL);
 	else
 		return (dest);
+}
+
+int main()
+{
+	char	**cmd;
+	cmd = ft_minisplit("	 c'at' < 'error ciao ' echo -n o''ut 	 $PW'  'D ");
+	while(*cmd)
+	{
+		ft_printf("cmd: %s\n", *cmd);
+		cmd++;
+	}
+	return (0);
 }

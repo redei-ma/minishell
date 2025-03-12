@@ -3,3 +3,9 @@ Another line without error.
 Error found in this line.
 The error occurred here.
 
+echo -n "ciao amici" bella
+
+
+cmd: echo
+args: -n, ciaoamici, bella
+file_o: fd0
