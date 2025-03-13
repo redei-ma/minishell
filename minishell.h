@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/12 16:02:36 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/13 15:58:28 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,15 @@ typedef struct s_cmd
 
 typedef struct s_shell
 {
-	char	*input;
-	char	**mat;
+	// char	*input;
+	// char	**mat;
 	s_cmd	*cmds;
 	char	**env;
 	int 	max;
+	int		tot_pipe;
 }	t_shell;
+
+t_cmd	*parse_cmds(char **tokens, t_shell *shell);
 
 int		is_empty(char *str);
 char	**ft_minisplit(char const *s);

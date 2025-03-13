@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:35:37 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/12 16:07:16 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/13 15:59:36 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	is_builtin(char *cmd)
 		ft_printf("minishell: comando non trovato: %s\n", shell->cmd[i]);
 } */
 		
-void	cmd_manage(t_shell *shell)
+void	cmd_manage(t_cmd *cmds)
 {
 	while (shell->cmds)
 	{
@@ -93,30 +93,40 @@ void	cmd_manage(t_shell *shell)
 	}
 }
 
+
 void	loop_line(t_shell *shell)
 {
-	shell->input = readline("minishell> ");
-	if (!shell->input)
+	char	*input;
+	char	**tokens;
+	t_cmd	*cmds;
+
+	input = readline("minishell> ");
+	if (!input)
 		//funzione exit
 		exit(0);
-	if (!is_empty(shell->input))
-		add_history(shell->input);
-	shell->mat = ft_minisplit(shell->input);
-	if (!shell->mat)
+	/* if (!is_empty(input))
+		add_history(input); */
+	if (input)
+		add_history(input);
+	tokens = ft_minisplit(input);
+	if (!tokens)
 		// exit_error();
 		exit(1);
-	set_cmd(shell);
+	cmds = parse_cmds(tokens, shell);
+	if (!cmds)
+		// exit_error();
+		exit(1);
+	free(input);
+	ft_freemat((void **)mat, ft_matlen(mat));
 
-	
-	cmd_manage(shell);
+	cmd_manage(cmds);
 	/* int i = 0;
 	while (shell->mat[i])
 	{
 		ft_printf("cmd: %s\n", shell->mat[i]);
 		i++;	
 	} */
-	free(shell->input);
-	ft_freemat((void **)shell->mat, ft_matlen(shell->mat));
+	free_all(); //cmd e shell
 }
 
 int	main(int ac, char **av, char **envp)
@@ -129,6 +139,7 @@ int	main(int ac, char **av, char **envp)
 	shell = ft_calloc(1, sizeof(t_shell));
 	if (!shell)
 		return (1);
+	shell->tot_pipe = 0;
 	init_env(shell, envp);
 	loop_line(shell);
 	return 0;
