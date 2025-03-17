@@ -46,7 +46,7 @@ typedef struct s_shell
 {
 	char	*input;
 	char	**mat;
-	t_cmd	*cmds;
+	s_cmd	*cmds;
 	char	**env;
 	int 	max;
 }	t_shell;

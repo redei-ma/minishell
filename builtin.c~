@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lacerbi <lacerbi@student.42firenze.it>     +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 14:17:37 by lacerbi           #+#    #+#             */
-/*   Updated: 2025/03/06 17:07:49 by lacerbi          ###   ########.fr       */
+/*   Updated: 2025/03/12 15:35:58 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	init_env(t_env **e, char **envp)
+void	init_env(t_shell **shell, char **envp)
 {
 	int	n;
 	int	i;
@@ -21,16 +21,24 @@ void	init_env(t_env **e, char **envp)
 	i = 0;
 	while (envp[n])
 		n++;
-	(*e)->env = ft_calloc((n + 1), sizeof(char *));
-	if (!(*e)->env)
+	(*shell)->env = ft_calloc((n + 1), sizeof(char *));
+	if (!(*shell)->env)
+	{
+		free(shell);
 		exit(1);
+	}
 	while(i < n)
 	{
-		(*e)->env[i] = ft_strdup(envp[i]);
+		(*shell)->env[i] = ft_strdup(envp[i]);
+		if (!(*shell)->env[i])
+		{
+			ft_freemat((void *)(*shell)->env, i);
+			free(shell);
+			exit(1);
+		}
 		i++;
 	}
-	(*e)->max = n;
-	(*e)->env[n] = NULL;
+	(*shell)->max = n;
 }
 
 //------------------------------------------------------------------------------------------------
@@ -63,16 +71,16 @@ int	find_eq_sn(char *str)
 	return (-1);
 }
 
-int	srcd_env(t_env *e, const char *name)
+int	srcd_env(t_shell *shell, const char *name)
 {
 	int	i;
 	int	len;
 
 	i = 0;
 	len = ft_strlen(name);
-	while (e->env[i])
+	while (shell->env[i])
 	{
-		if (ft_strncmp(e->env[i], name, len) == 0 && e->env[i][len] == '=')
+		if (ft_strncmp(shell->env[i], name, len) == 0 && shell->env[i][len] == '=')
 			return (i);
 		i++;
 	}
@@ -94,7 +102,7 @@ char	*var_creation(const char *nm_var, const char *var_val)
 	return (n_full_var);
 }
 
-void	upd_var(t_env *e, const char *nm_var, const char *var_val)
+void	upd_var(t_shell *shell, const char *nm_var, const char *var_val)
 {
 	int	index;
 	int	i;
@@ -102,34 +110,34 @@ void	upd_var(t_env *e, const char *nm_var, const char *var_val)
 	char	**new_env;
 
 	i = -1;
-	index = srcd_env(e, nm_var);
+	index = srcd_env(shell, nm_var);
 	n_full_var = var_creation(nm_var, var_val);
 	if (!n_full_var)
 		return ;
 	if (index != -1)
 	{
-		free(e->env[index]);
-		e->env[index] = n_full_var;
+		free(shell->env[index]);
+		shell->env[index] = n_full_var;
 	}
 	else
 	{
-		new_env = malloc(sizeof(char *) * (e->max + 2));
+		new_env = malloc(sizeof(char *) * (shell->max + 2));
 		if (!new_env)
 		{
 			free(n_full_var);
-			return ;
+			return;
 		}
-		while (++i < e->max)
-			new_env[i] = e->env[i];
+		while (++i < shell->max)
+			new_env[i] = shell->env[i];
 		new_env[i] = n_full_var;
 		new_env[i + 1] = NULL;
-		free(e->env);
-		e->env = new_env;
-		e->max++;
+		free(shell->env);
+		shell->env = new_env;
+		shell->max++;
 	}
 }
 
-int	ft_export(t_env *e, char **args)
+int	ft_export(t_shell *shell, char **args)
 {
 	int		i;
 	int		eqp;
@@ -139,9 +147,9 @@ int	ft_export(t_env *e, char **args)
 	if (!args[0])
 	{
 		i = 0;
-		while (e->env[i])
+		while (shell->env[i])
 		{
-			ft_printf("declare -x %s\n", e->env[i]);
+			ft_printf("declare -x %s\n", shell->env[i]);
 			i++;
 		}
 		return (0);
@@ -162,12 +170,12 @@ int	ft_export(t_env *e, char **args)
 			    free(val);
 			    return (1);
 			}
-			upd_var(e, name, val);
+			upd_var(shell, name, val);
 			free(name);
 			free(val);
 		}
-		else if (srcd_env(e, args[i]) == -1)
-			upd_var(e, args[i], "");
+		else if (srcd_env(shell, args[i]) == -1)
+			upd_var(shell, args[i], "");
 		i++;
 	}
 	return (0);
@@ -175,7 +183,7 @@ int	ft_export(t_env *e, char **args)
 
 //------------------------------------------------------------------------------------------------
 
-void	ft_unset(t_env *e, char **args)
+void	ft_unset(t_shell *shell, char **args)
 {
 	int	index;
 	int	i;
@@ -186,17 +194,17 @@ void	ft_unset(t_env *e, char **args)
 	i = 0;
 	while (args[i])
 	{
-		index = srcd_env(e, args[i]);
+		index = srcd_env(shell, args[i]);
 		if (index != -1)
 		{
-			free(e->env[index]);
+			free(shell->env[index]);
 			j = index;
-			while (e->env[j])
+			while (shell->env[j])
 			{
-				e->env[j] = e->env[j + 1];
+				shell->env[j] = shell->env[j + 1];
 				j++;
 			}
-			e->max--;
+			shell->max--;
 		}
 		i++;
 	}
@@ -204,17 +212,17 @@ void	ft_unset(t_env *e, char **args)
 
 //------------------------------------------------------------------------------------------------
 
-int	ft_env(t_env **e)
+int	ft_env(t_shell **shell)
 {
 	int	i;
 
 	i = 0;
-	if (!e || !e[0])
+	if (!shell || !shell[0])
 		return (1);
-	while ((*e)->env[i])
+	while ((*shell)->env[i])
 	{
-		if (find_eq_sn((*e)->env[i]) != -1)
-			ft_printf("%s\n", (*e)->env[i]);
+		if (find_eq_sn((*shell)->env[i]) != -1)
+			ft_printf("%s\n", (*shell)->env[i]);
 		i++;
 	}
 	return (0);
@@ -254,39 +262,50 @@ int	ft_cd(char *string)
 
 //------------------------------------------------------------------------------------------------
 
-char	*ft_getenv(char *nm_var, t_env *e)
+char	*ft_getenv(char *nm_var, t_shell *shell)
 {
 	int	i;
 	char	*val;
 
-	i = srcd_env(e, nm_var);
+	i = srcd_env(shell, nm_var);
 	if (i == -1)
 		return (NULL);
-	val = ft_strchr(e->env[i], '=');
+	val = ft_strchr(shell->env[i], '=');
 	if (val)
 		return (val + 1);
 	return (NULL);
 }
 
-int	str_vars(char *str, int fd, t_env *e)
+int	str_vars(char *str, t_shell *shell)
 {
 	int	i;
 	int	ncv;
 	char	*nm_var;
 	char	*var_val;
-	//char	exit_cd;
+	int in_single_quote = 0;
+	int in_double_quote = 0;
 
 	i = 0;
 	while (str[i] != '\0')
 	{
-		if (str[i] == '$')
+		if (str[i] == '\'' && !in_double_quote)
+		{
+			in_single_quote = !in_single_quote;
+			i++;
+		}
+		else if (str[i] == '"' && !in_single_quote)
+		{
+			in_double_quote = !in_double_quote;
+			i++;
+		}
+		else if (str[i] == '$' && !in_single_quote)
 		/*{
 			if (str[i + 1] == '?')
 			{
 				exit_cd = ft_itoa(last_exit_status);
 				if (exit_cd)
 				{
-					write(fd, exit_cd, ft_strlen(exit_cd));
+					write(shell.cmds->file_i, exit_cd, ft_strlen(exit_cd));
 					free(exit_cd);
 				}
 				i+=2;
@@ -301,52 +320,114 @@ int	str_vars(char *str, int fd, t_env *e)
 					return (-1);
 				ft_strlcpy(nm_var, &str[i + 1], ncv - i);
 				nm_var[ncv - (i + 1)] = '\0';
-				var_val = ft_getenv(nm_var, e);
+				var_val = ft_getenv(nm_var, shell);
 				if (var_val)
-					write(fd, var_val, strlen(var_val));
+					write(shell->cmds->file_i, var_val, strlen(var_val));
 				else
-					write(fd, "", 0);
+					write(shell->cmds->file_i, "", 0);
 				i = ncv;
 			}
 		//}
 		else
 		{
-			write(fd, &str[i], 1);
+			write(shell->cmds->file_i, &str[i], 1);
 			i++;
 		}
 	}
 	return (0);
 }
 
-int	ft_echo(char *string, int flag, int fd, t_env *e)
+int	ft_echo(char **args, t_shell *shell)
 {
-	str_vars(string, fd, e);
-	if (flag == 0)
-		write(1, "\n", 1);
+	if (ft_strncmp(args[0], "-n", ft_strlen(args[0])) == 0)
+	{
+		str_vars(args[1], shell);
+	}
+	else
+	{
+		str_vars(args[0], shell);
+		write(shell->cmds->file_i, "\n", 1);
+	}
 	return (0);
 }
 
 //------------------------------------------------------------------------------------------------
-/*
+
+void	handle_ctrl_c(int signum)
+{
+	(void)signum;
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
+
+void	handle_ctrl_bl(int signum)
+{
+	(void)signum;
+}
+
+void	setup_ctrls_sigs(void)
+{
+	signal(SIGINT, handle_ctrl_c);
+	signal(SIGQUIT, handle_ctrl_bl);
+}
+
+//------------------------------------------------------------------------------------------------
+
+void	ft_exit(t_shell *shell, char **args)
+{
+	int	exit_code = 0;
+
+	write(1, "exit\n", 5);
+	if (args[1])
+	{
+		if (ft_atoi(args[1]) == 0 && (args[1][0] != 0 || args[1][0] != '\0'))
+		{
+			write(2, "minishell: exit: numeric argument required\n", 44);
+			//exit_code = 255;
+		}
+		else if (args[2])
+		{
+			write(2, "minishell: exit: too many arguments\n", 36);
+			return ;
+		}
+		else
+			exit_code = ft_atoi(args[1]) % 256; // Converte in intero (mod 256)
+	}
+	free_shell(shell);
+	exit(exit_code);
+}
+
+//------------------------------------------------------------------------------------------------
+
 int	main(int argc, char *argv[], char **envp)
 {
-	t_env *e;
-	char **h = ft_nsplit("_____________qualcosa=qualcosa__________");
-	char **h2 = ft_nsplit("_____________qualcosa");
+	t_shell *e;
+	char **h = ft_nsplit("cosa=PORCONE");
+	//char **h2 = ft_nsplit("_____________qualcosa");
 	char *empty_args[1];
 	empty_args[0] = NULL;
 	argc+=1;
 	argv[0] = argv[0];
-	e = malloc(sizeof(t_env));
+	e = malloc(sizeof(t_shell));
+	e->cmds = malloc(sizeof(t_cmd));
+	e->cmds->file_i = 1;
 	init_env(&e, envp);
 	ft_export(e, empty_args);
 	ft_printf("\n\n");
 	ft_export(e, h);
 	ft_printf("\n\n");
-	ft_export(e, empty_args);
-	ft_unset(e, h2);
-	ft_export(e, empty_args);
-	ft_echo("ciao dio -----------> $_____________qualcosa ", 0, 1, e);
 	ft_env(&e);
+	//ft_export(e, empty_args);
+	//ft_unset(e, h2);
+	//ft_export(e, empty_args);
+	char **g = malloc(3 * sizeof(char *));
+	g[0] = "-n";
+	g[1] = "'\"$cosa'$cosa'\"'";
+	g[2] = NULL;
+	
+	ft_echo(g, e);
+	//ft_env(&e);
 	return (0);
-}*/
+}
