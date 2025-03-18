@@ -102,7 +102,7 @@ void	loop_line(t_shell *shell)
 
 	input = readline("minishell> ");
 	if (!input)
-		//funzione exit
+		//funzione exit (bisogna anche eliminare gli heredoc creati)
 		exit(0);
 	/* if (!is_empty(input))
 		add_history(input); */
@@ -116,8 +116,9 @@ void	loop_line(t_shell *shell)
 	if (!cmds)
 		// exit_error();
 		exit(1);
+
 	free(input);
-	ft_freemat((void **)mat, ft_matlen(mat));
+	ft_freemat((void **)tokens, ft_matlen(tokens));
 
 	cmd_manage(cmds);
 	/* int i = 0;
@@ -127,6 +128,15 @@ void	loop_line(t_shell *shell)
 		i++;	
 	} */
 	free_all(); //cmd e shell
+}
+
+void	set_shell(t_shell *shell)
+{
+	init_env(shell, envp);
+	shell->cmds = NULL;
+	shell->piper->n_pipes = 0;
+	shell->piper->fds = NULL;
+	shell->piper->pids = NULL;
 }
 
 int	main(int ac, char **av, char **envp)
@@ -139,8 +149,7 @@ int	main(int ac, char **av, char **envp)
 	shell = ft_calloc(1, sizeof(t_shell));
 	if (!shell)
 		return (1);
-	shell->tot_pipe = 0;
-	init_env(shell, envp);
+	set_shell(shell);
 	loop_line(shell);
 	return 0;
 }
