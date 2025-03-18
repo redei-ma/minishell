@@ -32,6 +32,15 @@
 	int	exit_status;
 }	t_flags; */
 
+typedef struct s_pipex
+{
+	pid_t	*pids;
+	int		(*fds)[2];
+	int		n_pipes;
+	// int		i;
+	// int		flag;
+}	t_pipex;
+
 typedef struct s_cmd
 {
 	char	*cmd;
@@ -47,9 +56,10 @@ typedef struct s_shell
 	// char	*input;
 	// char	**mat;
 	s_cmd	*cmds;
+	s_pipex	*piper;
 	char	**env;
 	int 	max;
-	int		tot_pipe;
+	// int		tot_pipe;
 }	t_shell;
 
 t_cmd	*parse_cmds(char **tokens, t_shell *shell);
