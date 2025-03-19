@@ -68,7 +68,7 @@ int	is_builtin(char *cmd)
 	else
 		ft_printf("minishell: comando non trovato: %s\n", shell->cmd[i]);
 } */
-		
+
 void	cmd_manage(t_cmd *cmds)
 {
 	while (shell->cmds)
