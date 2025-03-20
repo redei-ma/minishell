@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lstcmd.c                                           :+:      :+:    :+:   */
+/*   lst_cmd_1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/13 10:50:54 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/13 17:12:49 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/20 01:12:53 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,15 @@
 void	add_arg(char **args, char *token)
 {
 	char	*tmp;
-
-	if (!*args)
+	// qui e sbagliat se non ce arg devo fare il puntatore di puntatori 
+	// e settarlo tutti poi usare realloc + 1 ogni altr avolta
+	if (!args)
 		*args = ft_strdup("");
+	if (!*args)
+		//exit_error();
+		exit(1);
 	tmp = *args;
-	free(args);
+	free(*args);
 	*args = ft_strjoin(tmp, token);
 	if (!*args)
 		//exit_error();
@@ -60,8 +64,8 @@ int	handle_heredoc(char *token)
 	char	*line;
 	char	*filename;
 
-	filename = serach_name();
-	fd = open("heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	filename = search_name();
+	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 		//exit_error();
 		exit(1);
@@ -130,7 +134,7 @@ t_cmd	*ft_newcmd(void)
 }
 
 
-t_cmd	*parse_cmds(char **tokens, t_shell *shell)
+void	parse_cmds(char **tokens, t_shell *shell)
 {
 	t_cmd	*head;
 	int		i;
@@ -139,22 +143,22 @@ t_cmd	*parse_cmds(char **tokens, t_shell *shell)
 	shell->cmds = ft_newcmd();
 	if (!shell->cmds)
 		//exit_error();
-		exit();
+		exit(1);
 	head = shell->cmds;
 	while (tokens[i])
 	{
 		if (tokens[i][0] == '|') // Nuovo comando
-			pipe_manager(shell, tokens, i);
+			pipe_manager(shell, tokens, &i);
 		else if (tokens[i][0] == '<')
-			filein_manager(shell, tokens, i);
+			filein_manager(shell, tokens, &i);
 		else if (tokens[i][0] == '>')
-			fileout_manager(shell, tokens, i);
+			fileout_manager(shell, tokens, &i);
 		else if (!shell->cmds->cmd)
-		shell->cmds->cmd = ft_strdup(tokens[i]);
+			shell->cmds->cmd = ft_strdup(tokens[i]);
 		else
 			add_arg(shell->cmds->args, tokens[i]);
-		i++;
+		if (!tokens[++i])
+			break ;
 	}
 	shell->cmds = head;
-	// return (head);
 }

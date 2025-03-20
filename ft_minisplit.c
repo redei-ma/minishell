@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_minisplit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 17:47:13 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/12 12:53:46 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/20 00:28:21 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,6 @@ char	**ft_minisplit(char const *s)
 	words = ft_count_words(s);
 	if (words == 0)
 		return (NULL);
-	printf("words: %zu\n", words);
 	dest = (char **)ft_calloc(words + 1, sizeof(char *));
 	if (!dest)
 		return (NULL);
@@ -126,7 +125,7 @@ char	**ft_minisplit(char const *s)
 		return (dest);
 }
 
-int main()
+/* int main()
 {
 	char	**cmd;
 	cmd = ft_minisplit("	 c'at' < 'error ciao ' echo -n o''ut 	 $PW'  'D ");
@@ -136,4 +135,4 @@ int main()
 		cmd++;
 	}
 	return (0);
-}
+} */

@@ -1,11 +1,14 @@
 NAME = minishell
 CC = cc
 CFLAG = -Wall -Wextra -Werror -g
-VALGRIND = valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-origins=yes --quiet --log-file=valgrind-log.txt
+VALGRIND = valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=valgrind-log.txt
 
 SRC =	main.c \
-	ft_minisplit.c \
-		utils1.c
+		builtin.c \
+		ft_minisplit.c \
+		lst_cmd_1.c \
+		lst_cmd_2.c \
+		utils1.c \
 
 LIBFT_DIR = ./libft
 LIBFT = ./libft/libft.a
@@ -18,9 +21,11 @@ $(LIBFT):
 
 $(NAME): $(LIBFT) $(SRC)
 	@echo "Compiling $(NAME)..."
-	@$(CC) $(CFLAG) -lreadline $(SRC) $(LIBFT) -I$(CURDIR) -o $(NAME)
+	@$(CC) $(CFLAG) $(SRC) $(LIBFT) -I$(CURDIR) -o $(NAME) -lreadline
 
-valgrind:
+valgrind: $(LIBFT) $(SRC)
+	@echo "Compiling $(NAME)..."
+	@$(CC) $(CFLAG) $(SRC) $(LIBFT) -I$(CURDIR) -o $(NAME) -lreadline
 	$(VALGRIND) ./$(NAME)
 
 clean:
