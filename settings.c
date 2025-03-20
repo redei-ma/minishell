@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:07:08 by renato            #+#    #+#             */
-/*   Updated: 2025/03/20 17:37:55 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/20 22:22:06 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,53 +34,6 @@ void ft_print_cmd(t_cmd *cmds)
 	}
 }
 
-void	in_quotes(char **input)
-{
-	char	*line;
-	char	*newline;
-	
-	ft_printfd(1, "> ");
-	line = get_next_line(0);
-	if (!line)
-		//exit_error bash: syntax error: unexpected end of file
-		exit(1);
-	newline = ft_strjoin(*input, line);
-	if (!newline)
-	{
-		free(line);
-		//exit_error
-		exit(1);
-	}
-	free(line);
-	free(*input);
-	*input = newline;
-}
-
-
-void	check_quotes(char **input)
-{
-	int	i;
-	char	quote;
-	
-	i = 0;
-	while ((*input)[i])
-	{
-		if ((*input)[i] == '\'' || (*input)[i] == '\"')
-		{
-			quote = (*input)[i];
-			i++;
-			while ((*input)[i] && (*input)[i] != quote)
-				i++;
-		}
-		if (!(*input)[i])
-		{
-			i = -1;
-			in_quotes(input);
-		}
-		i++;
-	}
-}
-
 void	loop_line(t_shell *shell)
 {
 	char	*input;
@@ -93,7 +46,7 @@ void	loop_line(t_shell *shell)
 		exit(0);
 	/* if (!is_empty(input))
 		add_history(input); */
-	check_quotes(&input);
+	check_open_quotes(&input);
 	if (input)
 		add_history(input);
 	if(is_empty(input))
@@ -104,6 +57,7 @@ void	loop_line(t_shell *shell)
 		// exit_error();
 		exit(1);
 	parse_cmds(tokens, shell);
+	delete_quotes(shell->cmds);
 
 	free(input);
 	ft_freemat((void **)tokens, ft_matlen(tokens));

@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:20:09 by renato            #+#    #+#             */
-/*   Updated: 2025/03/20 15:54:23 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/20 22:24:50 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	handle_fdout(char *token, char c)
 {
 	int	fd;
 
+	fd = -1;
 	if (c == 'o')
 		fd = open(token, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else if (c == 'a')

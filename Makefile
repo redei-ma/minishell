@@ -5,7 +5,9 @@ VALGRIND = valgrind --suppressions=readline.supp --leak-check=full --show-leak-k
 
 SRC =	main.c \
 		settings.c \
-		parsing.c \
+		parsing_1.c \
+		parsing_2.c \
+		parsing_3.c \
 		lst_cmd_1.c \
 		lst_cmd_2.c \
 		lst_cmd_3.c \
