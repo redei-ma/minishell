@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/20 00:48:31 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/20 15:53:48 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,28 +51,39 @@ typedef struct s_shell
 	// int		tot_pipe;
 }	t_shell;
 
-/* Functions */
-int		count_spec_char(char *input);
-void	set_var(char *input, char *format, ...);
+// Setting.c
+void	loop_line(t_shell *shell);
+void	init_env(t_shell *shell, char **envp);
+void	set_shell(t_shell *shell, char **envp);
+
+//parsing.c
 void	copy_special_block(char **input, char *spaced, int *i, int *j);
 void	update_quotes(char c, int *in_single_quote, int *in_double_quote);
+int		count_spec_char(char *input);
+void	set_var(char *input, char *format, ...);
 void	set_spaces(char **input);
-void	loop_line(t_shell *shell);
-void	set_shell(t_shell *shell, char **envp);
-void	parse_cmds(char **tokens, t_shell *shell);
-void	add_arg(char **args, char *token);
-char	*search_name(void);
-int		handle_heredoc(char *token);
-int		handle_fdin(char *token);
-int		handle_fdout(char *token, char c);
-t_cmd	*ft_newcmd(void);
-void	pipe_manager(t_shell *shell, char **tokens, int *i);
-void	filein_manager(t_shell *shell, char **tokens, int *i);
+
+//lst_cmd_1.c
 void	fileout_manager(t_shell *shell, char **tokens, int *i);
+void	filein_manager(t_shell *shell, char **tokens, int *i);
+void	pipe_manager(t_shell *shell, char **tokens, int *i);
+t_cmd	*ft_newcmd(void);
+void	parse_cmds(char **tokens, t_shell *shell);
 
-void	init_env(t_shell *shell, char **envp);
+//lst_cmd_2.c
+int		handle_fdout(char *token, char c);
+int		handle_fdin(char *token);
+char	*search_name(void);
+int		process_heredoc_line(int fd, char *limiter);
+int		handle_heredoc(char *token);
 
-int		is_empty(char *str);
+//lst_cmd_3.c
+void	add_arg(char ***args, char *token);
+
+//ft_minisolit.c
 char	**ft_minisplit(char const *s);
+
+//utils.c
+int		is_empty(char *str);
 
 #endif

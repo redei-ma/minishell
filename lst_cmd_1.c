@@ -5,115 +5,82 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/13 10:50:54 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/20 01:12:53 by renato           ###   ########.fr       */
+/*   Created: 2025/03/20 13:17:38 by renato            #+#    #+#             */
+/*   Updated: 2025/03/20 16:16:35 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
-void	add_arg(char **args, char *token)
+void	fileout_manager(t_shell *shell, char **tokens, int *i)
 {
-	char	*tmp;
-	// qui e sbagliat se non ce arg devo fare il puntatore di puntatori 
-	// e settarlo tutti poi usare realloc + 1 ogni altr avolta
-	if (!args)
-		*args = ft_strdup("");
-	if (!*args)
-		//exit_error();
+	int	j;
+
+	j = 0;
+	while (tokens[*i][j] == '>')
+		j++;
+	if (j == 1 && tokens[++(*i)])
+		shell->cmds->file_o = handle_fdout(tokens[*i], 'o');
+	else if (j == 2 && tokens[++(*i)])
+		shell->cmds->file_a = handle_fdout(tokens[*i], 'a');
+	else
+		//devo stampare syntax error
 		exit(1);
-	tmp = *args;
-	free(*args);
-	*args = ft_strjoin(tmp, token);
-	if (!*args)
-		//exit_error();
-		exit(1);
-	free(tmp);
 }
 
-char	*search_name(void)
+void    filein_manager(t_shell *shell, char **tokens, int *i)
 {
-	int		n;
-	char	*num;
-	char	*filename;
+	int	j;	
 
-	n = 0;
-	while (1)
+	j = 0;
+	while (tokens[*i][j] == '<')
+		j++;
+	if (j == 1 && tokens[++(*i)])
+	shell->cmds->file_i = handle_fdin(tokens[*i]);
+	else if (j == 2 && tokens[++(*i)])
+	shell->cmds->file_i = handle_heredoc(tokens[*i]);
+	else
+		//devo stampare syntax error
+		exit(1);
+	
+}
+
+void    pipe_manager(t_shell *shell, char **tokens, int *i)
+{
+	int    j;
+
+	j = 0;
+	while(tokens[*i][j] == '|')
+		j++;
+	if (j > 2)
+		//devo stampare i caratterei a indice 2 e 3 in syntax error
+		exit(1);
+	else if (j > 1)
+		//devo stampare il carattere a indice 2 in syntax error
+		exit(1);
+	else if (tokens[*i + 1])
 	{
-		num = ft_itoa(n);
-		if (!num)
+		shell->cmds->next = ft_newcmd();
+		if (!shell->cmds->next)
+			// exit_error();
+			exit(1);
+		shell->piper->fds = ft_realloc(shell->piper->fds, shell->piper->n_pipes * sizeof(int[2]), (shell->piper->n_pipes + 1) * sizeof(int[2]));
+		if (!shell->piper->fds)
 			//exit_error();
 			exit(1);
-		filename = ft_strjoin("heredoc_", ft_itoa(n));
-		free(num);
-		if (!filename)
+		if (pipe(shell->piper->fds[shell->piper->n_pipes]) < 0)
 			//exit_error();
 			exit(1);
-		if (!access(filename, F_OK))
-			break ;
-		free(filename);
-		n++;
+		if (shell->cmds->file_o == -1)
+			shell->cmds->file_o = shell->piper->fds[shell->piper->n_pipes][1];
+		shell->cmds->next->file_i = shell->piper->fds[shell->piper->n_pipes][0];
+		shell->piper->n_pipes++;
+		shell->cmds = shell->cmds->next;
 	}
-	return (filename);
-}
-
-
-int	handle_heredoc(char *token)
-{
-	int		fd;
-	char	*line;
-	char	*filename;
-
-	filename = search_name();
-	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd < 0)
-		//exit_error();
+	// se mi rimane pipe aperta dovrei gestire con GNL e metteregli spazi e tutto
+	else
+		//exit_error a piacere
 		exit(1);
-	while (1)
-	{
-		ft_printfd(1, "> ");
-		line = get_next_line(0);
-		if (!line)
-			break ;
-		if (!ft_strncmp(line, token, ft_strlen(token)) && line[ft_strlen(line)] == '\n')
-		{
-			free(line);
-			break ;
-		}
-		ft_printfd(fd, "%s\n", line);
-		free(line);
-	}
-	close(fd);
-	return (handle_fdin("heredoc"));
-}
-
-int	handle_fdin(char *token)
-{
-	int	fd;
-
-	fd = open(token, O_RDONLY);
-	if (fd < 0)
-	{
-		//exit_error(); devo settare bene erno per file non esistente
-		exit(1);
-	}
-	return (fd);
-}
-
-int	handle_fdout(char *token, char c)
-{
-	int	fd;
-
-	if (c == 'o')
-		fd = open(token, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	else if (c == 'a')
-		fd = open(token, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (fd < 0)
-	{
-		//exit_error();
-		exit(1);
-	}
-	return (fd);
 }
 
 t_cmd	*ft_newcmd(void)
@@ -132,7 +99,6 @@ t_cmd	*ft_newcmd(void)
 	new->next = NULL;
 	return (new);
 }
-
 
 void	parse_cmds(char **tokens, t_shell *shell)
 {
@@ -156,7 +122,7 @@ void	parse_cmds(char **tokens, t_shell *shell)
 		else if (!shell->cmds->cmd)
 			shell->cmds->cmd = ft_strdup(tokens[i]);
 		else
-			add_arg(shell->cmds->args, tokens[i]);
+			add_arg(&shell->cmds->args, tokens[i]);
 		if (!tokens[++i])
 			break ;
 	}

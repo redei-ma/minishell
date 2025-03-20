@@ -4,11 +4,13 @@ CFLAG = -Wall -Wextra -Werror -g
 VALGRIND = valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=valgrind-log.txt
 
 SRC =	main.c \
-		builtin.c \
-		ft_minisplit.c \
+		settings.c \
+		parsing.c \
 		lst_cmd_1.c \
 		lst_cmd_2.c \
-		utils1.c \
+		lst_cmd_3.c \
+		ft_minisplit.c \
+		utils.c
 
 LIBFT_DIR = ./libft
 LIBFT = ./libft/libft.a
