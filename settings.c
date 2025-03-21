@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:07:08 by renato            #+#    #+#             */
-/*   Updated: 2025/03/20 22:22:06 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/21 00:07:22 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,9 @@ void	loop_line(t_shell *shell)
 	char	**tokens;
 
 	input = readline("minishell> ");
-	//input = ft_strdup("ls -l");
 	if (!input)
 		//funzione exit (bisogna anche eliminare gli heredoc creati)
 		exit(0);
-	/* if (!is_empty(input))
-		add_history(input); */
 	check_open_quotes(&input);
 	if (input)
 		add_history(input);
@@ -58,19 +55,10 @@ void	loop_line(t_shell *shell)
 		exit(1);
 	parse_cmds(tokens, shell);
 	delete_quotes(shell->cmds);
-
 	free(input);
 	ft_freemat((void **)tokens, ft_matlen(tokens));
-
-	ft_print_cmd(shell->cmds);
-	//cmd_manage(cmds);
-	/* int i = 0;
-	while (shell->mat[i])
-	{
-		ft_printf("cmd: %s\n", shell->mat[i]);
-		i++;	
-	} */
-	//free_all(); //cmd e shell
+	//ft_print_cmd(shell->cmds);
+	cmd_manage(shell);
 }
 
 void	init_env(t_shell *shell, char **envp)

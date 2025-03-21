@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:17:38 by renato            #+#    #+#             */
-/*   Updated: 2025/03/20 16:16:35 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/21 01:47:42 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,9 @@ void	parse_cmds(char **tokens, t_shell *shell)
 	head = shell->cmds;
 	while (tokens[i])
 	{
-		if (tokens[i][0] == '|') // Nuovo comando
+		if(find_var(shell, tokens[i]) && (i == 0 || tokens[i - 1][0] == '|') && tokens[i + 1][0] != '|')
+			i++;
+		else if (tokens[i][0] == '|') // Nuovo comando
 			pipe_manager(shell, tokens, &i);
 		else if (tokens[i][0] == '<')
 			filein_manager(shell, tokens, &i);

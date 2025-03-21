@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/20 21:40:17 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/21 02:05:21 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,10 @@ int		handle_heredoc(char *token);
 
 // lst_cmd_3.c
 void	add_arg(char ***args, char *token);
+
+// find.c
+int		is_env_var(char *cmd);
+int		is_builtin(char *cmd);
 
 // ft_minisolit.c
 char	**ft_minisplit(char const *s);

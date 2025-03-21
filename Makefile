@@ -11,6 +11,7 @@ SRC =	main.c \
 		lst_cmd_1.c \
 		lst_cmd_2.c \
 		lst_cmd_3.c \
+		find.c \
 		ft_minisplit.c \
 		utils.c
 
