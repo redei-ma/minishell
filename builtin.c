@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lacerbi <lacerbi@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 14:17:37 by lacerbi           #+#    #+#             */
-/*   Updated: 2025/03/12 15:35:58 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/18 17:04:51 by lacerbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,8 +139,8 @@ void	upd_var(t_shell *shell, const char *nm_var, const char *var_val)
 
 int	ft_export(t_shell *shell, char **args)
 {
-	int		i;
-	int		eqp;
+	int			i;
+	int			eqp;
 	char		*name;
 	char		*val;
 
@@ -276,14 +276,103 @@ char	*ft_getenv(char *nm_var, t_shell *shell)
 	return (NULL);
 }
 
+int	handle_quotes(char c, int *in_single_quote, int *in_double_quote)
+{
+	if (c == '\'' && !(*in_double_quote))
+	{
+		*in_single_quote = !(*in_single_quote);
+		return (1);
+	}
+	else if (c == '"' && !(*in_single_quote))
+	{
+		*in_double_quote = !(*in_double_quote);
+		return (1);
+	}
+	return (0);
+}
+
+int	handle_exit_status(t_shell *shell)
+{
+	char *exit_cd = ft_itoa(last_exit_status);
+	if (!exit_cd)
+		return (-1);
+	write(shell->cmds->file_i, exit_cd, ft_strlen(exit_cd));
+	free(exit_cd);
+	return (0);
+}
+
+int	handle_env_variable(char *str, int i, t_shell *shell)
+{
+	int ncv = i + 1;
+	char *nm_var;
+	char *var_val;
+
+	while (str[ncv] != '\0' && (ft_isalnum(str[ncv]) || str[ncv] == '_'))
+		ncv++;
+	nm_var = malloc((ncv - (i + 1)) + 1);
+	if (!nm_var)
+		return (-1);
+	ft_strlcpy(nm_var, &str[i + 1], ncv - i);
+	nm_var[ncv - (i + 1)] = '\0';
+	var_val = ft_getenv(nm_var, shell);
+	if (var_val)
+		write(shell->cmds->file_i, var_val, strlen(var_val));
+	else
+		write(shell->cmds->file_i, "", 0);
+	free(nm_var);
+	return (ncv);
+}
+
+int	handle_variable(char *str, int i, t_shell *shell)
+{
+	if (str[i + 1] == '?')
+	{
+		if (handle_exit_status(shell) == -1)
+			return (-1);
+		return (i + 2);
+	}
+	else
+	{
+		return handle_env_variable(str, i, shell);
+	}
+}
+
+int	str_vars(char *str, t_shell *shell)
+{
+	int	i;
+	int	in_single_quote;
+	int	in_double_quote;
+
+	i = 0;
+	in_single_quote = 0;
+	in_double_quote = 0;
+	while (str[i] != '\0')
+	{
+		if (handle_quotes(str[i], &in_single_quote, &in_double_quote))
+			i++;
+		else if (str[i] == '$' && !in_single_quote)
+		{
+			i = handle_variable(str, i, shell);
+			if (i == -1)
+				return (-1);
+		}
+		else
+		{
+			write(shell->cmds->file_i, &str[i], 1);
+			i++;
+		}
+	}
+	return (0);
+}
+/*
 int	str_vars(char *str, t_shell *shell)
 {
 	int	i;
 	int	ncv;
 	char	*nm_var;
 	char	*var_val;
-	int in_single_quote = 0;
-	int in_double_quote = 0;
+	int	in_single_quote = 0;
+	int	in_double_quote = 0;
 
 	i = 0;
 	while (str[i] != '\0')
@@ -299,7 +388,7 @@ int	str_vars(char *str, t_shell *shell)
 			i++;
 		}
 		else if (str[i] == '$' && !in_single_quote)
-		/*{
+		{
 			if (str[i + 1] == '?')
 			{
 				exit_cd = ft_itoa(last_exit_status);
@@ -310,7 +399,7 @@ int	str_vars(char *str, t_shell *shell)
 				}
 				i+=2;
 			}
-			else*/
+			else
 			{
 				ncv = i + 1;
 				while (str[ncv] != '\0' && (ft_isalnum(str[ncv]) || str[ncv] == '_'))
@@ -327,7 +416,7 @@ int	str_vars(char *str, t_shell *shell)
 					write(shell->cmds->file_i, "", 0);
 				i = ncv;
 			}
-		//}
+		}
 		else
 		{
 			write(shell->cmds->file_i, &str[i], 1);
@@ -335,7 +424,7 @@ int	str_vars(char *str, t_shell *shell)
 		}
 	}
 	return (0);
-}
+}*/
 
 int	ft_echo(char **args, t_shell *shell)
 {
@@ -367,7 +456,23 @@ void	handle_ctrl_bl(int signum)
 	(void)signum;
 }
 
-void	setup_ctrls_sigs(void)
+void	interactive_ctrls(void)
+{
+	struct sigaction sa_int;
+	struct sigaction sa_quit;
+
+	sa_int.sa_handler = handle_ctrl_c;
+	sigemptyset(&sa_int.sa_mask);
+	sa_int.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &sa_int, NULL);
+
+	sa_quit.sa_handler = handle_ctrl_bl;
+	sigemptyset(&sa_quit.sa_mask);
+	sa_quit.sa_flags = SA_RESTART;
+	sigaction(SIGQUIT, &sa_quit, NULL);
+}
+
+void	ni_ctrls(void)
 {
 	signal(SIGINT, handle_ctrl_c);
 	signal(SIGQUIT, handle_ctrl_bl);
@@ -395,7 +500,7 @@ void	ft_exit(t_shell *shell, char **args)
 		else
 			exit_code = ft_atoi(args[1]) % 256;
 	}
-	free_shell(shell);
+	//free_shell(shell);
 	exit(exit_code);
 }
 
