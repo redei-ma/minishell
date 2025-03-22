@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/22 13:46:54 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/22 19:50:33 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ typedef struct s_pipex
 	pid_t	*pids;
 	int		(*fds)[2];
 	int		n_pipes;
-	// int		i;
-	// int		flag;
 }	t_pipex;
 
 typedef struct s_cmd
@@ -57,7 +55,7 @@ void	set_shell(t_shell *shell, char **envp);
 void	in_quotes(char **input);
 void	find_unclosed_pipe(char **input, int *i);
 void	find_unclosed_quotes(char **input, int *i);
-void	check_open_quotes(char **input);
+void	check_unclosed(char **input);
 
 // parsing_2.c
 void	copy_special_block(char **input, char *spaced, int *i, int *j);
@@ -69,6 +67,9 @@ void	set_spaces(char **input);
 // parsing_3.c
 void	remove_quotes(char **str);
 void	delete_quotes(t_cmd *cmds);
+
+// ft_minisplit.c
+char	**ft_minisplit(char const *s);
 
 // lst_cmd_1.c
 void	fileout_manager(t_shell *shell, char **tokens, int *i);
@@ -121,10 +122,9 @@ int		find_eq_sn(char *str);
 int		srcd_env(t_shell *shell, const char *name);
 void	ft_export(t_shell *shell, char **args);
 
-// ft_minisplit.c
-char	**ft_minisplit(char const *s);
-
 // utils.c
+void	close_all(t_shell *shell);
+void	free_all(t_shell *shell);
 int		ft_cmd_size(t_cmd *lst);
 int		is_empty(char *str);
 

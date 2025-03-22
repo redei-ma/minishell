@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 20:33:33 by renato            #+#    #+#             */
-/*   Updated: 2025/03/22 14:18:17 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/22 19:28:53 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	find_unclosed_quotes(char **input, int *i)
 	}
 }
 
-void	check_open_quotes(char **input)
+void	check_unclosed(char **input)
 {
 	int		i;
 

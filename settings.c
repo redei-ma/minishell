@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:07:08 by renato            #+#    #+#             */
-/*   Updated: 2025/03/22 19:05:28 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/22 19:29:05 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	loop_line(t_shell *shell)
 		//funzione exit (bisogna anche eliminare gli heredoc creati)
 		exit(0);
 	ft_printfd(2, "0\n");
-	check_open_quotes(&input);
+	check_unclosed(&input);
 	if (input)
 		add_history(input);
 	if(is_empty(input))
