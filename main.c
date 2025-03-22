@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:35:37 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/21 23:45:02 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/22 12:35:42 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ int	main(int ac, char **av, char **envp)
 {
 	t_shell	*shell;
 
+	(void )av;
 	if (ac != 1)
 		return (ft_printf("minishell: too many arguments\n"));
-	(void )av;
 	shell = ft_calloc(1, sizeof(t_shell));
 	if (!shell)
 		return (1);

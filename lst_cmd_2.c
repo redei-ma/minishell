@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:20:09 by renato            #+#    #+#             */
-/*   Updated: 2025/03/20 22:24:50 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/22 12:33:57 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ char	*search_name(void)
 
 int process_heredoc_line(int fd, char *limiter)
 {
-	char *line;
-	
+	char	*line;
+
 	ft_printfd(1, "> ");
 	line = get_next_line(0);
 	if (!line)

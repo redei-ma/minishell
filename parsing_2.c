@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:12:06 by renato            #+#    #+#             */
-/*   Updated: 2025/03/20 20:36:39 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/22 12:42:08 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	copy_special_block(char **input, char *spaced, int *i, int *j)
 {
-	char special;
+	char	special;
 
 	special = (*input)[*i];
 	spaced[(*j)++] = ' ';
@@ -33,8 +33,8 @@ void	update_quotes(char c, int *in_single_quote, int *in_double_quote)
 
 int	count_spec_char(char *input)
 {
-	int	i;
-	int	count;
+	int		i;
+	int		count;
 	char	special;
 
 	i = 0;

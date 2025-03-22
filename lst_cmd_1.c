@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:17:38 by renato            #+#    #+#             */
-/*   Updated: 2025/03/21 23:46:30 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/22 12:46:56 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ void	fileout_manager(t_shell *shell, char **tokens, int *i)
 		exit(1);
 }
 
-void    filein_manager(t_shell *shell, char **tokens, int *i)
+void	filein_manager(t_shell *shell, char **tokens, int *i)
 {
-	int	j;	
+	int	j;
 
 	j = 0;
 	while (tokens[*i][j] == '<')
@@ -45,12 +45,12 @@ void    filein_manager(t_shell *shell, char **tokens, int *i)
 	
 }
 
-void    pipe_manager(t_shell *shell, char **tokens, int *i)
+void	pipe_manager(t_shell *shell, char **tokens, int *i)
 {
-	int    j;
+	int	j;
 
 	j = 0;
-	while(tokens[*i][j] == '|')
+	while (tokens[*i][j] == '|')
 		j++;
 	if (j > 2)
 		//devo stampare i caratterei a indice 2 e 3 in syntax error

@@ -6,35 +6,18 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 17:47:13 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/22 14:23:45 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/22 02:42:13 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // possibile miglioramento gestione di quote
-static size_t	skip_quotes(const char **s)
-{
-	char	quote;
-	size_t	i;
-
-	quote = **s;
-	(*s)++;
-	i = 1;
-	while (**s && **s != quote)
-	{
-		(*s)++;
-		i++;
-	}
-	if (**s == quote)
-		(*s)++;
-	return (i);
-}
-
 static size_t	ft_count_words(const char *s)
 {
 	size_t	count;
 	int		in_word;
+	char	quote;
 
 	count = 0;
 	in_word = 0;
@@ -53,7 +36,14 @@ static size_t	ft_count_words(const char *s)
 			in_word = 1;
 		}
 		if (*s == '"' || *s == '\'')
-			s += skip_quotes(&s);
+		{
+			quote = *s;
+			s++;
+			while (*s && *s != quote)
+				s++;
+			if (*s == quote)
+				s++;
+		}
 		else
 		{
 			while (*s && !ft_isspace(*s) && *s != '"' && *s != '\'')

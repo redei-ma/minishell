@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 22:12:52 by renato            #+#    #+#             */
-/*   Updated: 2025/03/22 02:29:44 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/22 12:46:03 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,20 +38,19 @@ void	ft_exit(t_shell *shell, char **args)
 	exit(exit_code);
 }
 
-int	ft_env(t_shell *shell)
+void	ft_env(t_shell *shell)
 {
 	int	i;
 
 	i = 0;
 	if (!shell)
-		return (1);
+		exit(1);
 	while (shell->env[i])
 	{
 		if (find_eq_sn(shell->env[i]) != -1)
 			ft_printf("%s\n", shell->env[i]);
 		i++;
 	}
-	return (0);
 }
 
 void	ft_unset(t_shell *shell, char **args)
@@ -61,7 +60,7 @@ void	ft_unset(t_shell *shell, char **args)
 	int	j;
 
 	if (!args[0])
-		return ;
+		exit(1);
 	i = 0;
 	while (args[i])
 	{
@@ -81,7 +80,7 @@ void	ft_unset(t_shell *shell, char **args)
 	}
 }
 
-int	ft_pwd()
+void	ft_pwd()
 {
 	char	cwd[4096];
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
@@ -89,7 +88,6 @@ int	ft_pwd()
 	else
 	{
 		perror("pwd");
-		return (-1);
+		exit(1);
 	}
-	return (0);
 }

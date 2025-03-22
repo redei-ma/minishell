@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 15:51:12 by renato            #+#    #+#             */
-/*   Updated: 2025/03/20 15:52:38 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/22 12:34:55 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	add_arg(char ***args, char *token)
 {
 	int count;
-	
+
 	if (!(*args))
 	{
 		*args = (char **)ft_calloc(2, sizeof(char *));

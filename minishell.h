@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/22 02:35:21 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/22 13:46:54 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,10 @@ typedef struct s_cmd
 
 typedef struct s_shell
 {
-	// char	*input;
-	// char	**mat;
 	t_cmd	*cmds;
 	t_pipex	*piper;
 	char	**env;
 	int 	max;
-	// int		tot_pipe;
 }	t_shell;
 
 // setting.c
@@ -58,6 +55,8 @@ void	set_shell(t_shell *shell, char **envp);
 
 // parsing_1.c
 void	in_quotes(char **input);
+void	find_unclosed_pipe(char **input, int *i);
+void	find_unclosed_quotes(char **input, int *i);
 void	check_open_quotes(char **input);
 
 // parsing_2.c
@@ -89,7 +88,7 @@ int		handle_heredoc(char *token);
 void	add_arg(char ***args, char *token);
 
 // manager_1.c
-int		ft_cd(char **string);
+void	ft_cd(char **string);
 void	exe_builtin(t_shell *shell);
 void	fork_manger(t_shell *shell);
 void	cmd_find(t_shell *shell, char *cmd);
@@ -97,9 +96,9 @@ void	cmd_manage(t_shell *shell);
 
 // manager_2.c
 void	ft_exit(t_shell *shell, char **args);
-int		ft_env(t_shell *shell);
+void	ft_env(t_shell *shell);
 void	ft_unset(t_shell *shell, char **args);
-int		ft_pwd(void);
+void	ft_pwd(void);
 
 // find.c
 int		is_env(char *cmd);
@@ -118,8 +117,8 @@ int		handle_exit_status(t_shell *shell);
 int		handle_variable(char *str, int i, t_shell *shell);
 
 // ft_export.c
-int	find_eq_sn(char *str);
-int	srcd_env(t_shell *shell, const char *name);
+int		find_eq_sn(char *str);
+int		srcd_env(t_shell *shell, const char *name);
 void	ft_export(t_shell *shell, char **args);
 
 // ft_minisplit.c

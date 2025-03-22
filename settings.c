@@ -6,14 +6,13 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:07:08 by renato            #+#    #+#             */
-/*   Updated: 2025/03/22 01:33:25 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/22 14:20:29 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
 #include "minishell.h"
 
-void ft_print_cmd(t_cmd *cmds)
+void	ft_print_cmd(t_cmd *cmds)
 {
 	while (cmds)
 	{
@@ -58,7 +57,7 @@ void	loop_line(t_shell *shell)
 	parse_cmds(tokens, shell);
 	ft_freemat((void **)tokens, ft_matlen(tokens));
 	delete_quotes(shell->cmds);
-	//ft_print_cmd(shell->cmds);
+	ft_print_cmd(shell->cmds);
 	cmd_manage(shell);
 }
 

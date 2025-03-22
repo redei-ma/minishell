@@ -6,30 +6,29 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 00:04:33 by renato            #+#    #+#             */
-/*   Updated: 2025/03/22 02:39:37 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/22 12:39:55 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_cd(char **string)
+void	ft_cd(char **string)
 {
 	if (ft_matlen(string) != 1)
 	{
 		write(2, "cd: too many arguments", 23);
-		return (-1);
+		exit(1);
 	}
 	if (ft_strlen(string[0]) == 0)
 	{
 		write(2, "cd: comando non valido!", 23);
-		return (-1);
+		exit(1);
 	}
 	if (chdir(string[0]) != 0)
 	{
 		perror("cd");
-		return (-1);
+		exit(1);
 	}
-	return (0);
 }
 
 void	exe_builtin(t_shell *shell)
@@ -79,11 +78,24 @@ void	fork_manger(t_shell *shell)
 void	cmd_find(t_shell *shell, char *cmd)
 {
 	if (is_builtin(cmd))
-			exe_builtin(shell);
-		else if (is_env(cmd))
-			ft_export(shell, shell->cmds->args);
-		//else
-			//ft_exec(shell, shell->cmds->args);
+		exe_builtin(shell);
+	else if (is_env(cmd))
+		ft_export(shell, shell->cmds->args);
+/* 	else
+	{
+		shell->piper->pids = ft_realloc(shell->piper->pids, 0, 1 * sizeof(pid_t));
+		if (!shell->piper->pids)
+			exit(1); // exit_error da gestire
+		shell->piper->pids[0] = fork();
+		if (shell->piper->pids[0] == -1)
+			exit(1); // exit_error da gestire
+		else if (shell->piper->pids[i - 1] == 0)
+		{
+			ft_exec(shell, shell->cmds->args);
+			//chiusura tutto per figlio
+			exit(0);
+		}
+	} */
 }
 
 void	cmd_manage(t_shell *shell)
