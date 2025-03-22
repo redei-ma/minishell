@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 12:44:59 by renato            #+#    #+#             */
-/*   Updated: 2025/03/22 12:45:02 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/22 18:48:49 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	is_env(char *cmd)
 	i = 0;
 	while (cmd[i] && cmd[i] != '=' && ft_isascii(cmd[i]))
 		i++;
-	if (cmd[i] == '=' && i > 0)
+	if (cmd[i] && cmd[i] == '=' && i > 0)
 		return (1);
 	return (0);
 }

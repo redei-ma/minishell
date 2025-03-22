@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 17:47:13 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/22 16:54:39 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/22 19:03:11 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,14 +27,15 @@ static size_t	skip_quotes(const char *s)
 		i++;
 	return (i);
 }
-static size_t skip_spcae(const char *s, int *in_word)
+
+static size_t skip_space(const char *s, int *in_word)
 {
 	size_t i;
 
 	i = 0;
 	while (s[i] && ft_isspace(s[i]))
 		i++;
-	if (in_word != -1 && i > 0)
+	if (in_word && i > 0)
 		*in_word = 0;
 	return (i);
 }
@@ -49,7 +50,7 @@ static size_t	ft_count_words(const char *s)
 	in_word = 0;
 	while (*s)
 	{
-		s += skip_spcae(s, &in_word);
+		s += skip_space(s, &in_word);
 		if (!*s)
 			break;
 		if (!in_word)
@@ -68,45 +69,28 @@ static size_t	ft_count_words(const char *s)
 	return (count);
 }
 
-
-static char	**ft_cleanmat(char **dest)
-{
-	char	**tmp;
-
-	tmp = dest;
-	while (*tmp)
-	{
-		free(*tmp);
-		*tmp = NULL;
-		tmp++;
-	}
-	free(dest);
-	return (NULL);
-}
-
 static char	**ft_allocate(char **dest, const char *s)
 {
 	int		i;
 	int		j;
-	char	quote;
 
 	j = 0;
 	while (*s)
 	{
 		i = 0;
-		s += skip_spcae(s, -1);
+		s += skip_space(s, NULL);
 		if (!*s)
 			break;
-		while (s[i] && (!ft_isspace(s[i]) || (i > 0 && s[i - 1] == '\\')))
+		while (s[i] && (!ft_isspace(s[i])))
 		{
 			if (s[i] == '"' || s[i] == '\'')
-				i += skip_quotes(s);
+				i += skip_quotes(s + i);
 			else
 				i++;
 		}
 		dest[j] = ft_substr(s, 0, i);
 		if (!dest[j])
-			return (ft_cleanmat(dest));
+			return (ft_free_char_mat(dest));
 		s += i;
 		j++;
 	}
@@ -139,7 +123,7 @@ char	**ft_minisplit(char const *s)
 	cmd = ft_minisplit("	 c'at' < 'error ciao ' echo -n o''ut 	 $PW'  'D ");
 	while(*cmd)
 	{
-		ft_printf("cmd: %s\n", *cmd);
+		ft_printf("token: %s\n", *cmd);
 		cmd++;
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:17:38 by renato            #+#    #+#             */
-/*   Updated: 2025/03/22 12:46:56 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/22 18:33:57 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ void	pipe_manager(t_shell *shell, char **tokens, int *i)
 		shell->piper->n_pipes++;
 		shell->cmds = shell->cmds->next;
 	}
-	// se mi rimane pipe aperta dovrei gestire con GNL e metteregli spazi e tutto
 	else
 		//exit_error a piacere
 		exit(1);
@@ -93,9 +92,9 @@ t_cmd	*ft_newcmd(void)
 		exit(1);
 	new->cmd = NULL;
 	new->args = NULL;
-	new->file_i = 1;
-	new->file_o = 1;
-	new->file_a = 1;
+	new->file_i = -1;
+	new->file_o = -1;
+	new->file_a = -1;
 	new->next = NULL;
 	return (new);
 }
@@ -121,7 +120,7 @@ void	parse_cmds(char **tokens, t_shell *shell)
 					|| tokens[i + 1][0] == '<' || tokens[i + 1][0] == '>')
 				shell->cmds->cmd = ft_strdup(tokens[i]);
 		}
-		else if (tokens[i][0] == '|') // Nuovo comando
+		else if (tokens[i][0] == '|')
 			pipe_manager(shell, tokens, &i);
 		else if (tokens[i][0] == '<')
 			filein_manager(shell, tokens, &i);

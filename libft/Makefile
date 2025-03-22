@@ -5,6 +5,7 @@ CFLAGS = -Wall -Wextra -Werror -g -I$(CURDIR)
 SRC = ft_abs.c \
 	ft_atoi.c \
 	ft_bzero.c \
+	ft_free_char_mat.c \
 	ft_freemat.c \
 	ft_itoa.c \
 	ft_matlen.c	\
@@ -12,6 +13,7 @@ SRC = ft_abs.c \
 	ft_tolower.c \
 	ft_toupper.c \
 	get_next_line_bonus.c \
+	safe_close.c \
 	alloc/ft_calloc.c	alloc/ft_nsplit.c	alloc/ft_realloc.c	alloc/ft_split.c	alloc/ft_strdup.c	alloc/ft_strjoin.c	alloc/ft_substr.c \
 	lst/ft_lstadd_back.c	lst/ft_lstadd_front.c	lst/ft_lstclear.c	lst/ft_lstdelone.c \
 	lst/ft_lstiter.c	lst/ft_lstlast.c	lst/ft_lstmap.c	lst/ft_lstnew.c	lst/ft_lstsize.c \

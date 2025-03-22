@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:07:08 by renato            #+#    #+#             */
-/*   Updated: 2025/03/22 14:20:29 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/22 19:05:28 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,11 @@ void	loop_line(t_shell *shell)
 	char	**tokens;
 
 	input = readline("minishell> ");
-	//input = ft_strdup("pwd");
+	// input = ft_strdup("ls |<i cat -e |e''cho '\"$s' >> file");
 	if (!input)
 		//funzione exit (bisogna anche eliminare gli heredoc creati)
 		exit(0);
+	ft_printfd(2, "0\n");
 	check_open_quotes(&input);
 	if (input)
 		add_history(input);
@@ -58,7 +59,7 @@ void	loop_line(t_shell *shell)
 	ft_freemat((void **)tokens, ft_matlen(tokens));
 	delete_quotes(shell->cmds);
 	ft_print_cmd(shell->cmds);
-	cmd_manage(shell);
+	//cmd_manage(shell);
 }
 
 void	init_env(t_shell *shell, char **envp)

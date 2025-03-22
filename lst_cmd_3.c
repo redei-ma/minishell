@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 15:51:12 by renato            #+#    #+#             */
-/*   Updated: 2025/03/22 12:34:55 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/22 18:39:23 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	add_arg(char ***args, char *token)
 	count = 0;
 	while ((*args)[count])
 		count++;
-	*args = (char **)ft_realloc(*args, count * sizeof(char *), (count + 2) * sizeof( char *));
+	*args = (char **)ft_realloc(*args, (count + 1) * sizeof(char *), (count + 2) * sizeof( char *));
 	if (!*args)
 		//exit_error();
 		exit(1);

@@ -10,5 +10,7 @@ Provare comando "ls | | " che non va invece "ls ||" va
 Valutare se togliere gli spazi tra | < > prima di slittare
 
 
+Controllare che nelle funzioni che cercano quote io non tenga in mente del backslah
+
 
 CAPIRE COSA FANNO I BACKSLASH E VEDERE SE SONO DA GESTIRE
