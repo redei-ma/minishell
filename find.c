@@ -1,7 +1,7 @@
 #include "libft/libft.h"
 #include "minishell.h"
 
-int	is_env_var(char *cmd)
+int	is_env(char *cmd)
 {
 	int i;
 

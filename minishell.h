@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/21 02:05:21 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/22 02:35:21 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,14 +88,45 @@ int		handle_heredoc(char *token);
 // lst_cmd_3.c
 void	add_arg(char ***args, char *token);
 
+// manager_1.c
+int		ft_cd(char **string);
+void	exe_builtin(t_shell *shell);
+void	fork_manger(t_shell *shell);
+void	cmd_find(t_shell *shell, char *cmd);
+void	cmd_manage(t_shell *shell);
+
+// manager_2.c
+void	ft_exit(t_shell *shell, char **args);
+int		ft_env(t_shell *shell);
+void	ft_unset(t_shell *shell, char **args);
+int		ft_pwd(void);
+
 // find.c
-int		is_env_var(char *cmd);
+int		is_env(char *cmd);
 int		is_builtin(char *cmd);
 
-// ft_minisolit.c
+// ft_echo_1.c
+int		handle_quotes(char c, int *in_single_quote, int *in_double_quote);
+int		str_vars(char *str, t_shell *shell);
+int		cmp_echo_flag(char *str);
+void	ft_echo(t_shell *shell);
+
+// ft_echo_2.c
+char	*ft_getenv(char *nm_var, t_shell *shell);
+int		handle_env_variable(char *str, int i, t_shell *shell);
+int		handle_exit_status(t_shell *shell);
+int		handle_variable(char *str, int i, t_shell *shell);
+
+// ft_export.c
+int	find_eq_sn(char *str);
+int	srcd_env(t_shell *shell, const char *name);
+void	ft_export(t_shell *shell, char **args);
+
+// ft_minisplit.c
 char	**ft_minisplit(char const *s);
 
 // utils.c
+int		ft_cmd_size(t_cmd *lst);
 int		is_empty(char *str);
 
 #endif

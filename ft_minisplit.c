@@ -6,12 +6,13 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 17:47:13 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/20 00:28:21 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/22 02:42:13 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+// possibile miglioramento gestione di quote
 static size_t	ft_count_words(const char *s)
 {
 	size_t	count;

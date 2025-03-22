@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:35:37 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/20 13:05:58 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/21 23:45:02 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,6 @@ int	main(int ac, char **av, char **envp)
 	set_shell(shell, envp);
 	while (1)
 		loop_line(shell);
+	//loop_line(shell);
 	return 0;
 }

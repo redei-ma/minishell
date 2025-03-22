@@ -1,16 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils1.c                                           :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:23:27 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/03 15:56:42 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/22 02:35:28 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
+
+int	ft_cmd_size(t_cmd *lst)
+{
+	t_cmd	*tmp;
+	int		count;
+
+	tmp = lst;
+	count = 0;
+	while (tmp)
+	{
+		tmp = tmp->next;
+		count++;
+	}
+	return (count);
+}
 
 int	is_empty(char *str)
 {

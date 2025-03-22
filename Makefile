@@ -11,7 +11,12 @@ SRC =	main.c \
 		lst_cmd_1.c \
 		lst_cmd_2.c \
 		lst_cmd_3.c \
+		manager_1.c \
+		manager_2.c \
 		find.c \
+		ft_echo_1.c \
+		ft_echo_2.c \
+		ft_export.c \
 		ft_minisplit.c \
 		utils.c
 
