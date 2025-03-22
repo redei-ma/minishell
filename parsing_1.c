@@ -6,13 +6,13 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 20:33:33 by renato            #+#    #+#             */
-/*   Updated: 2025/03/22 19:28:53 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/22 22:46:53 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	in_quotes(char **input)
+void	in_quotes(char **input, t_shell *shell)
 {
 	char	*line;
 	char	*newline;
@@ -24,15 +24,12 @@ void	in_quotes(char **input)
 	newline = ft_strjoin(*input, line);
 	free(line);
 	if (!newline)
-	{
-		//exit_error
-		exit(1);
-	}
+		exit_error("Error: malloc failed\n", shell, 1);
 	free(*input);
 	*input = newline;
 }
 
-void	find_unclosed_pipe(char **input, int *i)
+void	find_unclosed_pipe(char **input, int *i, t_shell *shell)
 {
 	int	pipe_count;
 
@@ -46,12 +43,12 @@ void	find_unclosed_pipe(char **input, int *i)
 	}
 	if (!(*input)[*i] && (pipe_count == 1 || pipe_count == 2))
 	{
-		in_quotes(input);
+		in_quotes(input, shell);
 		*i = -1;
 	}
 }
 
-void	find_unclosed_quotes(char **input, int *i)
+void	find_unclosed_quotes(char **input, int *i, t_shell *shell)
 {
 	char	quote;
 
@@ -61,12 +58,12 @@ void	find_unclosed_quotes(char **input, int *i)
 		(*i)++;
 	if (!(*input)[*i])
 	{
-		in_quotes(input);
+		in_quotes(input, shell);
 		*i = -1;
 	}
 }
 
-void	check_unclosed(char **input)
+void	check_unclosed(char **input, t_shell *shell)
 {
 	int		i;
 
@@ -74,9 +71,9 @@ void	check_unclosed(char **input)
 	while ((*input)[i])
 	{
 		if (((*input)[i] == '\'' || (*input)[i] == '\"'))
-			find_unclosed_quotes(input, &i);
+			find_unclosed_quotes(input, &i, shell);
 		else
-			find_unclosed_pipe(input, &i);
+			find_unclosed_pipe(input, &i, shell);
 		i++;
 	}
 }

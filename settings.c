@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:07:08 by renato            #+#    #+#             */
-/*   Updated: 2025/03/22 19:29:05 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/22 22:46:53 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,29 +35,21 @@ void	ft_print_cmd(t_cmd *cmds)
 
 void	loop_line(t_shell *shell)
 {
-	char	*input;
-	char	**tokens;
-
-	input = readline("minishell> ");
+	shell->input = readline("minishell> ");
 	// input = ft_strdup("ls |<i cat -e |e''cho '\"$s' >> file");
-	if (!input)
-		//funzione exit (bisogna anche eliminare gli heredoc creati)
-		exit(0);
-	ft_printfd(2, "0\n");
-	check_unclosed(&input);
-	if (input)
-		add_history(input);
-	if(is_empty(input))
+	if (!shell->input)
+		exit_error("exit\n", shell, 0); // capire se viene chiamato due volte o va bene e se va bene il numero di uscita o se non deve stamapre niente
+	check_unclosed(&shell->input, shell);
+	if (shell->input)
+		add_history(shell->input);
+	if(is_empty(shell->input))
 		return ;
-	set_spaces(&input);
-	tokens = ft_minisplit(input);
-	if (!tokens)
-		// exit_error();
-		exit(1);
-	free(input);
-	parse_cmds(tokens, shell);
-	ft_freemat((void **)tokens, ft_matlen(tokens));
-	delete_quotes(shell->cmds);
+	set_spaces(&shell->input, shell);
+	shel->tokens = ft_minisplit(shell->input);
+	if (!shel->tokens)
+		exit_error("Error: malloc failed\n", shell, 1);
+	parse_cmds(shel->tokens, shell);
+	delete_quotes(shell->cmds, shell);
 	ft_print_cmd(shell->cmds);
 	//cmd_manage(shell);
 }
@@ -73,14 +65,12 @@ void	init_env(t_shell *shell, char **envp)
 		n++;
 	shell->env = ft_calloc((n + 1), sizeof(char *));
 	if (!shell->env)
-		//exit_error
-		exit(1);
+		exit_error("Error: malloc failed\n", shell, 1);
 	while(i < n)
 	{
 		shell->env[i] = ft_strdup(envp[i]);
 		if (!shell->env[i])
-			//exit_error
-			exit(1);
+			exit_error("Error: malloc failed\n", shell, 1);
 		i++;
 	}
 	shell->max = n;
@@ -89,14 +79,13 @@ void	init_env(t_shell *shell, char **envp)
 void	set_shell(t_shell *shell, char **envp)
 {
 	init_env(shell, envp);
+	shell->num_heredoc = 0;
 	shell->cmds = NULL;
 	shell->piper->n_pipes = 0;
 	shell->piper->fds = ft_calloc(0, sizeof(int [2]));
 	if (!shell->piper->fds)
-		//exit_error
-		exit(1);
+		exit_error("Error: malloc failed\n", shell, 1);
 	shell->piper->pids = ft_calloc(0, sizeof(pid_t));
 	if (!shell->piper->pids)
-		//exit_error
-		exit(1);
+		exit_error("Error: malloc failed\n", shell, 1);
 }

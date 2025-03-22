@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 00:04:33 by renato            #+#    #+#             */
-/*   Updated: 2025/03/22 12:39:55 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/22 22:46:53 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,19 @@ void	exe_builtin(t_shell *shell)
 		ft_exit(shell, shell->cmds->args);
 }
 
+void	cmd_find_son(t_shell *shell, char *cmd)
+{
+	if (is_builtin(cmd))
+		exe_builtin(shell);
+	else if (is_env(cmd))
+		ft_export(shell, shell->cmds->args);
+	else
+	{
+		ft_exec(shell, shell->cmds->args);
+		exit_error(NULL, shell, 127); //che messaggio va stampato? o lo fa gia subito dopo execve?
+	}
+}
+
 void	fork_manger(t_shell *shell)
 {
 	int i;
@@ -58,15 +71,15 @@ void	fork_manger(t_shell *shell)
 	{
 		shell->piper->pids = ft_realloc(shell->piper->pids, (i - 1) * sizeof(pid_t), i * sizeof(pid_t));
 		if (!shell->piper->pids)
-			exit(1); // exit_error da gestire
+			exit_error("Error: malloc failed\n", shell, 1);
 		shell->piper->pids[i - 1] = fork();
 		if (shell->piper->pids[i - 1] == -1)
 			exit(1); // exit_error da gestire
 		else if (shell->piper->pids[i - 1] == 0)
 		{
-			cmd_find(shell, shell->cmds->cmd);
+			cmd_find_son(shell, shell->cmds->cmd);
 			//chiusura tutto per figlio
-			exit(0);
+			exit_error(NULL, shell, 1); //che messaggio va stampato? o lo fa gia subito dopo execve?
 		}
 		shell->cmds = shell->cmds->next;
 		i++;
@@ -75,27 +88,26 @@ void	fork_manger(t_shell *shell)
 		;
 }
 
-void	cmd_find(t_shell *shell, char *cmd)
+void	cmd_find_dad(t_shell *shell, char *cmd)
 {
 	if (is_builtin(cmd))
 		exe_builtin(shell);
 	else if (is_env(cmd))
 		ft_export(shell, shell->cmds->args);
-/* 	else
+	else
 	{
 		shell->piper->pids = ft_realloc(shell->piper->pids, 0, 1 * sizeof(pid_t));
 		if (!shell->piper->pids)
-			exit(1); // exit_error da gestire
+			exit_error("Error: malloc failed\n", shell, 1);
 		shell->piper->pids[0] = fork();
 		if (shell->piper->pids[0] == -1)
 			exit(1); // exit_error da gestire
 		else if (shell->piper->pids[i - 1] == 0)
 		{
 			ft_exec(shell, shell->cmds->args);
-			//chiusura tutto per figlio
-			exit(0);
+			exit_error(NULL, shell, 127); //che messaggio va stampato? o lo fa gia subito dopo execve?
 		}
-	} */
+	}
 }
 
 void	cmd_manage(t_shell *shell)
@@ -105,7 +117,7 @@ void	cmd_manage(t_shell *shell)
 	num_cmd = ft_cmd_size(shell->cmds);
 	//se num_cmd == 0, cosa succede? in teroria non dovrebbe succedere perche ne creo subito uno
 	if (num_cmd == 1)
-		cmd_find(shell, shell->cmds->cmd);
+		cmd_find_dad(shell, shell->cmds->cmd);
 	else if (num_cmd > 1)
 		fork_manger(shell);
 	//chiusura tutto per padre

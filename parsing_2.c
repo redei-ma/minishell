@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:12:06 by renato            #+#    #+#             */
-/*   Updated: 2025/03/22 12:42:08 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/22 22:46:53 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	count_spec_char(char *input)
 	return (count + i + 1);
 }
 
-void	set_var(char *input, char *format, ...)
+void	set_var(t_shell *shell, char *input, char *format, ...)
 {
 	int		i;
 	char	*spaced;
@@ -61,8 +61,7 @@ void	set_var(char *input, char *format, ...)
 	i = 0;
 	spaced =  ft_calloc(count_spec_char(input), sizeof(char));
 	if (!spaced)
-		//exit_error();
-		exit(1);
+		exit_error("Error: malloc failed\n", shell, 1);
 	va_list args;
 	va_start(args, format);
 	while (format[i])
@@ -76,7 +75,7 @@ void	set_var(char *input, char *format, ...)
 	va_end(args);
 }
 
-void	set_spaces(char **input)
+void	set_spaces(char **input, t_shell *shell)
 {
 	int		i;
 	int		j;
@@ -84,7 +83,7 @@ void	set_spaces(char **input)
 	int		in_double_quote;
 	char	*spaced;
 
-	set_var(*input, "00001", &i, &j, &in_single_quote, &in_double_quote, &spaced);
+	set_var(shell, *input, "00001", &i, &j, &in_single_quote, &in_double_quote, &spaced);
 	while ((*input)[i])
 	{
 		update_quotes((*input)[i], &in_single_quote, &in_double_quote);

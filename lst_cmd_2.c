@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:20:09 by renato            #+#    #+#             */
-/*   Updated: 2025/03/22 12:33:57 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/22 22:50:07 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,19 @@ int	handle_fdout(char *token, char c)
 		fd = open(token, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd < 0)
 	{
-		//exit_error();
-		exit(1);
+		//non sono sicuro quale messaggio mettere
+		if (errno == EACCES)
+			return_error("Error: permission denied\n", shell, 13);
+		else if (errno == ENOENT)
+			return_error("Error: file not found\n", shell, 2);
+		else if (errno == EISDIR)
+			return_error("Error: is a directory\n", shell, 126);
+		else if (errno == 	ENOSPC)
+			return_error("Error: no space left on device\n", shell, 28);
+		else if (errno == EROFS)
+			return_error("Error: read-only file system\n", shell, 30);
+		else
+			return_error("Error: failed to open file\n", shell, 1);
 	}
 	return (fd);
 }
@@ -36,34 +47,33 @@ int	handle_fdin(char *token)
 	fd = open(token, O_RDONLY);
 	if (fd < 0)
 	{
-		//exit_error(); devo settare bene erno per file non esistente
-		exit(1);
+		//non sono sicuro dquale messaggio stamapre
+		return_error(token, strerror(errno), shell, errno);
 	}
-	return (fd);
+	return fd;
 }
 
-char	*search_name(void)
+char	*search_name(t_shell *shell)
 {
-	int		n;
-	char	*num;
 	char	*filename;
+	char	*num;
 
-	n = 0;
 	while (1)
 	{
-		num = ft_itoa(n);
+		num = ft_itoa(shell->num_heredoc);
 		if (!num)
-			//exit_error();
-			exit(1);
-		filename = ft_strjoin("heredoc_", ft_itoa(n));
-		free(num);
+			exit_error("Error: malloc failed\n", shell, 1);
+		filename = ft_strjoin("heredoc_", num);
 		if (!filename)
-			//exit_error();
-			exit(1);
+		{
+			free(num);
+			exit_error("Error: malloc failed\n", shell, 1);
+		}
+		free(num);
+		shell->num_heredoc++;
 		if (access(filename, F_OK) == -1)
 			break ;
 		free(filename);
-		n++;
 	}
 	return (filename);
 }
@@ -77,30 +87,26 @@ int process_heredoc_line(int fd, char *limiter)
 	if (!line)
 		return (0);
 	if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
-	{
-		free(line);
-		return (0);
-	}
+		return (free(line), 0);
 	ft_printfd(fd, "%s", line);
 	free(line);
 	return (1);
 }
 
-int	handle_heredoc(char *token)
+int	handle_heredoc(char *token, t_shell *shell)
 {
 	int		fd;
 	char	*limiter;
 	char	*filename;
 
-	filename = search_name();
+	filename = search_name(shell);
 	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
-		//exit_error();
+		//return_error();
 		exit(1);
 	limiter = ft_strjoin(token, "\n");
 	if (!limiter)
-		//exit_error();
-		exit(1);
+		exit_error("Error: malloc failed\n", shell, 1);
 	while (process_heredoc_line(fd, limiter))
 		;
 	free(limiter);

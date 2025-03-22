@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/22 19:50:33 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/22 22:46:53 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,12 @@ typedef struct s_shell
 	t_pipex	*piper;
 	char	**env;
 	int 	max;
+	char	*input;
+	char	**tokens;
+	int		num_heredoc;
 }	t_shell;
+
+int exit_status = 0;
 
 // setting.c
 void	loop_line(t_shell *shell);
@@ -123,9 +128,13 @@ int		srcd_env(t_shell *shell, const char *name);
 void	ft_export(t_shell *shell, char **args);
 
 // utils.c
-void	close_all(t_shell *shell);
+void	free_all_2(t_shell *shell);
 void	free_all(t_shell *shell);
+void	close_all(t_shell *shell);
 int		ft_cmd_size(t_cmd *lst);
 int		is_empty(char *str);
+
+// error.c
+void exit_error(char *msg, t_shell *shell, int status);
 
 #endif
