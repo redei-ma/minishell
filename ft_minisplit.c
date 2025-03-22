@@ -6,30 +6,39 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 17:47:13 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/22 14:23:45 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/22 16:54:39 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // possibile miglioramento gestione di quote
-static size_t	skip_quotes(const char **s)
+static size_t	skip_quotes(const char *s)
 {
 	char	quote;
 	size_t	i;
 
-	quote = **s;
-	(*s)++;
-	i = 1;
-	while (**s && **s != quote)
-	{
-		(*s)++;
+	i = 0;
+	quote = s[i];
+	i++;
+	while (s[i] && s[i] != quote)
 		i++;
-	}
-	if (**s == quote)
-		(*s)++;
+	if (s[i] == quote)
+		i++;
 	return (i);
 }
+static size_t skip_spcae(const char *s, int *in_word)
+{
+	size_t i;
+
+	i = 0;
+	while (s[i] && ft_isspace(s[i]))
+		i++;
+	if (in_word != -1 && i > 0)
+		*in_word = 0;
+	return (i);
+}
+
 
 static size_t	ft_count_words(const char *s)
 {
@@ -40,11 +49,7 @@ static size_t	ft_count_words(const char *s)
 	in_word = 0;
 	while (*s)
 	{
-		while (ft_isspace(*s))
-		{
-			in_word = 0;
-			s++;
-		}
+		s += skip_spcae(s, &in_word);
 		if (!*s)
 			break;
 		if (!in_word)
@@ -53,7 +58,7 @@ static size_t	ft_count_words(const char *s)
 			in_word = 1;
 		}
 		if (*s == '"' || *s == '\'')
-			s += skip_quotes(&s);
+			s += skip_quotes(s);
 		else
 		{
 			while (*s && !ft_isspace(*s) && *s != '"' && *s != '\'')
@@ -89,21 +94,13 @@ static char	**ft_allocate(char **dest, const char *s)
 	while (*s)
 	{
 		i = 0;
-		while (ft_isspace(*s))
-			s++;
+		s += skip_spcae(s, -1);
 		if (!*s)
 			break;
 		while (s[i] && (!ft_isspace(s[i]) || (i > 0 && s[i - 1] == '\\')))
 		{
 			if (s[i] == '"' || s[i] == '\'')
-			{
-				quote = s[i];
-				i++;
-				while (s[i] && s[i] != quote)
-					i++;
-				if (s[i] == quote)
-					i++;
-			}
+				i += skip_quotes(s);
 			else
 				i++;
 		}
