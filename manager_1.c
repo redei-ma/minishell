@@ -6,39 +6,20 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 00:04:33 by renato            #+#    #+#             */
-/*   Updated: 2025/03/22 22:46:53 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/23 01:58:01 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	ft_cd(char **string)
-{
-	if (ft_matlen(string) != 1)
-	{
-		write(2, "cd: too many arguments", 23);
-		exit(1);
-	}
-	if (ft_strlen(string[0]) == 0)
-	{
-		write(2, "cd: comando non valido!", 23);
-		exit(1);
-	}
-	if (chdir(string[0]) != 0)
-	{
-		perror("cd");
-		exit(1);
-	}
-}
 
 void	exe_builtin(t_shell *shell)
 {
 	if (ft_strncmp(shell->cmds->cmd, "echo", 4) == 0)
 		ft_echo(shell);
 	else if (ft_strncmp(shell->cmds->cmd, "cd", 2) == 0)
-		ft_cd((shell)->cmds->args);
+		ft_cd((shell)->cmds->args, shell);
 	else if (ft_strncmp(shell->cmds->cmd, "pwd", 3) == 0)
-		ft_pwd();
+		ft_pwd(shell);
 	else if (ft_strncmp(shell->cmds->cmd, "export", 6) == 0)
 		ft_export(shell, shell->cmds->args);
 	else if (ft_strncmp(shell->cmds->cmd, "unset", 5) == 0)
@@ -57,7 +38,7 @@ void	cmd_find_son(t_shell *shell, char *cmd)
 		ft_export(shell, shell->cmds->args);
 	else
 	{
-		ft_exec(shell, shell->cmds->args);
+		ft_exec(shell);
 		exit_error(NULL, shell, 127); //che messaggio va stampato? o lo fa gia subito dopo execve?
 	}
 }
@@ -93,7 +74,7 @@ void	cmd_find_dad(t_shell *shell, char *cmd)
 	if (is_builtin(cmd))
 		exe_builtin(shell);
 	else if (is_env(cmd))
-		ft_export(shell, shell->cmds->args);
+		ft_export(shell, &shell->cmds->cmd);
 	else
 	{
 		shell->piper->pids = ft_realloc(shell->piper->pids, 0, 1 * sizeof(pid_t));
@@ -102,11 +83,13 @@ void	cmd_find_dad(t_shell *shell, char *cmd)
 		shell->piper->pids[0] = fork();
 		if (shell->piper->pids[0] == -1)
 			exit(1); // exit_error da gestire
-		else if (shell->piper->pids[i - 1] == 0)
+		else if (shell->piper->pids[0] == 0)
 		{
-			ft_exec(shell, shell->cmds->args);
+			ft_exec(shell);
 			exit_error(NULL, shell, 127); //che messaggio va stampato? o lo fa gia subito dopo execve?
 		}
+		wait(NULL);
+		//bisogna cercare lo stato di uscita del figlio e aggiornarlo
 	}
 }
 

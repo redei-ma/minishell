@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 20:33:33 by renato            #+#    #+#             */
-/*   Updated: 2025/03/22 22:46:53 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/23 00:37:56 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ void	in_quotes(char **input, t_shell *shell)
 	ft_printfd(1, "> ");
 	line = get_next_line(0);
 	if (!line)
-		in_quotes(input);
+		exit_error("exit\n", shell, 0);
+		// in teoria non dovrebbe mai entrare qui perche e un control C o D
+		// in_quotes(input);
 	newline = ft_strjoin(*input, line);
 	free(line);
 	if (!newline)

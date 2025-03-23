@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 22:02:16 by renato            #+#    #+#             */
-/*   Updated: 2025/03/21 23:51:17 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/23 00:22:26 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,19 @@ int	find_eq_sn(char *str)
 	return (-1);
 }
 
+void ft_printfd_shell(t_shell *shell, const char *format, char *args)
+{
+    int fd;
+
+    if (shell->cmds->file_a == -1 && shell->cmds->file_o == -1)
+        fd = 1;
+    else if (shell->cmds->file_a != -1)
+        fd = shell->cmds->file_a;
+    else
+        fd = shell->cmds->file_o;
+    ft_printfd(fd, format, args);
+}
+
 void	ft_export(t_shell *shell, char **args)
 {
 	int			i;
@@ -104,7 +117,7 @@ void	ft_export(t_shell *shell, char **args)
 		i = 0;
 		while (shell->env[i])
 		{
-			ft_printf("declare -x %s\n", shell->env[i]);
+			ft_printfd_shell(shell, "declare -x %s\n", shell->env[i]);
 			i++;
 		}
 		return ;

@@ -6,11 +6,13 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:35:37 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/22 20:19:23 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/23 03:13:29 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
+
+int exit_status = 0;
 
 int	main(int ac, char **av, char **envp)
 {
@@ -28,6 +30,6 @@ int	main(int ac, char **av, char **envp)
 	set_shell(shell, envp);
 	while (1)
 		loop_line(shell);
-	loop_line(shell);
+	// loop_line(shell);
 	return (0);
 }

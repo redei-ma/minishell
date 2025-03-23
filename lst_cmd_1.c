@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:17:38 by renato            #+#    #+#             */
-/*   Updated: 2025/03/22 22:46:53 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/23 03:42:06 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ void	fileout_manager(t_shell *shell, char **tokens, int *i)
 	while (tokens[*i][j] == '>')
 		j++;
 	if (j == 1 && tokens[++(*i)])
-		shell->cmds->file_o = handle_fdout(tokens[*i], 'o');
+		shell->cmds->file_o = handle_fdout(tokens[*i], 'o', shell);
 	else if (j == 2 && tokens[++(*i)])
-		shell->cmds->file_a = handle_fdout(tokens[*i], 'a');
+		shell->cmds->file_a = handle_fdout(tokens[*i], 'a', shell);
 	else
 		//devo stampare syntax error
 		exit(1);
@@ -36,7 +36,7 @@ void	filein_manager(t_shell *shell, char **tokens, int *i)
 	while (tokens[*i][j] == '<')
 		j++;
 	if (j == 1 && tokens[++(*i)])
-	shell->cmds->file_i = handle_fdin(tokens[*i]);
+	shell->cmds->file_i = handle_fdin(tokens[*i], shell);
 	else if (j == 2 && tokens[++(*i)])
 	shell->cmds->file_i = handle_heredoc(tokens[*i], shell);
 	else
@@ -60,7 +60,7 @@ void	pipe_manager(t_shell *shell, char **tokens, int *i)
 		exit(1);
 	else if (tokens[*i + 1])
 	{
-		shell->cmds->next = ft_newcmd();
+		shell->cmds->next = ft_newcmd(shell);
 		shell->piper->fds = ft_realloc(shell->piper->fds, shell->piper->n_pipes * sizeof(int[2]), (shell->piper->n_pipes + 1) * sizeof(int[2]));
 		if (!shell->piper->fds)
 			exit_error("Error: malloc failed\n", shell, 1);
@@ -129,7 +129,7 @@ void	parse_cmds(char **tokens, t_shell *shell)
 				exit_error("Error: malloc failed\n", shell, 1);
 		}
 		else
-			add_arg(&shell->cmds->args, tokens[i]);
+			add_arg(&shell->cmds->args, tokens[i], shell);
 		if (!tokens[++i])
 			break ;
 	}

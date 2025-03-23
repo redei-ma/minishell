@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 22:12:52 by renato            #+#    #+#             */
-/*   Updated: 2025/03/22 12:46:03 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/23 01:42:00 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	ft_env(t_shell *shell)
 	while (shell->env[i])
 	{
 		if (find_eq_sn(shell->env[i]) != -1)
-			ft_printf("%s\n", shell->env[i]);
+			ft_printfd_shell(shell, "%s\n", shell->env[i]);
 		i++;
 	}
 }
@@ -80,14 +80,25 @@ void	ft_unset(t_shell *shell, char **args)
 	}
 }
 
-void	ft_pwd()
+void	ft_pwd(t_shell *shell)
 {
 	char	cwd[4096];
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
-		ft_printf("%s\n", cwd);
+		ft_printfd_shell(shell, "%s\n", cwd);
 	else
 	{
 		perror("pwd");
 		exit(1);
 	}
+}
+void	ft_cd(char **string, t_shell *shell)
+{
+	if (!string)
+		return_error("cd: too few arguments", shell, 1);
+	else if (ft_matlen(string) != 1)
+		return_error("cd: too many arguments", shell, 1);
+	else if (ft_strlen(string[0]) == 0)
+		return_error("cd: string not in pwd: ", shell, 1);
+	else if (chdir(string[0]) != 0)
+		return_error("cd: no such file or directory: ", shell, 1);
 }

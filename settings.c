@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:07:08 by renato            #+#    #+#             */
-/*   Updated: 2025/03/22 22:46:53 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/23 03:13:20 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	ft_print_cmd(t_cmd *cmds)
 void	loop_line(t_shell *shell)
 {
 	shell->input = readline("minishell> ");
-	// input = ft_strdup("ls |<i cat -e |e''cho '\"$s' >> file");
+	// shell->input = ft_strdup("ls -l > o");
 	if (!shell->input)
 		exit_error("exit\n", shell, 0); // capire se viene chiamato due volte o va bene e se va bene il numero di uscita o se non deve stamapre niente
 	check_unclosed(&shell->input, shell);
@@ -45,13 +45,13 @@ void	loop_line(t_shell *shell)
 	if(is_empty(shell->input))
 		return ;
 	set_spaces(&shell->input, shell);
-	shel->tokens = ft_minisplit(shell->input);
-	if (!shel->tokens)
+	shell->tokens = ft_minisplit(shell->input);
+	if (!shell->tokens)
 		exit_error("Error: malloc failed\n", shell, 1);
-	parse_cmds(shel->tokens, shell);
+	parse_cmds(shell->tokens, shell);
 	delete_quotes(shell->cmds, shell);
-	ft_print_cmd(shell->cmds);
-	//cmd_manage(shell);
+	//ft_print_cmd(shell->cmds);
+	cmd_manage(shell);
 }
 
 void	init_env(t_shell *shell, char **envp)

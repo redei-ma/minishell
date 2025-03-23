@@ -6,11 +6,24 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 21:54:48 by renato            #+#    #+#             */
-/*   Updated: 2025/03/21 23:02:53 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/23 01:28:55 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void write_to_fd(t_shell *shell, const char *str, int len)
+{
+	int fd;
+
+	if (shell->cmds->file_a == -1 && shell->cmds->file_o == -1)
+		fd = 1;
+	else if (shell->cmds->file_a != -1)
+		fd = shell->cmds->file_a;
+	else
+		fd = shell->cmds->file_o;
+	write(fd, str, len);
+}
 
 char	*ft_getenv(char *nm_var, t_shell *shell)
 {
@@ -41,9 +54,9 @@ int	handle_env_variable(char *str, int i, t_shell *shell)
 	nm_var[ncv - (i + 1)] = '\0';
 	var_val = ft_getenv(nm_var, shell);
 	if (var_val)
-		write(shell->cmds->file_i, var_val, strlen(var_val));
+		write_to_fd(shell, var_val, ft_strlen(var_val));
 	else
-		write(shell->cmds->file_i, "", 0);
+		write_to_fd(shell, "", 0);
 	free(nm_var);
 	return (ncv);
 }
@@ -54,20 +67,7 @@ int	handle_exit_status(t_shell *shell)
 	char *exit_cd = ft_itoa(last_exit_status);
 	if (!exit_cd)
 		return (-1);
-	write(shell->cmds->file_i, exit_cd, ft_strlen(exit_cd));
+	write_to_fd(shell, exit_cd, ft_strlen(exit_cd));
 	free(exit_cd);
 	return (0);
 }
-
-int	handle_variable(char *str, int i, t_shell *shell)
-{
-	if (str[i + 1] == '?')
-	{
-		if (handle_exit_status(shell) == -1)
-			return (-1);
-		return (i + 2);
-	}
-	else
-		return (handle_env_variable(str, i, shell));
-}
-

@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 19:33:11 by renato            #+#    #+#             */
-/*   Updated: 2025/03/22 22:47:35 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/23 02:33:50 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ void	close_all(t_shell *shell)
 	}
 	while (shell->cmds)
 	{
-		safe_close(shell->cmds->file_i);
-		safe_close(shell->cmds->file_o);
+		//safe_close(shell->cmds->file_i);
+		//safe_close(shell->cmds->file_o);
 		safe_close(shell->cmds->file_a);
 		shell->cmds = shell->cmds->next;
 	}
@@ -100,11 +100,10 @@ void	delete_heredoc(t_shell *shell)
 	}
 }
 
-void	return_error(char *token, char *msg, t_shell *shell, int status)
+int	return_error(char *msg, t_shell *shell, int status)
 {
-	if (token)
-		ft_printfd(2, "%s: %s\n", token, msg);
-	else
+	(void)shell;
+	if (msg)
 		ft_printfd(2, "%s\n", msg);
 	close_all(shell);
 	delete_heredoc(shell);
@@ -113,11 +112,9 @@ void	return_error(char *token, char *msg, t_shell *shell, int status)
 	return (status);
 }
 
-void exit_error(char *token, char *msg, t_shell *shell, int status)
+void	exit_error(char *msg, t_shell *shell, int status)
 {
-	if (token)
-		ft_printfd(2, "%s: %s\n", token, msg);
-	else
+	if (msg)
 		ft_printfd(2, "%s\n", msg);
 	close_all(shell);
 	delete_heredoc(shell);

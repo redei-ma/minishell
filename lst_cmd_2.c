@@ -6,13 +6,13 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:20:09 by renato            #+#    #+#             */
-/*   Updated: 2025/03/22 22:50:07 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/23 00:54:31 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	handle_fdout(char *token, char c)
+int	handle_fdout(char *token, char c, t_shell *shell)
 {
 	int	fd;
 
@@ -23,24 +23,25 @@ int	handle_fdout(char *token, char c)
 		fd = open(token, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd < 0)
 	{
+		return_error("open faild", shell, 1);
 		//non sono sicuro quale messaggio mettere
-		if (errno == EACCES)
-			return_error("Error: permission denied\n", shell, 13);
-		else if (errno == ENOENT)
-			return_error("Error: file not found\n", shell, 2);
-		else if (errno == EISDIR)
-			return_error("Error: is a directory\n", shell, 126);
-		else if (errno == 	ENOSPC)
-			return_error("Error: no space left on device\n", shell, 28);
-		else if (errno == EROFS)
-			return_error("Error: read-only file system\n", shell, 30);
-		else
-			return_error("Error: failed to open file\n", shell, 1);
+		// if (errno == EACCES)
+		// 	return_error("Error: permission denied\n", shell, 13);
+		// else if (errno == ENOENT)
+		// 	return_error("Error: file not found\n", shell, 2);
+		// else if (errno == EISDIR)
+		// 	return_error("Error: is a directory\n", shell, 126);
+		// else if (errno == 	ENOSPC)
+		// 	return_error("Error: no space left on device\n", shell, 28);
+		// else if (errno == EROFS)
+		// 	return_error("Error: read-only file system\n", shell, 30);
+		// else
+		// 	return_error("Error: failed to open file\n", shell, 1);
 	}
 	return (fd);
 }
 
-int	handle_fdin(char *token)
+int	handle_fdin(char *token, t_shell *shell)
 {
 	int	fd;
 
@@ -48,7 +49,7 @@ int	handle_fdin(char *token)
 	if (fd < 0)
 	{
 		//non sono sicuro dquale messaggio stamapre
-		return_error(token, strerror(errno), shell, errno);
+		return_error("open faild", shell, 1);
 	}
 	return fd;
 }
@@ -111,7 +112,7 @@ int	handle_heredoc(char *token, t_shell *shell)
 		;
 	free(limiter);
 	close(fd);
-	fd = handle_fdin(filename);
+	fd = handle_fdin(filename, shell);
 	free(filename);
 	return (fd);
 }

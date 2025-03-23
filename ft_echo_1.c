@@ -6,11 +6,23 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 21:52:54 by renato            #+#    #+#             */
-/*   Updated: 2025/03/22 00:07:14 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/23 01:30:00 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	handle_variable(char *str, int i, t_shell *shell)
+{
+	if (str[i + 1] == '?')
+	{
+		if (handle_exit_status(shell) == -1)
+			return (-1);
+		return (i + 2);
+	}
+	else
+		return (handle_env_variable(str, i, shell));
+}
 
 int	handle_quotes(char c, int *in_single_quote, int *in_double_quote)
 {
@@ -48,7 +60,7 @@ int	str_vars(char *str, t_shell *shell)
 		}
 		else
 		{
-			write(shell->cmds->file_o, &str[i], 1);
+			write_to_fd(shell, &str[i], 1);
 			i++;
 		}
 	}
@@ -85,7 +97,7 @@ void	ft_echo(t_shell *shell)
 		{
 			str_vars(shell->cmds->args[i + 1], shell);
 			if (shell->cmds->args[i + 2])
-				write(shell->cmds->file_o, " ", 1);
+				write_to_fd(shell, " ", 1);
 			i++;
 		}
 	}
@@ -95,9 +107,9 @@ void	ft_echo(t_shell *shell)
 		{
 			str_vars(shell->cmds->args[i], shell);
 			if (shell->cmds->args[i + 1])
-				write(shell->cmds->file_o, " ", 1);
+				write_to_fd(shell, " ", 1);
 			i++;
 		}
-		write(shell->cmds->file_o, "\n", 1);
+		write_to_fd(shell, "\n", 1);
 	}
 }

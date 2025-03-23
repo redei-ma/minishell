@@ -18,7 +18,9 @@ SRC =	main.c \
 		ft_echo_2.c \
 		ft_export.c \
 		ft_minisplit.c \
-		utils.c
+		error.c \
+		utils.c \
+		executable.c
 
 LIBFT_DIR = ./libft
 LIBFT = ./libft/libft.a
