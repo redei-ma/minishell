@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:35:37 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/23 03:13:29 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/24 00:56:39 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ int	main(int ac, char **av, char **envp)
 	shell->piper = ft_calloc(1, sizeof(t_pipex));
 	if (!shell->piper)
 		return (free(shell), ft_printfd(2, "Error, Malloc faild"), 1);
-	set_shell(shell, envp);
+	init_env(shell, envp);
 	while (1)
 		loop_line(shell);
 	// loop_line(shell);
-	return (0);
+	exit_all("Si e chiuso il programma", shell, 0); //da togliere
 }

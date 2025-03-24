@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:17:38 by renato            #+#    #+#             */
-/*   Updated: 2025/03/23 03:42:06 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/23 17:46:36 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,12 +61,12 @@ void	pipe_manager(t_shell *shell, char **tokens, int *i)
 	else if (tokens[*i + 1])
 	{
 		shell->cmds->next = ft_newcmd(shell);
-		shell->piper->fds = ft_realloc(shell->piper->fds, shell->piper->n_pipes * sizeof(int[2]), (shell->piper->n_pipes + 1) * sizeof(int[2]));
+		shell->piper->fds = ft_realloc(shell->piper->fds, (shell->piper->n_pipes + 1) * sizeof(int[2]), (shell->piper->n_pipes + 2) * sizeof(int[2]));
 		if (!shell->piper->fds)
-			exit_error("Error: malloc failed\n", shell, 1);
+			exit_all("Error: malloc failed\n", shell, 1);
 		if (pipe(shell->piper->fds[shell->piper->n_pipes]) < 0)
 			// non sono sicuro di dover fare exit o solo stampare un messaggio
-			exit_error("Error: pipe failed\n", shell, 1);
+			exit_all("Error: pipe failed\n", shell, 1);
 		if (shell->cmds->file_o == -1)
 			shell->cmds->file_o = shell->piper->fds[shell->piper->n_pipes][1];
 		shell->cmds->next->file_i = shell->piper->fds[shell->piper->n_pipes][0];
@@ -74,7 +74,7 @@ void	pipe_manager(t_shell *shell, char **tokens, int *i)
 		shell->cmds = shell->cmds->next;
 	}
 	else
-		//exit_error a piacere
+		//exit_msg a piacere
 		exit(1);
 }
 
@@ -84,7 +84,7 @@ t_cmd	*ft_newcmd(t_shell *shell)
 
 	new = malloc(sizeof(t_cmd));
 	if (!new)
-		exit_error("Error: malloc failed\n", shell, 1);
+		exit_all("Error: malloc failed\n", shell, 1);
 	new->cmd = NULL;
 	new->args = NULL;
 	new->file_i = -1;
@@ -113,7 +113,7 @@ void	parse_cmds(char **tokens, t_shell *shell)
 			{
 				shell->cmds->cmd = ft_strdup(tokens[i]);
 				if (!shell->cmds->cmd)
-					exit_error("Error: malloc failed\n", shell, 1);
+					exit_all("Error: malloc failed\n", shell, 1);
 			}
 		}
 		else if (tokens[i][0] == '|')
@@ -126,7 +126,7 @@ void	parse_cmds(char **tokens, t_shell *shell)
 		{
 			shell->cmds->cmd = ft_strdup(tokens[i]);
 			if (!shell->cmds->cmd)
-				exit_error("Error: malloc failed\n", shell, 1);
+				exit_all("Error: malloc failed\n", shell, 1);
 		}
 		else
 			add_arg(&shell->cmds->args, tokens[i], shell);

@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 20:40:21 by renato            #+#    #+#             */
-/*   Updated: 2025/03/22 22:46:53 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/23 17:46:14 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	remove_quotes(char **str, t_shell *shell)
 	}
 	*str = ft_realloc(*str, old_len + 1, new_len + 1);
 	if (!*str)
-		exit_error("Error: malloc failed\n", shell, 1);
+		exit_all("Error: malloc failed\n", shell, 1);
 }
 
 void	delete_quotes(t_cmd *cmds, t_shell *shell)

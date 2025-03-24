@@ -6,24 +6,11 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:23:27 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/23 01:02:16 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/23 17:51:12 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
-
-char	*already_path(char *cmd)
-{
-	char	*path;
-
-	path = ft_strdup(cmd);
-	if (!path)
-		return (NULL);
-	if (access(cmd, F_OK) == 0)
-		return (path);
-	free(path);
-	return (NULL);
-}
 
 char	*test_path(char **cmd_path, char *cmd, int j)
 {

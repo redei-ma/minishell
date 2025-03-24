@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:12:06 by renato            #+#    #+#             */
-/*   Updated: 2025/03/22 22:46:53 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/23 17:35:57 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	set_var(t_shell *shell, char *input, char *format, ...)
 	i = 0;
 	spaced =  ft_calloc(count_spec_char(input), sizeof(char));
 	if (!spaced)
-		exit_error("Error: malloc failed\n", shell, 1);
+		exit_all("Error: malloc failed\n", shell, 1);
 	va_list args;
 	va_start(args, format);
 	while (format[i])

@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/23 01:29:41 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/24 13:19:42 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 typedef struct s_pipex
 {
 	pid_t	*pids;
+	int		n_pids;
 	int		(*fds)[2];
 	int		n_pipes;
 }	t_pipex;
@@ -46,18 +47,20 @@ typedef struct s_shell
 	int 	max;
 	char	*input;
 	char	**tokens;
+	char	**heredocs;
 	int		num_heredoc;
 }	t_shell;
 
 extern int exit_status;
 
 // setting.c
+void	set_shell(t_shell *shell);
 void	loop_line(t_shell *shell);
 void	init_env(t_shell *shell, char **envp);
-void	set_shell(t_shell *shell, char **envp);
 
 // parsing_1.c
 void	in_quotes(char **input, t_shell *shell);
+void	remove_spaces(char **input, int *i, char c, t_shell *shell);
 void	find_unclosed_pipe(char **input, int *i, t_shell *shell);
 void	find_unclosed_quotes(char **input, int *i, t_shell *shell);
 void	check_unclosed(char **input, t_shell *shell);
@@ -134,7 +137,6 @@ int		srcd_env(t_shell *shell, const char *name);
 void	ft_export(t_shell *shell, char **args);
 
 // utils.c
-char	*already_path(char *cmd);
 char	*test_path(char **cmd_path, char *cmd, int j);
 char 	*find_command_path(char *path, char *cmd);
 char	*get_path(char *cmd, char **envp);
@@ -144,9 +146,10 @@ int		is_empty(char *str);
 // error.c
 void	free_all_2(t_shell *shell);
 void	free_all(t_shell *shell);
-void	close_all(t_shell *shell);
 void	delete_heredoc(t_shell *shell);
-int		return_error(char *msg, t_shell *shell, int status);
-void	exit_error(char *msg, t_shell *shell, int status);
+void	close_all(t_shell *shell);
+int		return_partial(char *msg, t_shell *shell, int status);
+void	exit_partial(char *msg, t_shell *shell, int status);
+void	exit_all(char *msg, t_shell *shell, int status);
 
 #endif

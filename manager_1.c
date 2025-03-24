@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 00:04:33 by renato            #+#    #+#             */
-/*   Updated: 2025/03/23 01:58:01 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/24 00:12:25 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,57 +37,62 @@ void	cmd_find_son(t_shell *shell, char *cmd)
 	else if (is_env(cmd))
 		ft_export(shell, shell->cmds->args);
 	else
-	{
 		ft_exec(shell);
-		exit_error(NULL, shell, 127); //che messaggio va stampato? o lo fa gia subito dopo execve?
-	}
 }
 
 void	fork_manger(t_shell *shell)
 {
 	int i;
 
-	i = 1;
+	i = shell->piper->n_pids;
 	while (shell->cmds)
 	{
-		shell->piper->pids = ft_realloc(shell->piper->pids, (i - 1) * sizeof(pid_t), i * sizeof(pid_t));
+		shell->piper->pids = ft_realloc(shell->piper->pids, (i + 1) * sizeof(pid_t), (i + 2) * sizeof(pid_t));
 		if (!shell->piper->pids)
-			exit_error("Error: malloc failed\n", shell, 1);
-		shell->piper->pids[i - 1] = fork();
-		if (shell->piper->pids[i - 1] == -1)
-			exit(1); // exit_error da gestire
-		else if (shell->piper->pids[i - 1] == 0)
+			exit_all("Error: malloc failed\n", shell, 1);
+		shell->piper->pids[i] = fork();
+		if (shell->piper->pids[i] == -1)
+			exit_all("Error: fork failed\n", shell, 1);
+		else if (shell->piper->pids[i] == 0)
 		{
 			cmd_find_son(shell, shell->cmds->cmd);
-			//chiusura tutto per figlio
-			exit_error(NULL, shell, 1); //che messaggio va stampato? o lo fa gia subito dopo execve?
+			exit(0);
+			// exit_partial(NULL, shell, 0);
 		}
 		shell->cmds = shell->cmds->next;
 		i++;
 	}
+	shell->piper->n_pids = i;
+	close_all(shell);
+	// ft_printfd(2, "All children have exited\n");
 	while (wait(NULL) > 0)
 		;
+	// ft_printfd(2, "While finish\n");
+	//controllare uscita figlio
 }
 
 void	cmd_find_dad(t_shell *shell, char *cmd)
 {
+	pid_t	pid;
+	
 	if (is_builtin(cmd))
 		exe_builtin(shell);
 	else if (is_env(cmd))
 		ft_export(shell, &shell->cmds->cmd);
 	else
 	{
-		shell->piper->pids = ft_realloc(shell->piper->pids, 0, 1 * sizeof(pid_t));
-		if (!shell->piper->pids)
-			exit_error("Error: malloc failed\n", shell, 1);
-		shell->piper->pids[0] = fork();
-		if (shell->piper->pids[0] == -1)
-			exit(1); // exit_error da gestire
-		else if (shell->piper->pids[0] == 0)
-		{
+		// shell->piper->pids = ft_realloc(shell->piper->pids, 1 * sizeof(pid_t), 2 * sizeof(pid_t));
+		// if (!shell->piper->pids)
+		// 	exit_all("Error: malloc failed\n", shell, 1);
+		// shell->piper->pids[0] = fork();
+		// if (shell->piper->pids[0] == -1)
+		// 	exit_msg("Error: fork failed\n", shell, 1);
+		// else if (shell->piper->pids[0] == 0)
+		pid = fork();
+		if (pid == -1)
+			exit_all("Error: fork failed\n", shell, 1);
+		else if (pid == 0)
 			ft_exec(shell);
-			exit_error(NULL, shell, 127); //che messaggio va stampato? o lo fa gia subito dopo execve?
-		}
 		wait(NULL);
 		//bisogna cercare lo stato di uscita del figlio e aggiornarlo
 	}
@@ -103,5 +108,6 @@ void	cmd_manage(t_shell *shell)
 		cmd_find_dad(shell, shell->cmds->cmd);
 	else if (num_cmd > 1)
 		fork_manger(shell);
+	//return_partial(NULL, shell, 0);
 	//chiusura tutto per padre
 }

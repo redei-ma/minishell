@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 22:12:52 by renato            #+#    #+#             */
-/*   Updated: 2025/03/23 01:42:00 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/24 00:33:03 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,20 @@
 
 void	ft_exit(t_shell *shell, char **args)
 {
-	int	exit_code = 0;
+	int	exit_code;
 
-	if (!shell)
-		return ;
-	write(1, "exit\n", 5);
-	if (args[0])
+	exit_code = 0;
+	if (args && args[0])
 	{
 		if (args[1])
-		{
-			write(2, "exit: too many arguments\n", 36);
-			return ;
-		}
+			return_partial("exit: too many arguments", shell, 36);
 		else if (ft_natoi(args[0]) == 0 && (args[0][0] != 0 || args[0][0] != '\0'))
-		{
-			write(2, "exit: numeric argument required\n", 44);
-			//exit_code = 255;
-		}
+			return_partial("exit: numeric argument required", shell, 44);
 		else
 			exit_code = ft_natoi(args[0]) % 256;
 	}
-	//free_shell(shell);
-	exit(exit_code);
+	ft_printfd(1, "exit\n");
+	exit_all(NULL, shell, exit_code);
 }
 
 void	ft_env(t_shell *shell)
@@ -43,8 +35,6 @@ void	ft_env(t_shell *shell)
 	int	i;
 
 	i = 0;
-	if (!shell)
-		exit(1);
 	while (shell->env[i])
 	{
 		if (find_eq_sn(shell->env[i]) != -1)
@@ -60,7 +50,7 @@ void	ft_unset(t_shell *shell, char **args)
 	int	j;
 
 	if (!args[0])
-		exit(1);
+		return_partial("unset: too few arguments", shell, 1);
 	i = 0;
 	while (args[i])
 	{
@@ -86,19 +76,19 @@ void	ft_pwd(t_shell *shell)
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 		ft_printfd_shell(shell, "%s\n", cwd);
 	else
-	{
-		perror("pwd");
-		exit(1);
-	}
+		return_partial("Error: pwd", shell, 1);
 }
 void	ft_cd(char **string, t_shell *shell)
 {
 	if (!string)
-		return_error("cd: too few arguments", shell, 1);
+		return_partial("cd: too few arguments", shell, 1);
 	else if (ft_matlen(string) != 1)
-		return_error("cd: too many arguments", shell, 1);
+		return_partial("cd: too many arguments", shell, 1);
 	else if (ft_strlen(string[0]) == 0)
-		return_error("cd: string not in pwd: ", shell, 1);
+		return_partial("cd: string not in pwd: ", shell, 1);
 	else if (chdir(string[0]) != 0)
-		return_error("cd: no such file or directory: ", shell, 1);
+		return_partial("cd: no such file or directory: ", shell, 1);
+	// capire se devo chiudere gli fd o no
+	close_all(shell);
+	// aggiorno la variabile globale exit_code
 }

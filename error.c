@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 19:33:11 by renato            #+#    #+#             */
-/*   Updated: 2025/03/23 02:33:50 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/23 20:42:50 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,16 @@
 
 void	free_all_2(t_shell *shell)
 {
-	if (shell->env)
-		ft_free_char_mat(shell->env);
 	if (shell->input)
+	{
 		free(shell->input);
+		shell->input = NULL;
+	}
 	if (shell->tokens)
+	{
 		ft_free_char_mat(shell->tokens);
+		shell->tokens = NULL;
+	}
 }
 
 void	free_all(t_shell *shell)
@@ -38,24 +42,47 @@ void	free_all(t_shell *shell)
 		free(tmp);
 		tmp = tmp2;
 	}
+	shell->cmds = NULL;
 	if (shell->piper)
 	{
 		if (shell->piper->pids)
+		{
 			free(shell->piper->pids);
+			shell->piper->pids = NULL;
+		}
 		if (shell->piper->fds)
+		{
 			ft_freemat((void **)shell->piper->fds, shell->piper->n_pipes);
-		free(shell->piper);
+			shell->piper->fds = NULL;
+		}
 	}
 	free_all_2(shell);
 }
 
-void	close_all(t_shell *shell)
+void	delete_heredoc(t_shell *shell)
 {
-	int i;
+	int	i;
 
+	i = 0;
+	if (shell->heredocs)
+	{
+		while (shell->heredocs[i])
+		{
+			unlink(shell->heredocs[i]);
+			free(shell->heredocs[i]);
+			i++;
+		}
+		free(shell->heredocs);
+		shell->heredocs = NULL;
+	}
+}
+void	close_fds(t_shell *shell)
+{
+	int	i;
+
+	i = 0;
 	if (shell->piper)
 	{
-		i = 0;
 		while (i < shell->piper->n_pipes)
 		{
 			safe_close(shell->piper->fds[i][0]);
@@ -63,46 +90,23 @@ void	close_all(t_shell *shell)
 			i++;
 		}
 	}
+}
+
+
+void	close_all(t_shell *shell)
+{
+	close_fds(shell);
 	while (shell->cmds)
 	{
-		//safe_close(shell->cmds->file_i);
-		//safe_close(shell->cmds->file_o);
+		safe_close(shell->cmds->file_i);
+		safe_close(shell->cmds->file_o);
 		safe_close(shell->cmds->file_a);
 		shell->cmds = shell->cmds->next;
 	}
 }
 
-void	delete_heredoc(t_shell *shell)
+int	return_partial(char *msg, t_shell *shell, int status)
 {
-	char	*filename;
-	char	*num;
-	int		i;
-
-	i = 0;
-	while (i <= shell->num_heredoc)
-	{
-		num = ft_itoa(i);
-		if (!num)
-		{
-			ft_printfd(2, "Error: malloc failed\n");
-			exit(1);
-		}
-		filename = ft_strjoin("heredoc_", num);
-		free(num);
-		if (!filename)
-		{
-			ft_printfd(2, "Error: malloc failed\n");
-			exit(1);
-		}
-		unlink(filename);
-		free(filename);
-		i++;
-	}
-}
-
-int	return_error(char *msg, t_shell *shell, int status)
-{
-	(void)shell;
 	if (msg)
 		ft_printfd(2, "%s\n", msg);
 	close_all(shell);
@@ -112,13 +116,36 @@ int	return_error(char *msg, t_shell *shell, int status)
 	return (status);
 }
 
-void	exit_error(char *msg, t_shell *shell, int status)
+void	exit_partial(char *msg, t_shell *shell, int status)
 {
 	if (msg)
 		ft_printfd(2, "%s\n", msg);
 	close_all(shell);
 	delete_heredoc(shell);
 	free_all(shell);
+	exit_status = status;
+	exit(status);
+}
+
+void	exit_all(char *msg, t_shell *shell, int status)
+{
+	if (msg)
+		ft_printfd(2, "%s\n", msg);
+	close_all(shell);
+	delete_heredoc(shell);
+	free_all(shell);
+	if (shell->env)
+	{
+		ft_free_char_mat(shell->env);
+		shell->env = NULL;
+	}
+	if (shell->piper)
+	{
+		free(shell->piper);
+		shell->piper = NULL;
+	}
+	free(shell);
+	shell = NULL;
 	exit_status = status;
 	exit(status);
 }

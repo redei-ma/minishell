@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 15:51:12 by renato            #+#    #+#             */
-/*   Updated: 2025/03/22 22:46:53 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/23 17:46:14 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ void	add_arg(char ***args, char *token, t_shell *shell)
 	{
 		*args = (char **)ft_calloc(2, sizeof(char *));
 		if (!*args)
-			exit_error("Error: malloc failed\n", shell, 1);
+			exit_all("Error: malloc failed\n", shell, 1);
 		(*args)[0] = ft_strdup(token);
 		if (!(*args)[0])
-			exit_error("Error: malloc failed\n", shell, 1);
+			exit_all("Error: malloc failed\n", shell, 1);
 	}
 	else
 	{
@@ -32,9 +32,9 @@ void	add_arg(char ***args, char *token, t_shell *shell)
 		count++;
 	*args = (char **)ft_realloc(*args, (count + 1) * sizeof(char *), (count + 2) * sizeof( char *));
 	if (!*args)
-		exit_error("Error: malloc failed\n", shell, 1);
+		exit_all("Error: malloc failed\n", shell, 1);
 	(*args)[count] = ft_strdup(token);
 	if (!(*args)[count])
-		exit_error("Error: malloc failed\n", shell, 1);
+		exit_all("Error: malloc failed\n", shell, 1);
 	}
 }
