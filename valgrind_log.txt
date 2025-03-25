@@ -1,0 +1,47 @@
+==1967131== Memcheck, a memory error detector
+==1967131== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==1967131== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==1967131== Command: ./minishell
+==1967131== Parent PID: 1636954
+==1967131== 
+==1967131== 
+==1967131== FILE DESCRIPTORS: 7 open at exit.
+==1967131== Open file descriptor 103: /usr/share/code/v8_context_snapshot.bin
+==1967131==    <inherited from parent>
+==1967131== 
+==1967131== Open file descriptor 43: /nfs/homes/redei-ma/.config/Code/logs/20250325T160121/ptyhost.log
+==1967131==    <inherited from parent>
+==1967131== 
+==1967131== Open AF_UNIX socket 29: <unknown>
+==1967131==    <inherited from parent>
+==1967131== 
+==1967131== Open file descriptor 3: /nfs/homes/redei-ma/Minishell/renato/valgrind_log.txt
+==1967131==    <inherited from parent>
+==1967131== 
+==1967131== Open file descriptor 2: /dev/pts/0
+==1967131==    <inherited from parent>
+==1967131== 
+==1967131== Open file descriptor 1: /dev/pts/0
+==1967131==    <inherited from parent>
+==1967131== 
+==1967131== Open file descriptor 0: /dev/pts/0
+==1967131==    <inherited from parent>
+==1967131== 
+==1967131== 
+==1967131== HEAP SUMMARY:
+==1967131==     in use at exit: 204,651 bytes in 218 blocks
+==1967131==   total heap usage: 507 allocs, 289 frees, 228,802 bytes allocated
+==1967131== 
+==1967131== LEAK SUMMARY:
+==1967131==    definitely lost: 0 bytes in 0 blocks
+==1967131==    indirectly lost: 0 bytes in 0 blocks
+==1967131==      possibly lost: 0 bytes in 0 blocks
+==1967131==    still reachable: 0 bytes in 0 blocks
+==1967131==         suppressed: 204,651 bytes in 218 blocks
+==1967131== 
+==1967131== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+--1967131-- 
+--1967131-- used_suppression:     57 RL readline leaks readline.supp:2 suppressed: 200,594 bytes in 214 blocks
+--1967131-- used_suppression:      4 RL add_history leaks readline.supp:8 suppressed: 4,057 bytes in 4 blocks
+==1967131== 
+==1967131== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

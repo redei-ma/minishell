@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 00:04:33 by renato            #+#    #+#             */
-/*   Updated: 2025/03/24 19:32:53 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/25 19:29:24 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,10 @@ void	cmd_find_son(t_shell *shell, char *cmd)
 	else if (is_env(cmd))
 		ft_export(shell, shell->cmds->args);
 	else
+	{
+		signal(SIGINT, handle_ctrl_c_exec);
 		ft_exec(shell);
+	}
 }
 
 void	fork_manger(t_shell *shell)
@@ -57,18 +60,16 @@ void	fork_manger(t_shell *shell)
 		else if (shell->piper->pids[i] == 0)
 		{
 			cmd_find_son(shell, shell->cmds->cmd);
-			exit(0);
-			// exit_partial(NULL, shell, 0);
+			exit_partial(NULL, shell, 0);
 		}
 		shell->cmds = shell->cmds->next;
 		i++;
 	}
 	shell->piper->n_pids = i;
 	close_all(shell);
-	// ft_printfd(2, "All children have exited\n");
 	while (wait(NULL) > 0)
 		;
-	// ft_printfd(2, "While finish\n");
+	signal(SIGINT, handle_ctrl_c_exec);
 	//controllare uscita figlio
 }
 
@@ -82,12 +83,14 @@ void	cmd_find_dad(t_shell *shell, char *cmd)
 		ft_export(shell, &shell->cmds->cmd);
 	else
 	{
+		signal(SIGINT, handle_ctrl_c_exec);
 		pid = fork();
 		if (pid == -1)
 			exit_all("Error: fork failed\n", shell, 1);
 		else if (pid == 0)
 			ft_exec(shell);
 		wait(NULL);
+		signal(SIGINT, handle_ctrl_c);
 		//bisogna cercare lo stato di uscita del figlio e aggiornarlo
 	}
 }
@@ -102,6 +105,6 @@ void	cmd_manage(t_shell *shell)
 		cmd_find_dad(shell, shell->cmds->cmd);
 	else if (num_cmd > 1)
 		fork_manger(shell);
-	//return_partial(NULL, shell, 0);
+	return_partial(NULL, shell, 0);
 	//chiusura tutto per padre
 }

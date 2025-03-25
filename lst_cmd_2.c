@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:20:09 by renato            #+#    #+#             */
-/*   Updated: 2025/03/24 17:00:50 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/25 20:34:56 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,17 @@ int	process_heredoc_line(int fd, char *limiter)
 
 	ft_printfd(1, "> ");
 	line = get_next_line(0);
+	if (g_exit_status == 130)
+	{
+		if (line)
+			free(line);
+		return (404);
+	}
 	if (!line)
+	{
+		ft_printf("merdeeee\n"); //strivere quello cgha fa bash con ctrl d
 		return (0);
+	}
 	if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
 		return (free(line), 0);
 	ft_printfd(fd, "%s", line);
@@ -96,6 +105,7 @@ int	process_heredoc_line(int fd, char *limiter)
 
 int	handle_heredoc(char *token, t_shell *shell)
 {
+	int			control;
 	int			fd;
 	char		*limiter;
 	char		*filename;
@@ -113,8 +123,14 @@ int	handle_heredoc(char *token, t_shell *shell)
 	limiter = ft_strjoin(token, "\n");
 	if (!limiter)
 		exit_all("Error: malloc failed\n", shell, 1);
-	while (process_heredoc_line(fd, limiter))
-		;
+	while (1)
+	{
+		control = process_heredoc_line(fd, limiter);
+		if (control == 404)
+			return (control);
+		else if (control == 0)
+			break ;
+	}
 	free(limiter);
 	close(fd);
 	fd = handle_fdin(filename, shell);

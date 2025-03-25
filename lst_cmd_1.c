@@ -6,13 +6,13 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:17:38 by renato            #+#    #+#             */
-/*   Updated: 2025/03/24 17:02:08 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/25 20:36:29 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	fileout_manager(t_shell *shell, char **tokens, int *i)
+int	fileout_manager(t_shell *shell, char **tokens, int *i)
 {
 	int	j;
 
@@ -25,10 +25,12 @@ void	fileout_manager(t_shell *shell, char **tokens, int *i)
 		shell->cmds->file_a = handle_fdout(tokens[*i], 'a', shell);
 	else
 		//devo stampare syntax error
-		exit_partial("syntax error near unexpected token `>>'\n", shell, 2);
+		// exit_partial("syntax error near unexpected token `>>'\n", shell, 2);
+		return (404);
+	return (0);
 }
 
-void	filein_manager(t_shell *shell, char **tokens, int *i)
+int	filein_manager(t_shell *shell, char **tokens, int *i)
 {
 	int	j;
 
@@ -41,10 +43,14 @@ void	filein_manager(t_shell *shell, char **tokens, int *i)
 		shell->cmds->file_i = handle_heredoc(tokens[*i], shell);
 	else
 		//devo stampare syntax error
-		exit_partial("syntax error near unexpected token `<<'\n", shell, 2);
+		// exit_partial("syntax error near unexpected token `<<'\n", shell, 2);
+		return (404);
+	if (shell->cmds->file_i == 404)
+		return (404);
+	return (0);
 }
 
-void	pipe_manager(t_shell *shell, char **tokens, int *i)
+int	pipe_manager(t_shell *shell, char **tokens, int *i)
 {
 	int	j;
 
@@ -53,13 +59,16 @@ void	pipe_manager(t_shell *shell, char **tokens, int *i)
 		j++;
 	if (j > 3)
 		//devo stampare syntax error
-		exit_partial("syntax error near unexpected token `||'\n", shell, 2);
+		// exit_partial("syntax error near unexpected token `||'", shell, 2);
+		return (404);
 	else if (j > 2)
 		//devo stampare i caratterei a indice 2 e 3 in syntax error
-		exit_partial("syntax error near unexpected token `|'\n", shell, 2);
+		// exit_partial("syntax error near unexpected token `|'", shell, 2);
+		return (404);
 	else if (j > 1)
 		//devo stampare il carattere a indice 2 in syntax error
-		exit_partial("syntax error near unexpected token `|'\n", shell, 2);
+		// return_partial("syntax error near unexpected token `|'", shell, 2);
+		return (404);
 	else if (tokens[*i + 1])
 	{
 		shell->cmds->next = ft_newcmd(shell);
@@ -78,6 +87,7 @@ void	pipe_manager(t_shell *shell, char **tokens, int *i)
 	else
 		//exit_msg a piacere
 		exit(1);
+	return (0);
 }
 
 t_cmd	*ft_newcmd(t_shell *shell)
@@ -96,14 +106,14 @@ t_cmd	*ft_newcmd(t_shell *shell)
 	return (new);
 }
 
-void	parse_cmds(char **tokens, t_shell *shell)
+int	parse_cmds(char **tokens, t_shell *shell)
 {
-	t_cmd	*head;
 	int		i;
+	int		control = 0;
 
 	i = 0;
 	shell->cmds = ft_newcmd(shell);
-	head = shell->cmds;
+	shell->head = shell->cmds;
 	while (tokens[i])
 	{
 		if (is_env(tokens[i]))
@@ -119,11 +129,11 @@ void	parse_cmds(char **tokens, t_shell *shell)
 			}
 		}
 		else if (tokens[i][0] == '|')
-			pipe_manager(shell, tokens, &i);
+			control = pipe_manager(shell, tokens, &i);
 		else if (tokens[i][0] == '<')
-			filein_manager(shell, tokens, &i);
+			control =filein_manager(shell, tokens, &i);
 		else if (tokens[i][0] == '>')
-			fileout_manager(shell, tokens, &i);
+			control = fileout_manager(shell, tokens, &i);
 		else if (!shell->cmds->cmd)
 		{
 			shell->cmds->cmd = ft_strdup(tokens[i]);
@@ -132,8 +142,11 @@ void	parse_cmds(char **tokens, t_shell *shell)
 		}
 		else
 			add_arg(&shell->cmds->args, tokens[i], shell);
+		if (control)
+			return(control);
 		if (!tokens[++i])
 			break ;
 	}
-	shell->cmds = head;
+	shell->cmds = shell->head;
+	return (0);
 }

@@ -92,8 +92,8 @@ void ft_exec(t_shell *shell)
 		exit_all("Error: malloc failed\n", shell, 1);
 	// devo liberare la struttura del figlio? in pipex non mi pare lo facciano
 	close_all(shell);
-	// delete_heredoc(shell);
-	// free_all(shell);
+	delete_heredoc(shell);
+	free_all(shell);
 	execve(full_path, command, shell->env);
 	free(full_path);
 	ft_free_char_mat(command);

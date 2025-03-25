@@ -6,12 +6,21 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 17:39:04 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/24 19:31:54 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/25 20:37:41 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <readline/readline.h>
+
+void	handle_ctrl_c_exec(int signum)
+{
+	(void)signum;
+	write(1, "\n", 1);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	g_exit_status = 130;
+}
 
 void	handle_ctrl_c(int signum)
 {
@@ -19,8 +28,7 @@ void	handle_ctrl_c(int signum)
 	write(1, "\n", 1);
 	rl_replace_line("", 0);
 	rl_on_new_line();
-	rl_cleanup_after_signal();
-	rl_free_line_state();
+	// rl_redisplay();
 	g_exit_status = 130;
 }
 
