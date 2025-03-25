@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_cmd_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:20:09 by renato            #+#    #+#             */
-/*   Updated: 2025/03/23 18:29:01 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/24 17:00:50 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	handle_fdin(char *token, t_shell *shell)
 		//non sono sicuro dquale messaggio stamapre
 		exit_partial("open faild", shell, 1);
 	}
-	return fd;
+	return (fd);
 }
 
 char	*search_name(t_shell *shell)
@@ -79,7 +79,7 @@ char	*search_name(t_shell *shell)
 	return (filename);
 }
 
-int process_heredoc_line(int fd, char *limiter)
+int	process_heredoc_line(int fd, char *limiter)
 {
 	char	*line;
 

@@ -1,7 +1,8 @@
 {
     "configurations": [
+
     {
-        "name": "(lldb) Launch",
+        "name": "(gdb) Launch",
         "type": "cppdbg",
         "request": "launch",
         "program": "${workspaceFolder}/minishell",
@@ -10,7 +11,8 @@
         "cwd": "${fileDirname}",
         "environment": [],
         "externalConsole": false,
-        "MIMode": "lldb"
+        "MIMode": "gdb",
+        "setupCommands": []
     }
     ]
 }

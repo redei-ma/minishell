@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manager_1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 00:04:33 by renato            #+#    #+#             */
-/*   Updated: 2025/03/24 00:12:25 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/24 19:32:53 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,13 @@ void	cmd_find_son(t_shell *shell, char *cmd)
 
 void	fork_manger(t_shell *shell)
 {
-	int i;
+	int	i;
 
 	i = shell->piper->n_pids;
 	while (shell->cmds)
 	{
-		shell->piper->pids = ft_realloc(shell->piper->pids, (i + 1) * sizeof(pid_t), (i + 2) * sizeof(pid_t));
+		shell->piper->pids = ft_realloc(shell->piper->pids,
+			(i + 1) * sizeof(pid_t), (i + 2) * sizeof(pid_t));
 		if (!shell->piper->pids)
 			exit_all("Error: malloc failed\n", shell, 1);
 		shell->piper->pids[i] = fork();
@@ -74,20 +75,13 @@ void	fork_manger(t_shell *shell)
 void	cmd_find_dad(t_shell *shell, char *cmd)
 {
 	pid_t	pid;
-	
+
 	if (is_builtin(cmd))
 		exe_builtin(shell);
 	else if (is_env(cmd))
 		ft_export(shell, &shell->cmds->cmd);
 	else
 	{
-		// shell->piper->pids = ft_realloc(shell->piper->pids, 1 * sizeof(pid_t), 2 * sizeof(pid_t));
-		// if (!shell->piper->pids)
-		// 	exit_all("Error: malloc failed\n", shell, 1);
-		// shell->piper->pids[0] = fork();
-		// if (shell->piper->pids[0] == -1)
-		// 	exit_msg("Error: fork failed\n", shell, 1);
-		// else if (shell->piper->pids[0] == 0)
 		pid = fork();
 		if (pid == -1)
 			exit_all("Error: fork failed\n", shell, 1);

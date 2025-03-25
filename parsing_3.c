@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 20:40:21 by renato            #+#    #+#             */
-/*   Updated: 2025/03/23 17:46:14 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/24 16:56:17 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	remove_quotes(char **str, t_shell *shell)
 
 void	delete_quotes(t_cmd *cmds, t_shell *shell)
 {
-	int i;
+	int	i;
 
 	while (cmds)
 	{

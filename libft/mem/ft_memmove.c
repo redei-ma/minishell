@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_memmove.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 10:58:38 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/20 20:56:38 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/24 17:07:26 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	*ft_rev(void *dest, const void *src, size_t n)
 {
-	unsigned char	*tempd;
+	unsigned char		*tempd;
 	unsigned const char	*temps;
 
 	tempd = (unsigned char *)dest + (n - 1);

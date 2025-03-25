@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/24 13:19:42 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/24 18:06:58 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ typedef struct s_pipex
 
 typedef struct s_cmd
 {
-	char	*cmd;
-	char	**args;
-	int		file_i;
-	int		file_o;
-	int		file_a;
+	char			*cmd;
+	char			**args;
+	int				file_i;
+	int				file_o;
+	int				file_a;
 	struct s_cmd	*next;
 }	t_cmd;
 
@@ -44,14 +44,15 @@ typedef struct s_shell
 	t_cmd	*cmds;
 	t_pipex	*piper;
 	char	**env;
-	int 	max;
+	int		max;
 	char	*input;
 	char	**tokens;
 	char	**heredocs;
 	int		num_heredoc;
+	int		signal;
 }	t_shell;
 
-extern int exit_status;
+extern int	g_exit_status;
 
 // setting.c
 void	set_shell(t_shell *shell);
@@ -59,8 +60,9 @@ void	loop_line(t_shell *shell);
 void	init_env(t_shell *shell, char **envp);
 
 // parsing_1.c
-void	in_quotes(char **input, t_shell *shell);
 void	remove_spaces(char **input, int *i, char c, t_shell *shell);
+void	remove_spaces_special_chars(char **input, t_shell *shell);
+void	in_quotes(char **input, t_shell *shell);
 void	find_unclosed_pipe(char **input, int *i, t_shell *shell);
 void	find_unclosed_quotes(char **input, int *i, t_shell *shell);
 void	check_unclosed(char **input, t_shell *shell);
@@ -69,7 +71,7 @@ void	check_unclosed(char **input, t_shell *shell);
 void	copy_special_block(char **input, char *spaced, int *i, int *j);
 void	update_quotes(char c, int *in_single_quote, int *in_double_quote);
 int		count_spec_char(char *input);
-void	set_var(t_shell *shell, char *input, char *format, ...);
+// void	set_var(t_shell *shell, char *input, char *format, ...);
 void	set_spaces(char **input, t_shell *shell);
 
 // parsing_3.c
@@ -138,7 +140,7 @@ void	ft_export(t_shell *shell, char **args);
 
 // utils.c
 char	*test_path(char **cmd_path, char *cmd, int j);
-char 	*find_command_path(char *path, char *cmd);
+char	*find_command_path(char *path, char *cmd);
 char	*get_path(char *cmd, char **envp);
 int		ft_cmd_size(t_cmd *lst);
 int		is_empty(char *str);
@@ -151,5 +153,11 @@ void	close_all(t_shell *shell);
 int		return_partial(char *msg, t_shell *shell, int status);
 void	exit_partial(char *msg, t_shell *shell, int status);
 void	exit_all(char *msg, t_shell *shell, int status);
+
+// signal.c
+void	handle_ctrl_c(int signum);
+void	handle_ctrl_bl(int signum);
+void	interactive_ctrls(void);
+void	ni_ctrls(void);
 
 #endif

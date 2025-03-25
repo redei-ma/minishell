@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manager_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 22:12:52 by renato            #+#    #+#             */
-/*   Updated: 2025/03/24 00:33:03 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/24 17:00:25 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	ft_exit(t_shell *shell, char **args)
 	{
 		if (args[1])
 			return_partial("exit: too many arguments", shell, 36);
-		else if (ft_natoi(args[0]) == 0 && (args[0][0] != 0 || args[0][0] != '\0'))
+		else if (ft_natoi(args[0]) == 0
+			&& (args[0][0] != 0 || args[0][0] != '\0'))
 			return_partial("exit: numeric argument required", shell, 44);
 		else
 			exit_code = ft_natoi(args[0]) % 256;
@@ -73,11 +74,13 @@ void	ft_unset(t_shell *shell, char **args)
 void	ft_pwd(t_shell *shell)
 {
 	char	cwd[4096];
+
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 		ft_printfd_shell(shell, "%s\n", cwd);
 	else
 		return_partial("Error: pwd", shell, 1);
 }
+
 void	ft_cd(char **string, t_shell *shell)
 {
 	if (!string)

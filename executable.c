@@ -63,6 +63,8 @@ void ft_exec(t_shell *shell)
 	cmd = shell->cmds;
 	if (cmd->cmd[0] == '/')
 		full_path = already_path(cmd->cmd);
+	else if (cmd->cmd[0] == '.' && cmd->cmd[1] == '/')
+		full_path = already_path(cmd->cmd);
 	else
 		full_path = get_path(cmd->cmd, shell->env);
 	if (!full_path)

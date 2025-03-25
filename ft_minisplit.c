@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_minisplit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 17:47:13 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/22 19:03:11 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/24 16:58:56 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ static size_t	skip_quotes(const char *s)
 	return (i);
 }
 
-static size_t skip_space(const char *s, int *in_word)
+static size_t	skip_space(const char *s, int *in_word)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	while (s[i] && ft_isspace(s[i]))
@@ -39,7 +39,6 @@ static size_t skip_space(const char *s, int *in_word)
 		*in_word = 0;
 	return (i);
 }
-
 
 static size_t	ft_count_words(const char *s)
 {
@@ -52,7 +51,7 @@ static size_t	ft_count_words(const char *s)
 	{
 		s += skip_space(s, &in_word);
 		if (!*s)
-			break;
+			break ;
 		if (!in_word)
 		{
 			count++;
@@ -80,7 +79,7 @@ static char	**ft_allocate(char **dest, const char *s)
 		i = 0;
 		s += skip_space(s, NULL);
 		if (!*s)
-			break;
+			break ;
 		while (s[i] && (!ft_isspace(s[i])))
 		{
 			if (s[i] == '"' || s[i] == '\'')

@@ -1,7 +1,7 @@
 NAME = minishell
 CC = cc
 CFLAG = -Wall -Wextra -Werror -g
-VALGRIND = valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-origins=yes --log-file=valgrind-log.txt
+VALGRIND = valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --log-file=valgrind-log.txt
 SANITIZE = -fsanitize=address, -fsanitize=undefined
 
 SRC =	main.c \
@@ -21,6 +21,7 @@ SRC =	main.c \
 		ft_minisplit.c \
 		error.c \
 		utils.c \
+		signal.c \
 		executable.c
 
 LIBFT_DIR = ./libft

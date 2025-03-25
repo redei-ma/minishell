@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_cmd_3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 15:51:12 by renato            #+#    #+#             */
-/*   Updated: 2025/03/23 17:46:14 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/24 16:59:24 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	add_arg(char ***args, char *token, t_shell *shell)
 {
-	int count;
+	int	count;
 
 	if (!(*args))
 	{
@@ -27,14 +27,14 @@ void	add_arg(char ***args, char *token, t_shell *shell)
 	}
 	else
 	{
-	count = 0;
-	while ((*args)[count])
-		count++;
-	*args = (char **)ft_realloc(*args, (count + 1) * sizeof(char *), (count + 2) * sizeof( char *));
-	if (!*args)
-		exit_all("Error: malloc failed\n", shell, 1);
-	(*args)[count] = ft_strdup(token);
-	if (!(*args)[count])
-		exit_all("Error: malloc failed\n", shell, 1);
+		count = 0;
+		while ((*args)[count])
+			count++;
+		*args = (char **)ft_realloc(*args, (count + 1) * sizeof(char *), (count + 2) * sizeof( char *));
+		if (!*args)
+			exit_all("Error: malloc failed\n", shell, 1);
+		(*args)[count] = ft_strdup(token);
+		if (!(*args)[count])
+			exit_all("Error: malloc failed\n", shell, 1);
 	}
 }

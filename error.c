@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 19:33:11 by renato            #+#    #+#             */
-/*   Updated: 2025/03/23 20:42:50 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/24 17:51:27 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,19 @@
 
 void	free_all_2(t_shell *shell)
 {
+	if (shell->piper)
+	{
+		if (shell->piper->pids)
+		{
+			free(shell->piper->pids);
+			shell->piper->pids = NULL;
+		}
+		if (shell->piper->fds)
+		{
+			ft_freemat((void **)shell->piper->fds, shell->piper->n_pipes);
+			shell->piper->fds = NULL;
+		}
+	}
 	if (shell->input)
 	{
 		free(shell->input);
@@ -43,19 +56,6 @@ void	free_all(t_shell *shell)
 		tmp = tmp2;
 	}
 	shell->cmds = NULL;
-	if (shell->piper)
-	{
-		if (shell->piper->pids)
-		{
-			free(shell->piper->pids);
-			shell->piper->pids = NULL;
-		}
-		if (shell->piper->fds)
-		{
-			ft_freemat((void **)shell->piper->fds, shell->piper->n_pipes);
-			shell->piper->fds = NULL;
-		}
-	}
 	free_all_2(shell);
 }
 
@@ -112,7 +112,7 @@ int	return_partial(char *msg, t_shell *shell, int status)
 	close_all(shell);
 	delete_heredoc(shell);
 	free_all(shell);
-	exit_status = status;
+	g_exit_status = status;
 	return (status);
 }
 
@@ -123,7 +123,7 @@ void	exit_partial(char *msg, t_shell *shell, int status)
 	close_all(shell);
 	delete_heredoc(shell);
 	free_all(shell);
-	exit_status = status;
+	g_exit_status = status;
 	exit(status);
 }
 
@@ -146,6 +146,6 @@ void	exit_all(char *msg, t_shell *shell, int status)
 	}
 	free(shell);
 	shell = NULL;
-	exit_status = status;
+	g_exit_status = status;
 	exit(status);
 }

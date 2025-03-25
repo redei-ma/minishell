@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:12:06 by renato            #+#    #+#             */
-/*   Updated: 2025/03/23 17:35:57 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/24 17:43:55 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,16 @@ int	count_spec_char(char *input)
 	return (count + i + 1);
 }
 
-void	set_var(t_shell *shell, char *input, char *format, ...)
+/* void	set_var(t_shell *shell, char *input, char *format, ...)
 {
 	int		i;
 	char	*spaced;
+	va_list	args;
 
 	i = 0;
-	spaced =  ft_calloc(count_spec_char(input), sizeof(char));
+	spaced = ft_calloc(count_spec_char(input), sizeof(char));
 	if (!spaced)
 		exit_all("Error: malloc failed\n", shell, 1);
-	va_list args;
 	va_start(args, format);
 	while (format[i])
 	{
@@ -73,7 +73,7 @@ void	set_var(t_shell *shell, char *input, char *format, ...)
 		i++;
 	}
 	va_end(args);
-}
+} */
 
 void	set_spaces(char **input, t_shell *shell)
 {
@@ -83,11 +83,18 @@ void	set_spaces(char **input, t_shell *shell)
 	int		in_double_quote;
 	char	*spaced;
 
-	set_var(shell, *input, "00001", &i, &j, &in_single_quote, &in_double_quote, &spaced);
+	i = 0;
+	j = 0;
+	in_single_quote = 0;
+	in_double_quote = 0;
+	spaced = ft_calloc(count_spec_char(*input), sizeof(char));
+	if (!spaced)
+		exit_all("Error: malloc failed\n", shell, 1);
 	while ((*input)[i])
 	{
 		update_quotes((*input)[i], &in_single_quote, &in_double_quote);
-		if (((*input)[i] == '|' || (*input)[i] == '>' || (*input)[i] == '<') && !in_single_quote && !in_double_quote)
+		if (((*input)[i] == '|' || (*input)[i] == '>' || (*input)[i] == '<')
+			&& !in_single_quote && !in_double_quote)
 			copy_special_block(input, spaced, &i, &j);
 		else
 			spaced[j++] = (*input)[i++];

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_cmd_1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:17:38 by renato            #+#    #+#             */
-/*   Updated: 2025/03/23 17:46:36 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/24 17:02:08 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	fileout_manager(t_shell *shell, char **tokens, int *i)
 		shell->cmds->file_a = handle_fdout(tokens[*i], 'a', shell);
 	else
 		//devo stampare syntax error
-		exit(1);
+		exit_partial("syntax error near unexpected token `>>'\n", shell, 2);
 }
 
 void	filein_manager(t_shell *shell, char **tokens, int *i)
@@ -36,13 +36,12 @@ void	filein_manager(t_shell *shell, char **tokens, int *i)
 	while (tokens[*i][j] == '<')
 		j++;
 	if (j == 1 && tokens[++(*i)])
-	shell->cmds->file_i = handle_fdin(tokens[*i], shell);
+		shell->cmds->file_i = handle_fdin(tokens[*i], shell);
 	else if (j == 2 && tokens[++(*i)])
-	shell->cmds->file_i = handle_heredoc(tokens[*i], shell);
+		shell->cmds->file_i = handle_heredoc(tokens[*i], shell);
 	else
 		//devo stampare syntax error
-		exit(1);
-	
+		exit_partial("syntax error near unexpected token `<<'\n", shell, 2);
 }
 
 void	pipe_manager(t_shell *shell, char **tokens, int *i)
@@ -52,12 +51,15 @@ void	pipe_manager(t_shell *shell, char **tokens, int *i)
 	j = 0;
 	while (tokens[*i][j] == '|')
 		j++;
-	if (j > 2)
+	if (j > 3)
+		//devo stampare syntax error
+		exit_partial("syntax error near unexpected token `||'\n", shell, 2);
+	else if (j > 2)
 		//devo stampare i caratterei a indice 2 e 3 in syntax error
-		exit(1);
+		exit_partial("syntax error near unexpected token `|'\n", shell, 2);
 	else if (j > 1)
 		//devo stampare il carattere a indice 2 in syntax error
-		exit(1);
+		exit_partial("syntax error near unexpected token `|'\n", shell, 2);
 	else if (tokens[*i + 1])
 	{
 		shell->cmds->next = ft_newcmd(shell);
@@ -104,7 +106,7 @@ void	parse_cmds(char **tokens, t_shell *shell)
 	head = shell->cmds;
 	while (tokens[i])
 	{
-		if(is_env(tokens[i]))
+		if (is_env(tokens[i]))
 		{
 			if (shell->cmds->cmd)
 				add_arg(&shell->cmds->args, tokens[i], shell);
