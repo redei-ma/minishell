@@ -1,10 +1,28 @@
 NAME = minishell
 CC = cc
 CFLAG = -Wall -Wextra -Werror -g
-VALGRIND = valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-origins=yes --quiet --log-file=valgrind-log.txt
+VALGRIND = valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --log-file=valgrind-log.txt
+SANITIZE = -fsanitize=address, -fsanitize=undefined
 
-SRC =	builtin.c \
-		utils1.c
+SRC =	main.c \
+		settings.c \
+		parsing_1.c \
+		parsing_2.c \
+		parsing_3.c \
+		lst_cmd_1.c \
+		lst_cmd_2.c \
+		lst_cmd_3.c \
+		manager_1.c \
+		manager_2.c \
+		find.c \
+		ft_echo_1.c \
+		ft_echo_2.c \
+		ft_export.c \
+		ft_minisplit.c \
+		error.c \
+		utils.c \
+		signal.c \
+		executable.c
 
 LIBFT_DIR = ./libft
 LIBFT = ./libft/libft.a
@@ -17,10 +35,18 @@ $(LIBFT):
 
 $(NAME): $(LIBFT) $(SRC)
 	@echo "Compiling $(NAME)..."
-	@$(CC) $(CFLAG) -lreadline $(SRC) $(LIBFT) -I$(CURDIR) -o $(NAME)
+	@$(CC) $(CFLAG) $(SRC) $(LIBFT) -I$(CURDIR) -o $(NAME) -lreadline
 
-valgrind:
+valgrind: $(LIBFT) $(SRC)
+	@echo "Compiling $(NAME) with Valgrind..."
+	@$(CC) $(CFLAG) $(SRC) $(LIBFT) -I$(CURDIR) -o $(NAME) -lreadline
 	$(VALGRIND) ./$(NAME)
+
+sanitize: $(LIBFT) $(SRC)
+	@echo "Compiling $(NAME) with Address Sanitizer..."
+	@$(CC) $(CFLAG) $(SANITIZE) $(SRC) $(LIBFT) -I$(CURDIR) -o $(NAME) -lreadline
+	./$(NAME) 2> sanitize_log.txt
+
 
 clean:
 	@echo "Removing object files..."

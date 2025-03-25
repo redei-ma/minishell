@@ -1,18 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin.c                                          :+:      :+:    :+:   */
+/*   ex_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lacerbi <lacerbi@student.42firenze.it>     +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/04 14:17:37 by lacerbi           #+#    #+#             */
-/*   Updated: 2025/03/18 17:04:51 by lacerbi          ###   ########.fr       */
+/*   Updated: 2025/03/24 17:38:58 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 
-int last_exit_status = 0;
 
 void	init_env(t_shell **shell, char **envp)
 {
@@ -428,57 +426,52 @@ int	str_vars(char *str, t_shell *shell)
 	return (0);
 }*/
 
-int	ft_echo(char **args, t_shell *shell)
+int	cmp_echo_flag(char *str)
 {
-	if (ft_strncmp(args[0], "-n", ft_strlen(args[0])) == 0)
+	if (ft_strncmp(str[0], "-n", ft_strlen(args[0])) == 0)
+		return (1);
+	else if (ft_strncmp(str[0], "\"-n\"", ft_strlen(args[0])) == 0)
+		return (1);
+	else if (ft_strncmp(str[0], "\"-\"n", ft_strlen(args[0])) == 0)
+		return (1);
+	else if (ft_strncmp(str[0], "-\"n\"", ft_strlen(args[0])) == 0)
+		return (1);
+	else if (ft_strncmp(str[0], "\'-n\'", ft_strlen(args[0])) == 0)
+		return (1);
+	else if (ft_strncmp(str[0], "\'-\'n", ft_strlen(args[0])) == 0)
+		return (1);
+	else if (ft_strncmp(str[0], "-\'n\'", ft_strlen(args[0])) == 0)
+		return (1);
+	return (0);
+}
+
+int	ft_echo(t_shell *shell)
+{
+	int i;
+
+	i = 0;
+	if (shell->cmds->args && cmp_echo_flag(shell->cmds->args[i]))
 	{
-		str_vars(args[1], shell);
+		while (shell->cmds->args[i + 1])
+		{
+			str_vars(shell->cmds->args[i + 1], shell);
+			i++;
+		}
 	}
 	else
 	{
-		str_vars(args[0], shell);
-		write(shell->cmds->file_i, "\n", 1);
+		while (shell->cmds->args[i])
+		{
+			str_vars(shell->cmds->args[i], shell);
+			i++;
+		}
 	}
 	return (0);
 }
 
 //------------------------------------------------------------------------------------------------
 
-void	handle_ctrl_c(int signum)
-{
-	(void)signum;
-	write(1, "\n", 1);
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
-}
 
-void	handle_ctrl_bl(int signum)
-{
-	(void)signum;
-}
-
-void	interactive_ctrls(void)
-{
-	struct sigaction sa_int;
-	struct sigaction sa_quit;
-
-	sa_int.sa_handler = handle_ctrl_c;
-	sigemptyset(&sa_int.sa_mask);
-	sa_int.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &sa_int, NULL);
-	//----------------------------------
-	sa_quit.sa_handler = handle_ctrl_bl;
-	sigemptyset(&sa_quit.sa_mask);
-	sa_quit.sa_flags = SA_RESTART;
-	sigaction(SIGQUIT, &sa_quit, NULL);
-}
-
-void	ni_ctrls(void)
-{
-	signal(SIGINT, handle_ctrl_c);
-	signal(SIGQUIT, handle_ctrl_bl);
-}
 
 //------------------------------------------------------------------------------------------------
 
@@ -502,7 +495,7 @@ void	ft_exit(t_shell *shell, char **args)
 		else
 			exit_code = ft_atoi(args[1]) % 256;
 	}
-	free(shell);
+	//free_shell(shell);
 	exit(exit_code);
 }
 
@@ -531,7 +524,7 @@ int	main(int argc, char *argv[], char **envp)
 	//ft_export(e, empty_args);
 	char **g = malloc(3 * sizeof(char *));
 	g[0] = "-n";
-	g[1] = "'\"$cosa'$cosa'\"'''";
+	g[1] = "'\"$cosa'$cosa'\"'";
 	g[2] = NULL;
 	
 	ft_echo(g, e);

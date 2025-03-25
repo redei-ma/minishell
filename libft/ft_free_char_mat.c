@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_freemat.c                                       :+:      :+:    :+:   */
+/*   ft_free_char_mat.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/13 17:25:24 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/24 00:21:25 by renato           ###   ########.fr       */
+/*   Created: 2025/03/22 18:58:07 by renato            #+#    #+#             */
+/*   Updated: 2025/03/22 19:03:01 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	**ft_freemat(void **mat, int size)
+char	**ft_free_char_mat(char **mat)
 {
 	int	i;
 
-	if (!mat)
-		return (NULL);
 	i = 0;
-	while (i < size)
+	while (mat[i])
 	{
-		if (mat[i])
-		{
-			free(mat[i]);
-			mat[i] = NULL;
-		}
+		free(mat[i]);
 		i++;
 	}
 	free(mat);

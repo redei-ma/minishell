@@ -1,33 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_freemat.c                                       :+:      :+:    :+:   */
+/*   safe_close.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/13 17:25:24 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/24 00:21:25 by renato           ###   ########.fr       */
+/*   Created: 2025/03/22 17:03:44 by renato            #+#    #+#             */
+/*   Updated: 2025/03/22 17:04:03 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	**ft_freemat(void **mat, int size)
+void	safe_close(int fd)
 {
-	int	i;
-
-	if (!mat)
-		return (NULL);
-	i = 0;
-	while (i < size)
+	if (fd != -1)
 	{
-		if (mat[i])
-		{
-			free(mat[i]);
-			mat[i] = NULL;
-		}
-		i++;
+		close(fd);
+		fd = -1;
 	}
-	free(mat);
-	return (NULL);
 }
