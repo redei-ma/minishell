@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 19:33:11 by renato            #+#    #+#             */
-/*   Updated: 2025/03/25 18:47:16 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/26 15:59:38 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void	free_all_2(t_shell *shell)
 		if (shell->piper->fds)
 		{
 			free(shell->piper->fds);
-			//ft_freemat((void **)shell->piper->fds, shell->piper->n_pipes);
 			shell->piper->fds = NULL;
 		}
 	}
@@ -77,6 +76,7 @@ void	delete_heredoc(t_shell *shell)
 		shell->heredocs = NULL;
 	}
 }
+
 void	close_fds(t_shell *shell)
 {
 	int	i;

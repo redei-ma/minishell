@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:17:38 by renato            #+#    #+#             */
-/*   Updated: 2025/03/25 20:36:29 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/26 16:13:22 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,19 @@ t_cmd	*ft_newcmd(t_shell *shell)
 	return (new);
 }
 
+void	is_valid_env(char **tokens, int i, t_shell *shell)
+{
+	if (shell->cmds->cmd)
+		add_arg(&shell->cmds->args, tokens[i], shell);
+	else if (!tokens[i + 1] || tokens[i + 1][0] == '|'
+			|| tokens[i + 1][0] == '<' || tokens[i + 1][0] == '>')
+	{
+		shell->cmds->cmd = ft_strdup(tokens[i]);
+		if (!shell->cmds->cmd)
+			exit_all("Error: malloc failed\n", shell, 1);
+	}
+}
+
 int	parse_cmds(char **tokens, t_shell *shell)
 {
 	int		i;
@@ -117,17 +130,7 @@ int	parse_cmds(char **tokens, t_shell *shell)
 	while (tokens[i])
 	{
 		if (is_env(tokens[i]))
-		{
-			if (shell->cmds->cmd)
-				add_arg(&shell->cmds->args, tokens[i], shell);
-			else if (!tokens[i + 1] || tokens[i + 1][0] == '|'
-					|| tokens[i + 1][0] == '<' || tokens[i + 1][0] == '>')
-			{
-				shell->cmds->cmd = ft_strdup(tokens[i]);
-				if (!shell->cmds->cmd)
-					exit_all("Error: malloc failed\n", shell, 1);
-			}
-		}
+			is_valid_env(tokens, i, shell);
 		else if (tokens[i][0] == '|')
 			control = pipe_manager(shell, tokens, &i);
 		else if (tokens[i][0] == '<')
@@ -142,7 +145,7 @@ int	parse_cmds(char **tokens, t_shell *shell)
 		}
 		else
 			add_arg(&shell->cmds->args, tokens[i], shell);
-		if (control)
+		if (control == 404)
 			return(control);
 		if (!tokens[++i])
 			break ;

@@ -6,13 +6,12 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 17:47:13 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/24 16:58:56 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/26 16:00:41 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// possibile miglioramento gestione di quote
 static size_t	skip_quotes(const char *s)
 {
 	char	quote;
@@ -115,15 +114,3 @@ char	**ft_minisplit(char const *s)
 	else
 		return (dest);
 }
-
-/* int main()
-{
-	char	**cmd;
-	cmd = ft_minisplit("	 c'at' < 'error ciao ' echo -n o''ut 	 $PW'  'D ");
-	while(*cmd)
-	{
-		ft_printf("token: %s\n", *cmd);
-		cmd++;
-	}
-	return (0);
-} */
