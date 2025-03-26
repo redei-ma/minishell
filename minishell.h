@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/26 16:26:32 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/26 17:43:54 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ typedef struct s_shell
 	char	**heredocs;
 	int		num_heredoc;
 	int		signal;
+	int		original_stdin;
+	int		original_stdout;
 }	t_shell;
 
 extern int	g_exit_status;
@@ -93,7 +95,7 @@ int	parse_cmds(char **tokens, t_shell *shell);
 int		handle_fdout(char *token, char c, t_shell *shell);
 int		handle_fdin(char *token, t_shell *shell);
 char	*search_name(t_shell *shell);
-int		process_heredoc_line(int fd, char *limiter);
+int		process_heredoc_line(int fd, char *limiter, t_shell *shell);
 int		handle_heredoc(char *token, t_shell *shell);
 
 // lst_cmd_3.c
@@ -161,5 +163,7 @@ void	handle_ctrl_bl(int signum);
 void	interactive_ctrls(void);
 void	ni_ctrls(void);
 void	handle_ctrl_c_exec(int signum);
+
+void	handle_ctrl_c_heredoc(int signum);
 
 #endif

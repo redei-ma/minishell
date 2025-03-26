@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:35:37 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/25 16:42:47 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/26 17:40:20 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ int	main(int ac, char **av, char **envp)
 		return (free(shell), ft_printfd(2, "Error, Malloc faild"), 1);
 	init_env(shell, envp);
 	shell->signal = 0;
+	shell->original_stdin = dup(STDIN_FILENO);
+	shell->original_stdout = dup(STDOUT_FILENO);
 	while (1)
 		loop_line(shell);
 	// loop_line(shell);

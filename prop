@@ -9,6 +9,8 @@ Provare comando "ls | | " che non va invece "ls ||" va
 
 espandere le variabili va fatto per tutti i comandi quindi penso sia meglio farlo nel parsing e passare gia il valore
 
+non elimina gli heredoc
+
 
 CAPIRE COSA FANNO I BACKSLASH E VEDERE SE SONO DA GESTIRE
 

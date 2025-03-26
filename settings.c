@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:07:08 by renato            #+#    #+#             */
-/*   Updated: 2025/03/26 16:14:08 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/26 17:14:58 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,21 +58,21 @@ void	loop_line(t_shell *shell)
 	if (!shell->input)
 		exit_all("exit", shell, 0); // capire se viene chiamato due volte o va bene e se va bene il numero di uscita o se non deve stamapre niente
 	check_unclosed(&shell->input, shell);
-	// ft_printf("1input: %s\n", shell->input);
 	if (shell->input)
 		add_history(shell->input);
 	if (is_empty(shell->input))
 		return ;
 	remove_spaces_special_chars(&shell->input, shell);
-	// ft_printf("2input: %s\n", shell->input);
 	set_spaces(&shell->input, shell);
-	// ft_printf("3input: %s\n", shell->input);
 	shell->tokens = ft_minisplit(shell->input);
 	if (!shell->tokens)
 		exit_all("Error: malloc failed\n", shell, 1);
 	int control = parse_cmds(shell->tokens, shell);
 	if (control == 404)
+	{
+		rl_on_new_line();
 		return_partial(NULL, shell, 1); //errore da capire
+	}
 	delete_quotes(shell->cmds, shell);
 	// ft_print_cmd(shell->cmds);
 	cmd_manage(shell);
