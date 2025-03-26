@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_cmd_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lacerbi <lacerbi@student.42firenze.it>     +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:20:09 by renato            #+#    #+#             */
-/*   Updated: 2025/03/25 18:42:28 by lacerbi          ###   ########.fr       */
+/*   Updated: 2025/03/26 17:43:41 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,24 @@ char	*search_name(t_shell *shell)
 	return (filename);
 }
 
-int	process_heredoc_line(int fd, char *limiter)
+int	process_heredoc_line(int fd, char *limiter, t_shell *shell)
 {
 	char	*line;
 
 	ft_printfd(1, "> ");
 	line = get_next_line(0);
+	if (g_exit_status == 130)
+	{
+		if (line)
+			free(line);
+		dup2(shell->original_stdin, 0);
+		return (404);
+	}
 	if (!line)
+	{
+		ft_printf("merdeeee\n"); //strivere quello cgha fa bash con ctrl d
 		return (0);
+	}
 	if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
 		return (free(line), 0);
 	ft_printfd(fd, "%s", line);
@@ -96,10 +106,25 @@ int	process_heredoc_line(int fd, char *limiter)
 
 int	handle_heredoc(char *token, t_shell *shell)
 {
+	int			control;
 	int			fd;
 	char		*limiter;
 	char		*filename;
+	
+	// struct sigaction	sa_old_int;
+    // struct sigaction	sa_new_int;
 
+    // // Save the current SIGINT handler
+    // sigaction(SIGINT, NULL, &sa_old_int);
+    
+    // // Set up heredoc-specific SIGINT handler
+    // sa_new_int.sa_handler = handle_ctrl_c_heredoc;
+    // sigemptyset(&sa_new_int.sa_mask);
+    // sa_new_int.sa_flags = 0;
+    // sigaction(SIGINT, &sa_new_int, NULL);
+	
+	signal(SIGINT, handle_ctrl_c_heredoc);
+	
 	filename = search_name(shell);
 	shell->heredocs = ft_realloc(shell->heredocs, (shell->num_heredoc + 1) * sizeof(char *), (shell->num_heredoc + 2) * sizeof(char *));
 	if (!shell->heredocs)
@@ -113,10 +138,22 @@ int	handle_heredoc(char *token, t_shell *shell)
 	limiter = ft_strjoin(token, "\n");
 	if (!limiter)
 		exit_all("Error: malloc failed\n", shell, 1);
-	while (process_heredoc_line(fd, limiter))
-		;
+	while (1)
+	{
+		control = process_heredoc_line(fd, limiter, shell);
+		if (control == 404)
+			return (control);
+		else if (control == 0)
+			break ;
+	}
 	free(limiter);
 	close(fd);
+
+	// // Restore the previous SIGINT handler
+	// sigaction(SIGINT, &sa_old_int, NULL);   // Restore the previous SIGINT handler
+	
+	signal(SIGINT, handle_ctrl_c);
+
 	fd = handle_fdin(filename, shell);
 	return (fd);
 }

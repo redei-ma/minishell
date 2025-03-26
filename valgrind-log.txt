@@ -1,364 +1,119 @@
-==1679531== Memcheck, a memory error detector
-==1679531== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==1679531== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
-==1679531== Command: ./minishell
-==1679531== Parent PID: 1679474
-==1679531== 
-==1679902== 
-==1679902== FILE DESCRIPTORS: 8 open at exit.
-==1679902== Open file descriptor 5:
-==1679902==    at 0x49C1B4B: pipe (syscall-template.S:78)
-==1679902==    by 0x402AC8: pipe_manager (lst_cmd_1.c:70)
-==1679902==    by 0x402DB5: parse_cmds (lst_cmd_1.c:123)
-==1679902==    by 0x4016CC: loop_line (settings.c:73)
-==1679902==    by 0x40132A: main (main.c:32)
-==1679902== 
-==1679902== Open file descriptor 4:
-==1679902==    at 0x49C1B4B: pipe (syscall-template.S:78)
-==1679902==    by 0x402AC8: pipe_manager (lst_cmd_1.c:70)
-==1679902==    by 0x402DB5: parse_cmds (lst_cmd_1.c:123)
-==1679902==    by 0x4016CC: loop_line (settings.c:73)
-==1679902==    by 0x40132A: main (main.c:32)
-==1679902== 
-==1679902== Open file descriptor 103: /usr/share/code/v8_context_snapshot.bin
-==1679902==    <inherited from parent>
-==1679902== 
-==1679902== Open file descriptor 43: /nfs/homes/redei-ma/.config/Code/logs/20250324T153655/ptyhost.log
-==1679902==    <inherited from parent>
-==1679902== 
-==1679902== Open file descriptor 3: /nfs/homes/redei-ma/Minishell/renato/valgrind-log.txt
-==1679902==    <inherited from parent>
-==1679902== 
-==1679902== Open file descriptor 2: /dev/pts/0
-==1679902==    <inherited from parent>
-==1679902== 
-==1679902== Open file descriptor 1: /dev/pts/0
-==1679902==    <inherited from parent>
-==1679902== 
-==1679902== Open file descriptor 0: /dev/pts/0
-==1679902==    <inherited from parent>
-==1679902== 
-==1679902== 
-==1679902== HEAP SUMMARY:
-==1679902==     in use at exit: 208,665 bytes in 329 blocks
-==1679902==   total heap usage: 551 allocs, 222 frees, 229,422 bytes allocated
-==1679902== 
-==1679902== 3 bytes in 1 blocks are still reachable in loss record 1 of 84
-==1679902==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1679902==    by 0x406B69: ft_strdup (ft_strdup.c:21)
-==1679902==    by 0x403329: add_arg (lst_cmd_3.c:24)
-==1679902==    by 0x402E93: parse_cmds (lst_cmd_1.c:135)
-==1679902==    by 0x4016CC: loop_line (settings.c:73)
-==1679902==    by 0x40132A: main (main.c:32)
-==1679902== 
-==1679902== 7 bytes in 2 blocks are indirectly lost in loss record 2 of 84
-==1679902==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1679902==    by 0x406710: ft_calloc (ft_calloc.c:27)
-==1679902==    by 0x406D0A: ft_substr (ft_substr.c:27)
-==1679902==    by 0x405015: ft_allocate (ft_minisplit.c:91)
-==1679902==    by 0x404D93: ft_minisplit (ft_minisplit.c:113)
-==1679902==    by 0x401689: loop_line (settings.c:70)
-==1679902==    by 0x40132A: main (main.c:32)
-==1679902== 
-==1679902== 7 bytes in 2 blocks are indirectly lost in loss record 3 of 84
-==1679902==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1679902==    by 0x406B69: ft_strdup (ft_strdup.c:21)
-==1679902==    by 0x402E38: parse_cmds (lst_cmd_1.c:130)
-==1679902==    by 0x4016CC: loop_line (settings.c:73)
-==1679902==    by 0x40132A: main (main.c:32)
-==1679902== 
-==1679902== 7 bytes in 2 blocks are definitely lost in loss record 4 of 84
-==1679902==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1679902==    by 0x406710: ft_calloc (ft_calloc.c:27)
-==1679902==    by 0x4021A0: set_var (parsing_2.c:62)
-==1679902==    by 0x402388: set_spaces (parsing_2.c:86)
-==1679902==    by 0x40167C: loop_line (settings.c:68)
-==1679902==    by 0x40132A: main (main.c:32)
-==1679902== 
-==1679902== 8 bytes in 1 blocks are still reachable in loss record 5 of 84
-==1679902==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1679902==    by 0x406710: ft_calloc (ft_calloc.c:27)
-==1679902==    by 0x4014C5: set_shell (settings.c:39)
-==1679902==    by 0x4015D4: loop_line (settings.c:55)
-==1679902==    by 0x40132A: main (main.c:32)
-==1679902== 
-==1679902== 8 bytes in 1 blocks are still reachable in loss record 8 of 84
-==1679902==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1679902==    by 0x406710: ft_calloc (ft_calloc.c:27)
-==1679902==    by 0x4067DA: ft_realloc (ft_realloc.c:30)
-==1679902==    by 0x4036D1: fork_manger (manager_1.c:50)
-==1679902==    by 0x4038FF: cmd_manage (manager_1.c:110)
-==1679902==    by 0x4016E5: loop_line (settings.c:76)
-==1679902==    by 0x40132A: main (main.c:32)
-==1679902== 
-==1679902== 8 bytes in 2 blocks are still reachable in loss record 9 of 84
-==1679902==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1679902==    by 0x406B69: ft_strdup (ft_strdup.c:21)
-==1679902==    by 0x402E38: parse_cmds (lst_cmd_1.c:130)
-==1679902==    by 0x4016CC: loop_line (settings.c:73)
-==1679902==    by 0x40132A: main (main.c:32)
-==1679902== 
-==1679902== 8 bytes in 2 blocks are definitely lost in loss record 10 of 84
-==1679902==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1679902==    by 0x406710: ft_calloc (ft_calloc.c:27)
-==1679902==    by 0x401569: set_shell (settings.c:47)
-==1679902==    by 0x4015D4: loop_line (settings.c:55)
-==1679902==    by 0x40132A: main (main.c:32)
-==1679902== 
-==1679902== 13 bytes in 4 blocks are still reachable in loss record 14 of 84
-==1679902==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1679902==    by 0x406710: ft_calloc (ft_calloc.c:27)
-==1679902==    by 0x406D0A: ft_substr (ft_substr.c:27)
-==1679902==    by 0x405015: ft_allocate (ft_minisplit.c:91)
-==1679902==    by 0x404D93: ft_minisplit (ft_minisplit.c:113)
-==1679902==    by 0x401689: loop_line (settings.c:70)
-==1679902==    by 0x40132A: main (main.c:32)
-==1679902== 
-==1679902== 14 bytes in 1 blocks are still reachable in loss record 16 of 84
-==1679902==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1679902==    by 0x406710: ft_calloc (ft_calloc.c:27)
-==1679902==    by 0x4021A0: set_var (parsing_2.c:62)
-==1679902==    by 0x402388: set_spaces (parsing_2.c:86)
-==1679902==    by 0x40167C: loop_line (settings.c:68)
-==1679902==    by 0x40132A: main (main.c:32)
-==1679902== 
-==1679902== 16 bytes in 1 blocks are still reachable in loss record 19 of 84
-==1679902==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1679902==    by 0x406710: ft_calloc (ft_calloc.c:27)
-==1679902==    by 0x4067DA: ft_realloc (ft_realloc.c:30)
-==1679902==    by 0x402A6A: pipe_manager (lst_cmd_1.c:67)
-==1679902==    by 0x402DB5: parse_cmds (lst_cmd_1.c:123)
-==1679902==    by 0x4016CC: loop_line (settings.c:73)
-==1679902==    by 0x40132A: main (main.c:32)
-==1679902== 
-==1679902== 16 bytes in 1 blocks are still reachable in loss record 20 of 84
-==1679902==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1679902==    by 0x406710: ft_calloc (ft_calloc.c:27)
-==1679902==    by 0x4032F0: add_arg (lst_cmd_3.c:21)
-==1679902==    by 0x402E93: parse_cmds (lst_cmd_1.c:135)
-==1679902==    by 0x4016CC: loop_line (settings.c:73)
-==1679902==    by 0x40132A: main (main.c:32)
-==1679902== 
-==1679902== 16 bytes in 2 blocks are definitely lost in loss record 21 of 84
-==1679902==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1679902==    by 0x406710: ft_calloc (ft_calloc.c:27)
-==1679902==    by 0x4014C5: set_shell (settings.c:39)
-==1679902==    by 0x4015D4: loop_line (settings.c:55)
-==1679902==    by 0x40132A: main (main.c:32)
-==1679902== 
-==1679902== 16 bytes in 2 blocks are definitely lost in loss record 22 of 84
-==1679902==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1679902==    by 0x406710: ft_calloc (ft_calloc.c:27)
-==1679902==    by 0x401511: set_shell (settings.c:43)
-==1679902==    by 0x4015D4: loop_line (settings.c:55)
-==1679902==    by 0x40132A: main (main.c:32)
-==1679902== 
-==1679902== 32 bytes in 1 blocks are still reachable in loss record 26 of 84
-==1679902==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1679902==    by 0x406710: ft_calloc (ft_calloc.c:27)
-==1679902==    by 0x4012CF: main (main.c:27)
-==1679902== 
-==1679902== 39 (32 direct, 7 indirect) bytes in 2 blocks are definitely lost in loss record 29 of 84
-==1679902==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1679902==    by 0x406710: ft_calloc (ft_calloc.c:27)
-==1679902==    by 0x404D6A: ft_minisplit (ft_minisplit.c:110)
-==1679902==    by 0x401689: loop_line (settings.c:70)
-==1679902==    by 0x40132A: main (main.c:32)
-==1679902== 
-==1679902== 40 bytes in 1 blocks are still reachable in loss record 30 of 84
-==1679902==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1679902==    by 0x406710: ft_calloc (ft_calloc.c:27)
-==1679902==    by 0x404D6A: ft_minisplit (ft_minisplit.c:110)
-==1679902==    by 0x401689: loop_line (settings.c:70)
-==1679902==    by 0x40132A: main (main.c:32)
-==1679902== 
-==1679902== 40 bytes in 1 blocks are still reachable in loss record 31 of 84
-==1679902==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1679902==    by 0x402BB5: ft_newcmd (lst_cmd_1.c:88)
-==1679902==    by 0x402C4F: parse_cmds (lst_cmd_1.c:106)
-==1679902==    by 0x4016CC: loop_line (settings.c:73)
-==1679902==    by 0x40132A: main (main.c:32)
-==1679902== 
-==1679902== 40 bytes in 1 blocks are still reachable in loss record 32 of 84
-==1679902==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1679902==    by 0x402BB5: ft_newcmd (lst_cmd_1.c:88)
-==1679902==    by 0x402A21: pipe_manager (lst_cmd_1.c:66)
-==1679902==    by 0x402DB5: parse_cmds (lst_cmd_1.c:123)
-==1679902==    by 0x4016CC: loop_line (settings.c:73)
-==1679902==    by 0x40132A: main (main.c:32)
-==1679902== 
-==1679902== 64 bytes in 1 blocks are still reachable in loss record 36 of 84
-==1679902==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1679902==    by 0x406710: ft_calloc (ft_calloc.c:27)
-==1679902==    by 0x401294: main (main.c:24)
-==1679902== 
-==1679902== 87 (80 direct, 7 indirect) bytes in 2 blocks are definitely lost in loss record 39 of 84
-==1679902==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1679902==    by 0x402BB5: ft_newcmd (lst_cmd_1.c:88)
-==1679902==    by 0x402C4F: parse_cmds (lst_cmd_1.c:106)
-==1679902==    by 0x4016CC: loop_line (settings.c:73)
-==1679902==    by 0x40132A: main (main.c:32)
-==1679902== 
-==1679902== 576 bytes in 1 blocks are still reachable in loss record 47 of 84
-==1679902==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1679902==    by 0x406710: ft_calloc (ft_calloc.c:27)
-==1679902==    by 0x401741: init_env (settings.c:88)
-==1679902==    by 0x401321: main (main.c:30)
-==1679902== 
-==1679902== 2,876 bytes in 71 blocks are still reachable in loss record 59 of 84
-==1679902==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1679902==    by 0x406B69: ft_strdup (ft_strdup.c:21)
-==1679902==    by 0x401795: init_env (settings.c:93)
-==1679902==    by 0x401321: main (main.c:30)
-==1679902== 
-==1679902== LEAK SUMMARY:
-==1679902==    definitely lost: 159 bytes in 12 blocks
-==1679902==    indirectly lost: 14 bytes in 4 blocks
-==1679902==      possibly lost: 0 bytes in 0 blocks
-==1679902==    still reachable: 3,754 bytes in 89 blocks
-==1679902==         suppressed: 204,738 bytes in 224 blocks
-==1679902== 
-==1679902== For lists of detected and suppressed errors, rerun with: -s
-==1679902== ERROR SUMMARY: 6 errors from 6 contexts (suppressed: 0 from 0)
-==1679531== 
-==1679531== FILE DESCRIPTORS: 6 open at exit.
-==1679531== Open file descriptor 103: /usr/share/code/v8_context_snapshot.bin
-==1679531==    <inherited from parent>
-==1679531== 
-==1679531== Open file descriptor 43: /nfs/homes/redei-ma/.config/Code/logs/20250324T153655/ptyhost.log
-==1679531==    <inherited from parent>
-==1679531== 
-==1679531== Open file descriptor 3: /nfs/homes/redei-ma/Minishell/renato/valgrind-log.txt
-==1679531==    <inherited from parent>
-==1679531== 
-==1679531== Open file descriptor 2: /dev/pts/0
-==1679531==    <inherited from parent>
-==1679531== 
-==1679531== Open file descriptor 1: /dev/pts/0
-==1679531==    <inherited from parent>
-==1679531== 
-==1679531== Open file descriptor 0: /dev/pts/0
-==1679531==    <inherited from parent>
-==1679531== 
-==1679531== 
-==1679531== HEAP SUMMARY:
-==1679531==     in use at exit: 205,207 bytes in 260 blocks
-==1679531==   total heap usage: 568 allocs, 308 frees, 229,635 bytes allocated
-==1679531== 
-==1679531== 3 bytes in 1 blocks are indirectly lost in loss record 1 of 75
-==1679531==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1679531==    by 0x406B69: ft_strdup (ft_strdup.c:21)
-==1679531==    by 0x403329: add_arg (lst_cmd_3.c:24)
-==1679531==    by 0x402E93: parse_cmds (lst_cmd_1.c:135)
-==1679531==    by 0x4016CC: loop_line (settings.c:73)
-==1679531==    by 0x40132A: main (main.c:32)
-==1679531== 
-==1679531== 5 bytes in 1 blocks are still reachable in loss record 2 of 75
-==1679531==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1679531==    by 0x406B69: ft_strdup (ft_strdup.c:21)
-==1679531==    by 0x402E38: parse_cmds (lst_cmd_1.c:130)
-==1679531==    by 0x4016CC: loop_line (settings.c:73)
-==1679531==    by 0x40132A: main (main.c:32)
-==1679531== 
-==1679531== 8 bytes in 2 blocks are definitely lost in loss record 5 of 75
-==1679531==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1679531==    by 0x406710: ft_calloc (ft_calloc.c:27)
-==1679531==    by 0x401569: set_shell (settings.c:47)
-==1679531==    by 0x4015D4: loop_line (settings.c:55)
-==1679531==    by 0x40132A: main (main.c:32)
-==1679531== 
-==1679531== 12 bytes in 1 blocks are definitely lost in loss record 8 of 75
-==1679531==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1679531==    by 0x406710: ft_calloc (ft_calloc.c:27)
-==1679531==    by 0x4067DA: ft_realloc (ft_realloc.c:30)
-==1679531==    by 0x4036D1: fork_manger (manager_1.c:50)
-==1679531==    by 0x4038FF: cmd_manage (manager_1.c:110)
-==1679531==    by 0x4016E5: loop_line (settings.c:76)
-==1679531==    by 0x40132A: main (main.c:32)
-==1679531== 
-==1679531== 15 bytes in 4 blocks are indirectly lost in loss record 12 of 75
-==1679531==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1679531==    by 0x406B69: ft_strdup (ft_strdup.c:21)
-==1679531==    by 0x402E38: parse_cmds (lst_cmd_1.c:130)
-==1679531==    by 0x4016CC: loop_line (settings.c:73)
-==1679531==    by 0x40132A: main (main.c:32)
-==1679531== 
-==1679531== 16 bytes in 1 blocks are indirectly lost in loss record 14 of 75
-==1679531==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1679531==    by 0x406710: ft_calloc (ft_calloc.c:27)
-==1679531==    by 0x4032F0: add_arg (lst_cmd_3.c:21)
-==1679531==    by 0x402E93: parse_cmds (lst_cmd_1.c:135)
-==1679531==    by 0x4016CC: loop_line (settings.c:73)
-==1679531==    by 0x40132A: main (main.c:32)
-==1679531== 
-==1679531== 16 bytes in 1 blocks are definitely lost in loss record 15 of 75
-==1679531==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1679531==    by 0x406710: ft_calloc (ft_calloc.c:27)
-==1679531==    by 0x4067DA: ft_realloc (ft_realloc.c:30)
-==1679531==    by 0x402A6A: pipe_manager (lst_cmd_1.c:67)
-==1679531==    by 0x402DB5: parse_cmds (lst_cmd_1.c:123)
-==1679531==    by 0x4016CC: loop_line (settings.c:73)
-==1679531==    by 0x40132A: main (main.c:32)
-==1679531== 
-==1679531== 16 bytes in 2 blocks are definitely lost in loss record 16 of 75
-==1679531==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1679531==    by 0x406710: ft_calloc (ft_calloc.c:27)
-==1679531==    by 0x401511: set_shell (settings.c:43)
-==1679531==    by 0x4015D4: loop_line (settings.c:55)
-==1679531==    by 0x40132A: main (main.c:32)
-==1679531== 
-==1679531== 20 bytes in 6 blocks are indirectly lost in loss record 19 of 75
-==1679531==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1679531==    by 0x406710: ft_calloc (ft_calloc.c:27)
-==1679531==    by 0x406D0A: ft_substr (ft_substr.c:27)
-==1679531==    by 0x405015: ft_allocate (ft_minisplit.c:91)
-==1679531==    by 0x404D93: ft_minisplit (ft_minisplit.c:113)
-==1679531==    by 0x401689: loop_line (settings.c:70)
-==1679531==    by 0x40132A: main (main.c:32)
-==1679531== 
-==1679531== 21 bytes in 3 blocks are definitely lost in loss record 20 of 75
-==1679531==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1679531==    by 0x406710: ft_calloc (ft_calloc.c:27)
-==1679531==    by 0x4021A0: set_var (parsing_2.c:62)
-==1679531==    by 0x402388: set_spaces (parsing_2.c:86)
-==1679531==    by 0x40167C: loop_line (settings.c:68)
-==1679531==    by 0x40132A: main (main.c:32)
-==1679531== 
-==1679531== 24 bytes in 3 blocks are definitely lost in loss record 21 of 75
-==1679531==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1679531==    by 0x406710: ft_calloc (ft_calloc.c:27)
-==1679531==    by 0x4014C5: set_shell (settings.c:39)
-==1679531==    by 0x4015D4: loop_line (settings.c:55)
-==1679531==    by 0x40132A: main (main.c:32)
-==1679531== 
-==1679531== 40 bytes in 1 blocks are indirectly lost in loss record 24 of 75
-==1679531==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1679531==    by 0x402BB5: ft_newcmd (lst_cmd_1.c:88)
-==1679531==    by 0x402A21: pipe_manager (lst_cmd_1.c:66)
-==1679531==    by 0x402DB5: parse_cmds (lst_cmd_1.c:123)
-==1679531==    by 0x4016CC: loop_line (settings.c:73)
-==1679531==    by 0x40132A: main (main.c:32)
-==1679531== 
-==1679531== 92 (72 direct, 20 indirect) bytes in 3 blocks are definitely lost in loss record 30 of 75
-==1679531==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1679531==    by 0x406710: ft_calloc (ft_calloc.c:27)
-==1679531==    by 0x404D6A: ft_minisplit (ft_minisplit.c:110)
-==1679531==    by 0x401689: loop_line (settings.c:70)
-==1679531==    by 0x40132A: main (main.c:32)
-==1679531== 
-==1679531== 234 (160 direct, 74 indirect) bytes in 4 blocks are definitely lost in loss record 35 of 75
-==1679531==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
-==1679531==    by 0x402BB5: ft_newcmd (lst_cmd_1.c:88)
-==1679531==    by 0x402C4F: parse_cmds (lst_cmd_1.c:106)
-==1679531==    by 0x4016CC: loop_line (settings.c:73)
-==1679531==    by 0x40132A: main (main.c:32)
-==1679531== 
-==1679531== LEAK SUMMARY:
-==1679531==    definitely lost: 329 bytes in 19 blocks
-==1679531==    indirectly lost: 94 bytes in 13 blocks
-==1679531==      possibly lost: 0 bytes in 0 blocks
-==1679531==    still reachable: 5 bytes in 1 blocks
-==1679531==         suppressed: 204,779 bytes in 227 blocks
-==1679531== 
-==1679531== For lists of detected and suppressed errors, rerun with: -s
-==1679531== ERROR SUMMARY: 8 errors from 8 contexts (suppressed: 0 from 0)
+==1804061== Memcheck, a memory error detector
+==1804061== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==1804061== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==1804061== Command: ./minishell
+==1804061== Parent PID: 1804059
+==1804061== 
+==1804061== Invalid read of size 1
+==1804061==    at 0x406F7B: ft_memcpy (ft_memcpy.c:25)
+==1804061==    by 0x4069E3: ft_realloc (ft_realloc.c:37)
+==1804061==    by 0x4030CF: handle_heredoc (lst_cmd_2.c:129)
+==1804061==    by 0x402757: filein_manager (lst_cmd_1.c:43)
+==1804061==    by 0x402C5B: parse_cmds (lst_cmd_1.c:137)
+==1804061==    by 0x40179C: loop_line (settings.c:70)
+==1804061==    by 0x4013F7: main (main.c:39)
+==1804061==  Address 0x4b17428 is 0 bytes after a block of size 8 alloc'd
+==1804061==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1804061==    by 0x4068C0: ft_calloc (ft_calloc.c:27)
+==1804061==    by 0x401595: set_shell (settings.c:39)
+==1804061==    by 0x4016A4: loop_line (settings.c:55)
+==1804061==    by 0x4013F7: main (main.c:39)
+==1804061== 
+==1804061== 
+==1804061== FILE DESCRIPTORS: 9 open at exit.
+==1804061== Open file descriptor 0: /dev/pts/0
+==1804061==    at 0x49C1AEB: dup2 (syscall-template.S:78)
+==1804061==    by 0x402FB6: process_heredoc_line (lst_cmd_2.c:92)
+==1804061==    by 0x4031AF: handle_heredoc (lst_cmd_2.c:143)
+==1804061==    by 0x402757: filein_manager (lst_cmd_1.c:43)
+==1804061==    by 0x402C5B: parse_cmds (lst_cmd_1.c:137)
+==1804061==    by 0x40179C: loop_line (settings.c:70)
+==1804061==    by 0x4013F7: main (main.c:39)
+==1804061== 
+==1804061== Open file descriptor 6: heredoc_0
+==1804061==    at 0x49C0F5B: open (open64.c:48)
+==1804061==    by 0x40313B: handle_heredoc (lst_cmd_2.c:134)
+==1804061==    by 0x402757: filein_manager (lst_cmd_1.c:43)
+==1804061==    by 0x402C5B: parse_cmds (lst_cmd_1.c:137)
+==1804061==    by 0x40179C: loop_line (settings.c:70)
+==1804061==    by 0x4013F7: main (main.c:39)
+==1804061== 
+==1804061== Open file descriptor 5: /dev/pts/0
+==1804061==    at 0x49C1ABB: dup (syscall-template.S:78)
+==1804061==    by 0x4013E5: main (main.c:37)
+==1804061== 
+==1804061== Open file descriptor 4: /dev/pts/0
+==1804061==    at 0x49C1ABB: dup (syscall-template.S:78)
+==1804061==    by 0x4013D2: main (main.c:36)
+==1804061== 
+==1804061== Open file descriptor 103: /usr/share/code/v8_context_snapshot.bin
+==1804061==    <inherited from parent>
+==1804061== 
+==1804061== Open file descriptor 43: /nfs/homes/redei-ma/.config/Code/logs/20250326T155522/ptyhost.log
+==1804061==    <inherited from parent>
+==1804061== 
+==1804061== Open file descriptor 3: /nfs/homes/redei-ma/Minishell/renato/valgrind-log.txt
+==1804061==    <inherited from parent>
+==1804061== 
+==1804061== Open file descriptor 2: /dev/pts/0
+==1804061==    <inherited from parent>
+==1804061== 
+==1804061== Open file descriptor 1: /dev/pts/0
+==1804061==    <inherited from parent>
+==1804061== 
+==1804061== 
+==1804061== HEAP SUMMARY:
+==1804061==     in use at exit: 204,729 bytes in 227 blocks
+==1804061==   total heap usage: 538 allocs, 311 frees, 229,172 bytes allocated
+==1804061== 
+==1804061== 3 bytes in 1 blocks are definitely lost in loss record 2 of 67
+==1804061==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1804061==    by 0x4068C0: ft_calloc (ft_calloc.c:27)
+==1804061==    by 0x406DBB: ft_strjoin (ft_strjoin.c:23)
+==1804061==    by 0x403173: handle_heredoc (lst_cmd_2.c:138)
+==1804061==    by 0x402757: filein_manager (lst_cmd_1.c:43)
+==1804061==    by 0x402C5B: parse_cmds (lst_cmd_1.c:137)
+==1804061==    by 0x40179C: loop_line (settings.c:70)
+==1804061==    by 0x4013F7: main (main.c:39)
+==1804061== 
+==1804061== 4 bytes in 1 blocks are definitely lost in loss record 3 of 67
+==1804061==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1804061==    by 0x4068C0: ft_calloc (ft_calloc.c:27)
+==1804061==    by 0x401639: set_shell (settings.c:47)
+==1804061==    by 0x4016A4: loop_line (settings.c:55)
+==1804061==    by 0x4013F7: main (main.c:39)
+==1804061== 
+==1804061== 8 bytes in 1 blocks are definitely lost in loss record 6 of 67
+==1804061==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1804061==    by 0x4068C0: ft_calloc (ft_calloc.c:27)
+==1804061==    by 0x401595: set_shell (settings.c:39)
+==1804061==    by 0x4016A4: loop_line (settings.c:55)
+==1804061==    by 0x4013F7: main (main.c:39)
+==1804061== 
+==1804061== 8 bytes in 1 blocks are definitely lost in loss record 7 of 67
+==1804061==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1804061==    by 0x4068C0: ft_calloc (ft_calloc.c:27)
+==1804061==    by 0x4015E1: set_shell (settings.c:43)
+==1804061==    by 0x4016A4: loop_line (settings.c:55)
+==1804061==    by 0x4013F7: main (main.c:39)
+==1804061== 
+==1804061== 10 bytes in 1 blocks are definitely lost in loss record 8 of 67
+==1804061==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==1804061==    by 0x4068C0: ft_calloc (ft_calloc.c:27)
+==1804061==    by 0x406DBB: ft_strjoin (ft_strjoin.c:23)
+==1804061==    by 0x402ED1: search_name (lst_cmd_2.c:67)
+==1804061==    by 0x40309C: handle_heredoc (lst_cmd_2.c:128)
+==1804061==    by 0x402757: filein_manager (lst_cmd_1.c:43)
+==1804061==    by 0x402C5B: parse_cmds (lst_cmd_1.c:137)
+==1804061==    by 0x40179C: loop_line (settings.c:70)
+==1804061==    by 0x4013F7: main (main.c:39)
+==1804061== 
+==1804061== LEAK SUMMARY:
+==1804061==    definitely lost: 33 bytes in 5 blocks
+==1804061==    indirectly lost: 0 bytes in 0 blocks
+==1804061==      possibly lost: 0 bytes in 0 blocks
+==1804061==    still reachable: 0 bytes in 0 blocks
+==1804061==         suppressed: 204,696 bytes in 222 blocks
+==1804061== 
+==1804061== For lists of detected and suppressed errors, rerun with: -s
+==1804061== ERROR SUMMARY: 13 errors from 6 contexts (suppressed: 1 from 1)

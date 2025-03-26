@@ -12,9 +12,9 @@
 
 #include "minishell.h"
 
-void write_to_fd(t_shell *shell, const char *str, int len)
+void	write_to_fd(t_shell *shell, const char *str, int len)
 {
-	int fd;
+	int	fd;
 
 	if (shell->cmds->file_a == -1 && shell->cmds->file_o == -1)
 		fd = 1;
@@ -27,8 +27,8 @@ void write_to_fd(t_shell *shell, const char *str, int len)
 
 char	*ft_getenv(char *nm_var, t_shell *shell)
 {
-	int	i;
-	char	*val;
+	int			i;
+	char		*val;
 
 	i = srcd_env(shell, nm_var);
 	if (i == -1)
@@ -41,10 +41,11 @@ char	*ft_getenv(char *nm_var, t_shell *shell)
 
 int	handle_env_variable(char *str, int i, t_shell *shell)
 {
-	int ncv = i + 1;
-	char *nm_var;
-	char *var_val;
+	int			ncv;
+	char		*nm_var;
+	char		*var_val;
 
+	ncv = i + 1;
 	while (str[ncv] != '\0' && (ft_isalnum(str[ncv]) || str[ncv] == '_'))
 		ncv++;
 	nm_var = malloc((ncv - (i + 1)) + 1);
@@ -63,8 +64,11 @@ int	handle_env_variable(char *str, int i, t_shell *shell)
 
 int	handle_exit_status(t_shell *shell)
 {
-	int last_exit_status = 0;
-	char *exit_cd = ft_itoa(last_exit_status);
+	int			last_exit_status;
+	char		*exit_cd;
+
+	last_exit_status = 0;
+	*exit_cd = ft_itoa(last_exit_status);
 	if (!exit_cd)
 		return (-1);
 	write_to_fd(shell, exit_cd, ft_strlen(exit_cd));

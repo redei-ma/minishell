@@ -1,8 +1,8 @@
 NAME = minishell
 CC = cc
 CFLAG = -Wall -Wextra -Werror -g
-VALGRIND = valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --log-file=valgrind-log.txt
-SANITIZE = -fsanitize=address, -fsanitize=undefined
+VALGRIND = valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes --log-file=valgrind-log.txt
+# SANITIZE = -fsanitize=address, -fsanitize=undefined
 
 SRC =	main.c \
 		settings.c \
@@ -37,16 +37,14 @@ $(NAME): $(LIBFT) $(SRC)
 	@echo "Compiling $(NAME)..."
 	@$(CC) $(CFLAG) $(SRC) $(LIBFT) -I$(CURDIR) -o $(NAME) -lreadline
 
-valgrind: $(LIBFT) $(SRC)
-	@echo "Compiling $(NAME) with Valgrind..."
-	@$(CC) $(CFLAG) $(SRC) $(LIBFT) -I$(CURDIR) -o $(NAME) -lreadline
+valgrind: $(NAME)
+	@echo "Using Valgrind..."
 	$(VALGRIND) ./$(NAME)
 
-sanitize: $(LIBFT) $(SRC)
-	@echo "Compiling $(NAME) with Address Sanitizer..."
-	@$(CC) $(CFLAG) $(SANITIZE) $(SRC) $(LIBFT) -I$(CURDIR) -o $(NAME) -lreadline
-	./$(NAME) 2> sanitize_log.txt
-
+# sanitize: fclean
+# 	@echo "Compiling $(NAME) with Address Sanitizer..."
+# 	@$(CC) $(CFLAG) $(SANITIZE) $(SRC) $(LIBFT) -I$(CURDIR) -o $(NAME) -lreadline
+# 	./$(NAME) 2> sanitize_log.txt
 
 clean:
 	@echo "Removing object files..."

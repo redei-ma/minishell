@@ -3,52 +3,108 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lacerbi <lacerbi@student.42firenze.it>     +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 22:02:16 by renato            #+#    #+#             */
-/*   Updated: 2025/03/25 17:46:47 by lacerbi          ###   ########.fr       */
+/*   Updated: 2025/03/23 00:22:26 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*var_creation(const char *nm_var, const char *var_val)
-{
-	char	*temp;
-	char	*n_full_var;
-
-	temp = ft_strjoin(nm_var, "=");
-	if (!temp)
-		return (NULL);
-
-	n_full_var = ft_strjoin(temp, var_val);
-	free(temp);
-
-	return (n_full_var);
-}
-
-int	srcd_env(t_shell *shell, const char *name)
+int	find_eq_sn(char *str)
 {
 	int	i;
-	int	len;
 
 	i = 0;
-	len = ft_strlen(name);
-	while (shell->env[i])
+	while (str[i])
 	{
-		if (ft_strncmp(shell->env[i], name, len) == 0 && shell->env[i][len] == '=')
+		if (str[i] == '=')
 			return (i);
 		i++;
 	}
 	return (-1);
 }
 
+void	ft_printfd_shell(t_shell *shell, const char *format, char *args)
+{
+	int	fd;
+
+	if (shell->cmds->file_a == -1 && shell->cmds->file_o == -1)
+		fd = 1;
+	else if (shell->cmds->file_a != -1)
+		fd = shell->cmds->file_a;
+	else
+		fd = shell->cmds->file_o;
+	ft_printfd(fd, format, args);
+}
+
+void	print_env_declare(t_shell *shell)
+{
+	int	i;
+
+	i = 0;
+	while (shell->env[i])
+	{
+		ft_printfd_shell(shell, "declare -x %s\n", shell->env[i]);
+		i++;
+	}
+}
+
+void	process_export_arg(t_shell *shell, char *arg)
+{
+	int		eqp;
+	char	*name;
+	char	*val;
+
+	eqp = find_eq_sn(arg);
+	if (eqp != -1)
+	{
+		val = NULL;
+		name = ft_substr(arg, 0, eqp);
+		if (name)
+			val = ft_substr(arg, eqp + 1, ft_strlen(arg) - eqp - 1);
+		if (!name || !val)
+		{
+			free(name);
+			free(val);
+			return ;
+		}
+		upd_var(shell, name, val);
+		free(name);
+		free(val);
+	}
+	else if (srcd_env(shell, arg) == -1)
+	{
+		upd_var(shell, arg, "");
+	}
+}
+
+void	ft_export(t_shell *shell, char **args)
+{
+	int	i;
+
+	if (!args)
+	{
+		print_env_declare(shell);
+		return ;
+	}
+	i = 0;
+	while (args[i])
+	{
+		process_export_arg(shell, args[i]);
+		i++;
+	}
+}
+
+/*
+
 void	upd_var(t_shell *shell, const char *nm_var, const char *var_val)
 {
-	int	index;
-	int	i;
-	char	*n_full_var;
-	char	**new_env;
+	int			index;
+	int			i;
+	char		*n_full_var;
+	char		**new_env;
 
 	i = -1;
 	index = srcd_env(shell, nm_var);
@@ -66,7 +122,7 @@ void	upd_var(t_shell *shell, const char *nm_var, const char *var_val)
 		if (!new_env)
 		{
 			free(n_full_var);
-			return;
+			return ;
 		}
 		while (++i < shell->max)
 			new_env[i] = shell->env[i];
@@ -78,33 +134,6 @@ void	upd_var(t_shell *shell, const char *nm_var, const char *var_val)
 	}
 }
 
-int	find_eq_sn(char *str)
-{
-	int	i;
-
-	i = 0;
-	while(str[i])
-	{
-		if (str[i] == '=')
-			return (i);
-		i++;
-	}
-	return (-1);
-}
-
-void ft_printfd_shell(t_shell *shell, const char *format, char *args)
-{
-    int fd;
-
-    if (shell->cmds->file_a == -1 && shell->cmds->file_o == -1)
-        fd = 1;
-    else if (shell->cmds->file_a != -1)
-        fd = shell->cmds->file_a;
-    else
-        fd = shell->cmds->file_o;
-    ft_printfd(fd, format, args);
-}
-/*
 void	ft_export(t_shell *shell, char **args)
 {
 	int			i;
@@ -147,62 +176,6 @@ void	ft_export(t_shell *shell, char **args)
 		i++;
 	}
 	return ;
-}*/
-
-static void	print_env_vars(t_shell *shell)
-{
-	int		i;
-
-	i = 0;
-	while (shell->env[i])
-	{
-		ft_printfd_shell(shell, "declare -x %s\n", shell->env[i]);
-		i++;
-	}
 }
 
-static int	process_export_arg(t_shell *shell, char *arg)
-{
-	int		eqp;
-	char	*name;
-	char	*val;
-
-	eqp = find_eq_sn(arg);
-	if (eqp != -1)
-	{
-		name = ft_substr(arg, 0, eqp);
-		if (!name)
-			return (0);
-		val = ft_substr(arg, eqp + 1, ft_strlen(arg) - eqp - 1);
-		if (!val)
-		{
-			free(name);
-			return (0);
-		}
-		upd_var(shell, name, val);
-		free(name);
-		free(val);
-	}
-	else if (srcd_env(shell, arg) == -1)
-	{
-		upd_var(shell, arg, "");
-	}
-	return (1);
-}
-
-void	ft_export(t_shell *shell, char **args)
-{
-	int		i;
-
-	if (!args)
-	{
-		print_env_vars(shell);
-		return ;
-	}
-	i = 0;
-	while (args[i])
-	{
-		process_export_arg(shell, args[i]);
-		i++;
-	}
-}
+*/
