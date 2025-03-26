@@ -1,0 +1,43 @@
+marzo 20/21 tutte le foto
+
+in particolare ciao= cat
+
+
+
+Provare comando "ls | | " che non va invece "ls ||" va 
+
+
+Valutare se togliere gli spazi tra | < > prima di slittare
+
+
+
+
+CAPIRE COSA FANNO I BACKSLASH E VEDERE SE SONO DA GESTIRE
+
+
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug fork",
+            "type": "lldb",
+            "request": "launch",
+            "program": "${workspaceFolder}/minishell",
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "initCommands": [
+                "settings set target.process.follow-fork-mode child",
+                "settings set target.process.stop-on-exec true"
+            ]
+        }
+    ]
+}
+
+
+
+
+
+
+
+
+

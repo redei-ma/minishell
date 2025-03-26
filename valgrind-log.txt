@@ -1,0 +1,439 @@
+==2042276== Memcheck, a memory error detector
+==2042276== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==2042276== Using Valgrind-3.15.0 and LibVEX; rerun with -h for copyright info
+==2042276== Command: /usr/games/sl
+==2042276== Parent PID: 2041927
+==2042276====2041927== 
+==2041927== FILE DESCRIPTORS: 7 open at exit.
+==2041927== Open file descriptor 103: /usr/share/code/v8_context_snapshot.bin
+==2041927==    <inherited from parent>
+==2041927== 
+==2041927== Open file descriptor 43: /nfs/homes/redei-ma/.config/Code/logs/20250325T160121/ptyhost.log
+==2041927==    <inherited from parent>
+==2041927== 
+==2041927== Open AF_UNIX socket 29: <unknown>
+==2041927==    <inherited from parent>
+==2041927== 
+==2041927== Open file descriptor 3: /nfs/homes/redei-ma/Minishell/renato/valgrind-log.txt
+==2041927==    <inherited from parent>
+==2041927== 
+==2041927== Open file descriptor 2: /dev/pts/0
+==2041927==    <inherited from parent>
+==2041927== 
+==2041927== Open file descriptor 1: /dev/pts/0
+==2041927==    <inherited from parent>
+==2041927== 
+==2041927== Open file descriptor 0: /dev/pts/0
+==2041927==    <inherited from parent>
+==2041927== 
+==2041927== 
+==2041927== HEAP SUMMARY:
+==2041927==     in use at exit: 204,695 bytes in 221 blocks
+==2041927==   total heap usage: 538 allocs, 317 frees, 229,348 bytes allocated
+==2041927== 
+==2041927== LEAK SUMMARY:
+==2041927==    definitely lost: 0 bytes in 0 blocks
+==2041927==    indirectly lost: 0 bytes in 0 blocks
+==2041927==      possibly lost: 0 bytes in 0 blocks
+==2041927==    still reachable: 0 bytes in 0 blocks
+==2041927==         suppressed: 204,695 bytes in 221 blocks
+==2041927== 
+==2041927== For lists of detected and suppressed errors, rerun with: -s
+==2041927== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+4-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4875E5C: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48722CF: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x10B164: ??? (in /usr/games/sl)
+==2042276==    by 0x48E0082: (below main) (libc-start.c:308)
+==2042276== 
+==2042276== 15 bytes in 1 blocks are still reachable in loss record 2 of 36
+==2042276==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2042276==    by 0x495B38E: strdup (strdup.c:42)
+==2042276==    by 0x489FF4F: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48759AC: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4875E5C: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48722CF: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x10B164: ??? (in /usr/games/sl)
+==2042276==    by 0x48E0082: (below main) (libc-start.c:308)
+==2042276== 
+==2042276== 18 bytes in 1 blocks are still reachable in loss record 3 of 36
+==2042276==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2042276==    by 0x48A1642: _nc_tparm_analyze (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48A18CB: tparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48751B5: ??? (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4875B8C: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4875E5C: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48722CF: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x10B164: ??? (in /usr/games/sl)
+==2042276==    by 0x48E0082: (below main) (libc-start.c:308)
+==2042276== 
+==2042276== 20 bytes in 1 blocks are still reachable in loss record 4 of 36
+==2042276==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2042276==    by 0x495B38E: strdup (strdup.c:42)
+==2042276==    by 0x489CB67: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x489D31F: _nc_first_db (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48A6F8E: _nc_read_entry2 (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x489FAF5: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x489FF04: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48759AC: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4875E5C: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48722CF: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x10B164: ??? (in /usr/games/sl)
+==2042276==    by 0x48E0082: (below main) (libc-start.c:308)
+==2042276== 
+==2042276== 32 bytes in 1 blocks are still reachable in loss record 5 of 36
+==2042276==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2042276==    by 0x489D794: _nc_home_terminfo (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x489D309: _nc_first_db (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48A6F8E: _nc_read_entry2 (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x489FAF5: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x489FF04: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48759AC: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4875E5C: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48722CF: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x10B164: ??? (in /usr/games/sl)
+==2042276==    by 0x48E0082: (below main) (libc-start.c:308)
+==2042276== 
+==2042276== 46 bytes in 1 blocks are still reachable in loss record 6 of 36
+==2042276==    at 0x483DFAF: realloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2042276==    by 0x489D3B7: _nc_doalloc (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48A6674: _nc_read_termtype (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48A6A8C: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48A6E83: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48A6FB4: _nc_read_entry2 (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x489FAF5: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x489FF04: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48759AC: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4875E5C: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48722CF: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x10B164: ??? (in /usr/games/sl)
+==2042276== 
+==2042276== 46 bytes in 1 blocks are still reachable in loss record 7 of 36
+==2042276==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2042276==    by 0x489B24E: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x489FF1B: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48759AC: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4875E5C: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48722CF: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x10B164: ??? (in /usr/games/sl)
+==2042276==    by 0x48E0082: (below main) (libc-start.c:308)
+==2042276== 
+==2042276== 48 bytes in 1 blocks are still reachable in loss record 8 of 36
+==2042276==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2042276==    by 0x489CF2B: _nc_first_db (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48A6F8E: _nc_read_entry2 (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x489FAF5: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x489FF04: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48759AC: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4875E5C: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48722CF: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x10B164: ??? (in /usr/games/sl)
+==2042276==    by 0x48E0082: (below main) (libc-start.c:308)
+==2042276== 
+==2042276== 66 bytes in 1 blocks are still reachable in loss record 9 of 36
+==2042276==    at 0x483DFAF: realloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2042276==    by 0x489D3B7: _nc_doalloc (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48A2D83: tparm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48751B5: ??? (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4875B8C: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4875E5C: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48722CF: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x10B164: ??? (in /usr/games/sl)
+==2042276==    by 0x48E0082: (below main) (libc-start.c:308)
+==2042276== 
+==2042276== 78 bytes in 1 blocks are still reachable in loss record 10 of 36
+==2042276==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2042276==    by 0x489B2BF: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x489FF1B: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48759AC: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4875E5C: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48722CF: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x10B164: ??? (in /usr/games/sl)
+==2042276==    by 0x48E0082: (below main) (libc-start.c:308)
+==2042276== 
+==2042276== 84 bytes in 1 blocks are still reachable in loss record 11 of 36
+==2042276==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2042276==    by 0x486AFC8: ??? (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48811CF: doupdate_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48774E7: wrefresh (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x10B1E4: ??? (in /usr/games/sl)
+==2042276==    by 0x48E0082: (below main) (libc-start.c:308)
+==2042276== 
+==2042276== 101 bytes in 1 blocks are still reachable in loss record 12 of 36
+==2042276==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2042276==    by 0x489CE94: _nc_first_db (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48A6F8E: _nc_read_entry2 (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x489FAF5: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x489FF04: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48759AC: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4875E5C: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48722CF: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x10B164: ??? (in /usr/games/sl)
+==2042276==    by 0x48E0082: (below main) (libc-start.c:308)
+==2042276== 
+==2042276== 104 bytes in 1 blocks are still reachable in loss record 13 of 36
+==2042276==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2042276==    by 0x4876095: ??? (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4876278: newwin_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4879788: ??? (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48759EF: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4875E5C: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48722CF: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x10B164: ??? (in /usr/games/sl)
+==2042276==    by 0x48E0082: (below main) (libc-start.c:308)
+==2042276== 
+==2042276== 104 bytes in 1 blocks are still reachable in loss record 14 of 36
+==2042276==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2042276==    by 0x4876095: ??? (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4876278: newwin_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48797AD: ??? (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48759EF: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4875E5C: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48722CF: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x10B164: ??? (in /usr/games/sl)
+==2042276==    by 0x48E0082: (below main) (libc-start.c:308)
+==2042276== 
+==2042276== 104 bytes in 1 blocks are still reachable in loss record 15 of 36
+==2042276==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2042276==    by 0x4876095: ??? (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4876278: newwin_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x487994B: ??? (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48759EF: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4875E5C: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48722CF: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x10B164: ??? (in /usr/games/sl)
+==2042276==    by 0x48E0082: (below main) (libc-start.c:308)
+==2042276== 
+==2042276== 128 bytes in 1 blocks are still reachable in loss record 16 of 36
+==2042276==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2042276==    by 0x487938E: ??? (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48759EF: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4875E5C: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48722CF: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x10B164: ??? (in /usr/games/sl)
+==2042276==    by 0x48E0082: (below main) (libc-start.c:308)
+==2042276== 
+==2042276== 156 bytes in 1 blocks are still reachable in loss record 17 of 36
+==2042276==    at 0x483DFAF: realloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2042276==    by 0x489D3B7: _nc_doalloc (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48A6692: _nc_read_termtype (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48A6A8C: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48A6E83: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48A6FB4: _nc_read_entry2 (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x489FAF5: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x489FF04: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48759AC: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4875E5C: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48722CF: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x10B164: ??? (in /usr/games/sl)
+==2042276== 
+==2042276== 168 bytes in 1 blocks are still reachable in loss record 18 of 36
+==2042276==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2042276==    by 0x486BAFD: ??? (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x486AF28: ??? (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48811CF: doupdate_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48774E7: wrefresh (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x10B1E4: ??? (in /usr/games/sl)
+==2042276==    by 0x48E0082: (below main) (libc-start.c:308)
+==2042276== 
+==2042276== 168 bytes in 1 blocks are still reachable in loss record 19 of 36
+==2042276==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2042276==    by 0x486BBFF: ??? (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x486AF28: ??? (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48811CF: doupdate_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48774E7: wrefresh (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x10B1E4: ??? (in /usr/games/sl)
+==2042276==    by 0x48E0082: (below main) (libc-start.c:308)
+==2042276== 
+==2042276== 280 bytes in 1 blocks are still reachable in loss record 20 of 36
+==2042276==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2042276==    by 0x489FEB7: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48759AC: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4875E5C: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48722CF: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x10B164: ??? (in /usr/games/sl)
+==2042276==    by 0x48E0082: (below main) (libc-start.c:308)
+==2042276== 
+==2042276== 336 bytes in 1 blocks are still reachable in loss record 21 of 36
+==2042276==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2042276==    by 0x48760B3: ??? (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4876278: newwin_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4879788: ??? (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48759EF: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4875E5C: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48722CF: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x10B164: ??? (in /usr/games/sl)
+==2042276==    by 0x48E0082: (below main) (libc-start.c:308)
+==2042276== 
+==2042276== 336 bytes in 1 blocks are still reachable in loss record 22 of 36
+==2042276==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2042276==    by 0x48760B3: ??? (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4876278: newwin_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48797AD: ??? (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48759EF: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4875E5C: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48722CF: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x10B164: ??? (in /usr/games/sl)
+==2042276==    by 0x48E0082: (below main) (libc-start.c:308)
+==2042276== 
+==2042276== 336 bytes in 1 blocks are still reachable in loss record 23 of 36
+==2042276==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2042276==    by 0x48760B3: ??? (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4876278: newwin_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x487994B: ??? (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48759EF: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4875E5C: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48722CF: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x10B164: ??? (in /usr/games/sl)
+==2042276==    by 0x48E0082: (below main) (libc-start.c:308)
+==2042276== 
+==2042276== 496 bytes in 1 blocks are still reachable in loss record 24 of 36
+==2042276==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2042276==    by 0x48A68FB: _nc_read_termtype (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48A6A8C: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48A6E83: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48A6FB4: _nc_read_entry2 (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x489FAF5: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x489FF04: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48759AC: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4875E5C: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48722CF: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x10B164: ??? (in /usr/games/sl)
+==2042276==    by 0x48E0082: (below main) (libc-start.c:308)
+==2042276== 
+==2042276== 496 bytes in 1 blocks are still reachable in loss record 25 of 36
+==2042276==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2042276==    by 0x489B399: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x489FF1B: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48759AC: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4875E5C: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48722CF: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x10B164: ??? (in /usr/games/sl)
+==2042276==    by 0x48E0082: (below main) (libc-start.c:308)
+==2042276== 
+==2042276== 512 bytes in 1 blocks are still reachable in loss record 26 of 36
+==2042276==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2042276==    by 0x487936F: ??? (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48759EF: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4875E5C: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48722CF: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x10B164: ??? (in /usr/games/sl)
+==2042276==    by 0x48E0082: (below main) (libc-start.c:308)
+==2042276== 
+==2042276== 755 bytes in 1 blocks are still reachable in loss record 27 of 36
+==2042276==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2042276==    by 0x48A697B: _nc_read_termtype (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48A6A8C: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48A6E83: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48A6FB4: _nc_read_entry2 (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x489FAF5: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x489FF04: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48759AC: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4875E5C: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48722CF: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x10B164: ??? (in /usr/games/sl)
+==2042276==    by 0x48E0082: (below main) (libc-start.c:308)
+==2042276== 
+==2042276== 1,056 bytes in 1 blocks are still reachable in loss record 28 of 36
+==2042276==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2042276==    by 0x486BAC2: ??? (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x486AF28: ??? (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48811CF: doupdate_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48774E7: wrefresh (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x10B1E4: ??? (in /usr/games/sl)
+==2042276==    by 0x48E0082: (below main) (libc-start.c:308)
+==2042276== 
+==2042276== 1,556 bytes in 1 blocks are still reachable in loss record 29 of 36
+==2042276==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2042276==    by 0x48A5FF2: _nc_read_termtype (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48A6A8C: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48A6E83: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48A6FB4: _nc_read_entry2 (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x489FAF5: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x489FF04: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48759AC: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4875E5C: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48722CF: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x10B164: ??? (in /usr/games/sl)
+==2042276==    by 0x48E0082: (below main) (libc-start.c:308)
+==2042276== 
+==2042276== 1,624 bytes in 1 blocks are still reachable in loss record 30 of 36
+==2042276==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2042276==    by 0x48A034E: new_prescr (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x4875E4B: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48722CF: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x10B164: ??? (in /usr/games/sl)
+==2042276==    by 0x48E0082: (below main) (libc-start.c:308)
+==2042276== 
+==2042276== 3,792 bytes in 1 blocks are still reachable in loss record 31 of 36
+==2042276==    at 0x483DFAF: realloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2042276==    by 0x489D3B7: _nc_doalloc (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48A66B0: _nc_read_termtype (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48A6A8C: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48A6E83: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48A6FB4: _nc_read_entry2 (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x489FAF5: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x489FF04: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48759AC: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4875E5C: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48722CF: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x10B164: ??? (in /usr/games/sl)
+==2042276== 
+==2042276== 3,792 bytes in 1 blocks are still reachable in loss record 32 of 36
+==2042276==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2042276==    by 0x489B26F: ??? (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x489FF1B: _nc_setupterm (in /usr/lib/x86_64-linux-gnu/libtinfo.so.6.2)
+==2042276==    by 0x48759AC: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4875E5C: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48722CF: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x10B164: ??? (in /usr/games/sl)
+==2042276==    by 0x48E0082: (below main) (libc-start.c:308)
+==2042276== 
+==2042276== 4,646 bytes in 1 blocks are still reachable in loss record 33 of 36
+==2042276==    at 0x483B7F3: malloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2042276==    by 0x487948F: ??? (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48759EF: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4875E5C: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48722CF: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x10B164: ??? (in /usr/games/sl)
+==2042276==    by 0x48E0082: (below main) (libc-start.c:308)
+==2042276== 
+==2042276== 16,464 bytes in 21 blocks are still reachable in loss record 34 of 36
+==2042276==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2042276==    by 0x48762AC: newwin_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4879788: ??? (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48759EF: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4875E5C: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48722CF: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x10B164: ??? (in /usr/games/sl)
+==2042276==    by 0x48E0082: (below main) (libc-start.c:308)
+==2042276== 
+==2042276== 16,464 bytes in 21 blocks are still reachable in loss record 35 of 36
+==2042276==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2042276==    by 0x48762AC: newwin_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48797AD: ??? (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48759EF: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4875E5C: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48722CF: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x10B164: ??? (in /usr/games/sl)
+==2042276==    by 0x48E0082: (below main) (libc-start.c:308)
+==2042276== 
+==2042276== 16,464 bytes in 21 blocks are still reachable in loss record 36 of 36
+==2042276==    at 0x483DD99: calloc (in /usr/lib/x86_64-linux-gnu/valgrind/vgpreload_memcheck-amd64-linux.so)
+==2042276==    by 0x48762AC: newwin_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x487994B: ??? (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48759EF: newterm_sp (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x4875E5C: newterm (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x48722CF: initscr (in /usr/lib/x86_64-linux-gnu/libncurses.so.6.2)
+==2042276==    by 0x10B164: ??? (in /usr/games/sl)
+==2042276==    by 0x48E0082: (below main) (libc-start.c:308)
+==2042276== 
+==2042276== LEAK SUMMARY:
+==2042276==    definitely lost: 0 bytes in 0 blocks
+==2042276==    indirectly lost: 0 bytes in 0 blocks
+==2042276==      possibly lost: 0 bytes in 0 blocks
+==2042276==    still reachable: 70,895 bytes in 96 blocks
+==2042276==         suppressed: 0 bytes in 0 blocks
+==2042276== 
+==2042276== For lists of detected and suppressed errors, rerun with: -s
+==2042276== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
