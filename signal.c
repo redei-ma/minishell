@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 17:39:04 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/26 17:44:11 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/26 19:11:09 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,12 @@ void	handle_ctrl_c(int signum)
 	g_exit_status = 130;
 }
 
-void handle_ctrl_c_heredoc(int signum)
+void handle_ctrl_c_get(int signum)
 {
 	(void)signum;
 	write(1, "\n", 1);
 	g_exit_status = 130;
-	// Close stdin to terminate the heredoc read operation
 	close(0);
-	// The actual display will be handled by the main loop
 }
 
 void	handle_ctrl_bl(int signum)

@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/26 17:43:54 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/26 19:13:02 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,6 @@ void	interactive_ctrls(void);
 void	ni_ctrls(void);
 void	handle_ctrl_c_exec(int signum);
 
-void	handle_ctrl_c_heredoc(int signum);
+void	handle_ctrl_c_get(int signum);
 
 #endif
