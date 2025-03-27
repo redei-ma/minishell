@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:20:09 by renato            #+#    #+#             */
-/*   Updated: 2025/03/26 19:18:24 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/27 16:01:36 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,12 @@ char	*search_name(t_shell *shell)
 {
 	char	*filename;
 	char	*num;
+	int		i;
 
+	i = 0;
 	while (1)
 	{
-		num = ft_itoa(shell->num_heredoc);
+		num = ft_itoa(i);
 		if (!num)
 			exit_all("Error: malloc failed\n", shell, 1);
 		filename = ft_strjoin("heredoc_", num);
@@ -71,10 +73,10 @@ char	*search_name(t_shell *shell)
 			exit_all("Error: malloc failed\n", shell, 1);
 		}
 		free(num);
-		shell->num_heredoc++;
 		if (access(filename, F_OK) == -1)
 			break ;
 		free(filename);
+		i++;
 	}
 	return (filename);
 }

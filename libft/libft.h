@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 11:52:12 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/27 15:05:28 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/27 18:54:26 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,6 @@ int		ft_tolower(int c);
 int		ft_toupper(int c);
 char	*get_next_line(int fd);
 void	safe_close(int *fd);
+int		ft_strcmp(const char *s1, const char *s2);
 
 #endif

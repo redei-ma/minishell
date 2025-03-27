@@ -9,38 +9,11 @@ Provare comando "ls | | " che non va invece "ls ||" va
 
 espandere le variabili va fatto per tutti i comandi quindi penso sia meglio farlo nel parsing e passare gia il valore
 
-non elimina gli heredoc
-
-export sono in ordine alfabetico. bisogna vedere anche env se non bisogna sistemarli
 
 non devo togieer egli spazi tra metacaratteri  devo farlo solo quando vedo che e uno solo per es e dopo mi serve sapere per il syntax error
 
-CAPIRE COSA FANNO I BACKSLASH E VEDERE SE SONO DA GESTIRE
+
+syntax error giusti
 
 
-{
-    "version": "0.2.0",
-    "configurations": [
-        {
-            "name": "Debug fork",
-            "type": "lldb",
-            "request": "launch",
-            "program": "${workspaceFolder}/minishell",
-            "args": [],
-            "cwd": "${workspaceFolder}",
-            "initCommands": [
-                "settings set target.process.follow-fork-mode child",
-                "settings set target.process.stop-on-exec true"
-            ]
-        }
-    ]
-}
-
-
-
-
-
-
-
-
-
+(ls | cat -e | pwd) anche (ls | cat -e | cd ..)   va in sif pipe ma (ls | cat -e | wc -l) no

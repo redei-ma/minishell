@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:07:08 by renato            #+#    #+#             */
-/*   Updated: 2025/03/27 15:43:34 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/27 19:08:02 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	loop_line(t_shell *shell)
 	if (!shell->input)
 		exit_all("exit", shell, 0); // capire se viene chiamato due volte o va bene e se va bene il numero di uscita o se non deve stamapre niente
 	check_unclosed(&shell->input, shell);
-	if (shell->input)
+	if (shell->input[0])
 		add_history(shell->input);
 	if (is_empty(shell->input))
 		return ;
@@ -77,24 +77,3 @@ void	loop_line(t_shell *shell)
 	cmd_manage(shell);
 }
 
-void	init_env(t_shell *shell, char **envp)
-{
-	int	n;
-	int	i;
-
-	n = 0;
-	i = 0;
-	while (envp[n])
-		n++;
-	shell->env = ft_calloc((n + 1), sizeof(char *));
-	if (!shell->env)
-		exit_all("Error: malloc failed\n", shell, 1);
-	while (i < n)
-	{
-		shell->env[i] = ft_strdup(envp[i]);
-		if (!shell->env[i])
-			exit_all("Error: malloc failed\n", shell, 1);
-		i++;
-	}
-	shell->max = n;
-}

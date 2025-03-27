@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_export.c                                        :+:      :+:    :+:   */
+/*   ft_export_1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 22:02:16 by renato            #+#    #+#             */
-/*   Updated: 2025/03/23 00:22:26 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/27 19:07:31 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,29 +26,50 @@ int	find_eq_sn(char *str)
 	return (-1);
 }
 
-void	ft_printfd_shell(t_shell *shell, const char *format, char *args)
+void	sort_env(char **srtd_env)
 {
-	int	fd;
+	int		i;
+	int		j;
+	char	*tmp;
 
-	if (shell->cmds->file_a == -1 && shell->cmds->file_o == -1)
-		fd = 1;
-	else if (shell->cmds->file_a != -1)
-		fd = shell->cmds->file_a;
-	else
-		fd = shell->cmds->file_o;
-	ft_printfd(fd, format, args);
+	i = 0;
+	while (srtd_env[i])
+	{
+		j = i + 1;
+		while (srtd_env[j])
+		{
+			if (ft_strcmp(srtd_env[i], srtd_env[j]) > 0)
+			{
+				tmp = srtd_env[i];
+				srtd_env[i] = srtd_env[j];
+				srtd_env[j] = tmp;
+			}
+			j++;
+		}
+		i++;
+	}
 }
 
 void	print_env_declare(t_shell *shell)
 {
-	int	i;
+	int			i;
+	char		**srtd_env;
 
-	i = 0;
-	while (shell->env[i])
+	srtd_env = malloc(sizeof(char *) * (shell->max + 2));
+	if (!srtd_env)
 	{
-		ft_printfd_shell(shell, "declare -x %s\n", shell->env[i]);
-		i++;
+		free(srtd_env);
+		return ;
 	}
+	i = -1;
+	while (++i < shell->max)
+		srtd_env[i] = shell->env[i];
+	srtd_env[i] = NULL;
+	sort_env(srtd_env);
+	i = -1;
+	while (srtd_env[++i])
+		ft_printfd_shell(shell, "declare -x %s\n", (char *)srtd_env[i]);
+	free(srtd_env);
 }
 
 void	process_export_arg(t_shell *shell, char *arg)
@@ -96,86 +117,3 @@ void	ft_export(t_shell *shell, char **args)
 		i++;
 	}
 }
-
-/*
-
-void	upd_var(t_shell *shell, const char *nm_var, const char *var_val)
-{
-	int			index;
-	int			i;
-	char		*n_full_var;
-	char		**new_env;
-
-	i = -1;
-	index = srcd_env(shell, nm_var);
-	n_full_var = var_creation(nm_var, var_val);
-	if (!n_full_var)
-		return ;
-	if (index != -1)
-	{
-		free(shell->env[index]);
-		shell->env[index] = n_full_var;
-	}
-	else
-	{
-		new_env = malloc(sizeof(char *) * (shell->max + 2));
-		if (!new_env)
-		{
-			free(n_full_var);
-			return ;
-		}
-		while (++i < shell->max)
-			new_env[i] = shell->env[i];
-		new_env[i] = n_full_var;
-		new_env[i + 1] = NULL;
-		free(shell->env);
-		shell->env = new_env;
-		shell->max++;
-	}
-}
-
-void	ft_export(t_shell *shell, char **args)
-{
-	int			i;
-	int			eqp;
-	char		*name;
-	char		*val;
-
-	if (!args)
-	{
-		i = 0;
-		while (shell->env[i])
-		{
-			ft_printfd_shell(shell, "declare -x %s\n", shell->env[i]);
-			i++;
-		}
-		return ;
-	}
-	i = 0;
-	while (args[i])
-	{
-		eqp = find_eq_sn(args[i]);
-		if (eqp != -1)
-		{
-			val = NULL;
-			name = ft_substr(args[i], 0, eqp);
-			if (name)
-			    val = ft_substr(args[i], eqp + 1, ft_strlen(args[i]) - eqp - 1);
-			if (!name || !val)
-			{
-			    free(name);
-			    free(val);
-			    return ;
-			}
-			upd_var(shell, name, val);
-			free(name);
-			free(val);
-		}
-		else if (srcd_env(shell, args[i]) == -1)
-			upd_var(shell, args[i], "");
-		i++;
-	}
-	return ;
-}
-
-*/

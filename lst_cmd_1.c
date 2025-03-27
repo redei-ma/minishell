@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:17:38 by renato            #+#    #+#             */
-/*   Updated: 2025/03/27 15:16:44 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/27 16:27:33 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,11 @@ void	parse_cmd(char **tokens, t_shell *shell, int *control)
 		else if (tokens[i][0] == '|')
 			*control = pipe_manager(shell, tokens, &i);
 		else if (tokens[i][0] == '<')
+		{
 			*control = filein_manager(shell, tokens, &i);
+			if (*control == 404)
+				break ;
+		}
 		else if (tokens[i][0] == '>')
 			*control = fileout_manager(shell, tokens, &i);
 		else if (!shell->cmds->cmd)

@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/27 15:46:58 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/27 20:15:27 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,10 +115,6 @@ void	ft_unset(t_shell *shell, char **args);
 void	ft_pwd(t_shell *shell);
 void	ft_cd(char **string, t_shell *shell);
 
-// find.c
-int		is_env(char *cmd);
-int		is_builtin(char *cmd);
-
 // ft_echo_1.c
 int		handle_variable(char *str, int i, t_shell *shell);
 int		handle_quotes(char c, int *in_single_quote, int *in_double_quote);
@@ -158,11 +154,14 @@ char	*test_path(char **cmd_path, char *cmd, int j);
 char	*find_command_path(char *path, char *cmd);
 
 // utils.c
+int		is_env(char *cmd);
+int		is_builtin(char *cmd);
 int		ft_cmd_size(t_cmd *lst);
 int		is_empty(char *str);
 
 // error.c
-void	free_all_2(t_shell *shell);
+void	free_part_2(t_shell *shell);
+void	free_part(t_shell *shell);
 void	free_all(t_shell *shell);
 void	delete_heredoc(t_shell *shell);
 void	close_all(t_shell *shell);
@@ -177,6 +176,14 @@ void	interactive_ctrls(void);
 void	ni_ctrls(void);
 void	handle_ctrl_c_exec(int signum);
 
+
+
 void	handle_ctrl_c_get(int signum);
+
+
+void	close_partial(t_shell *shell);
+
+
+char	**copy_mat(char **mat, int *max_env, t_shell *shell);
 
 #endif
