@@ -17,12 +17,14 @@ SRC =	main.c \
 		find.c \
 		ft_echo_1.c \
 		ft_echo_2.c \
-		ft_export.c \
+		ft_export_1.c \
+		ft_export_2.c \
+		ft_exec_1.c \
+		ft_exec_2.c \
 		ft_minisplit.c \
 		error.c \
 		utils.c \
-		signal.c \
-		executable.c
+		signal.c
 
 LIBFT_DIR = ./libft
 LIBFT = ./libft/libft.a

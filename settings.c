@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   settings.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:07:08 by renato            #+#    #+#             */
-/*   Updated: 2025/03/26 17:14:58 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/27 07:57:43 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,10 @@ void	loop_line(t_shell *shell)
 	shell->tokens = ft_minisplit(shell->input);
 	if (!shell->tokens)
 		exit_all("Error: malloc failed\n", shell, 1);
-	int control = parse_cmds(shell->tokens, shell);
+	int control = create_cmds(shell->tokens, shell);
 	if (control == 404)
 	{
-		rl_on_new_line();
+		rl_on_new_line(); // serve?
 		return_partial(NULL, shell, 1); //errore da capire
 	}
 	delete_quotes(shell->cmds, shell);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_cmd_1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:17:38 by renato            #+#    #+#             */
-/*   Updated: 2025/03/26 16:13:22 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/27 07:53:56 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,24 +119,21 @@ void	is_valid_env(char **tokens, int i, t_shell *shell)
 	}
 }
 
-int	parse_cmds(char **tokens, t_shell *shell)
+void	parse_cmd(char **tokens, t_shell, int *control)
 {
-	int		i;
-	int		control = 0;
+	int	i;
 
 	i = 0;
-	shell->cmds = ft_newcmd(shell);
-	shell->head = shell->cmds;
 	while (tokens[i])
 	{
 		if (is_env(tokens[i]))
 			is_valid_env(tokens, i, shell);
 		else if (tokens[i][0] == '|')
-			control = pipe_manager(shell, tokens, &i);
+			*control = pipe_manager(shell, tokens, &i);
 		else if (tokens[i][0] == '<')
-			control =filein_manager(shell, tokens, &i);
+			*control = filein_manager(shell, tokens, &i);
 		else if (tokens[i][0] == '>')
-			control = fileout_manager(shell, tokens, &i);
+			*control = fileout_manager(shell, tokens, &i);
 		else if (!shell->cmds->cmd)
 		{
 			shell->cmds->cmd = ft_strdup(tokens[i]);
@@ -145,11 +142,20 @@ int	parse_cmds(char **tokens, t_shell *shell)
 		}
 		else
 			add_arg(&shell->cmds->args, tokens[i], shell);
-		if (control == 404)
-			return(control);
 		if (!tokens[++i])
 			break ;
 	}
+}
+
+int	create_cmds(char **tokens, t_shell *shell)
+{
+	int		control = 0;
+
+	shell->cmds = ft_newcmd(shell);
+	shell->head = shell->cmds;
+	parse_cmd(tokens, shell, &control);
+	if (control == 404)
+		return (404);
 	shell->cmds = shell->head;
 	return (0);
 }

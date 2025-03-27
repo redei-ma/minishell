@@ -42,6 +42,7 @@ void	ft_env(t_shell *shell)
 			ft_printfd_shell(shell, "%s\n", shell->env[i]);
 		i++;
 	}
+	g_exit_status = 0;
 }
 
 void	ft_unset(t_shell *shell, char **args)
@@ -69,6 +70,7 @@ void	ft_unset(t_shell *shell, char **args)
 		}
 		i++;
 	}
+	g_exit_status = 0;
 }
 
 void	ft_pwd(t_shell *shell)
@@ -79,6 +81,7 @@ void	ft_pwd(t_shell *shell)
 		ft_printfd_shell(shell, "%s\n", cwd);
 	else
 		return_partial("Error: pwd", shell, 1);
+	g_exit_status = 0;
 }
 
 void	ft_cd(char **string, t_shell *shell)
@@ -93,5 +96,5 @@ void	ft_cd(char **string, t_shell *shell)
 		return_partial("cd: no such file or directory: ", shell, 1);
 	// capire se devo chiudere gli fd o no
 	close_all(shell);
-	// aggiorno la variabile globale exit_code
+	g_exit_status = 0;
 }
