@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 20:40:21 by renato            #+#    #+#             */
-/*   Updated: 2025/03/25 17:13:57 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/27 07:57:02 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ void	remove_quotes(char **str, t_shell *shell)
 			j++;
 	}
 	*str = ft_realloc(*str, old_len + 1, new_len + 1);
-	if (!*str)
-		exit_all("Error: malloc failed\n", shell, 1);
 }
 
 void	delete_quotes(t_cmd *cmds, t_shell *shell)
@@ -50,10 +48,14 @@ void	delete_quotes(t_cmd *cmds, t_shell *shell)
 	{
 		i = 0;
 		remove_quotes(&cmds->cmd, shell);
+		if (!cmds->cmd)
+			exit_all("Error: malloc failed\n", shell, 1);
 		while (cmds->args && cmds->args[i])
 		{
 			if (ft_strncmp(cmds->cmd, "echo", 4) != 0)
 				remove_quotes(&cmds->args[i], shell);
+			if (!cmds->args[i])
+				exit_all("Error: malloc failed\n", shell, 1);
 			i++;
 		}
 		cmds = cmds->next;

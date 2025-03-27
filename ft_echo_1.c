@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo_1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lacerbi <lacerbi@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 21:52:54 by renato            #+#    #+#             */
-/*   Updated: 2025/03/23 01:30:00 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/26 18:13:11 by lacerbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	cmp_echo_flag(char *str)
 
 void	ft_echo(t_shell *shell)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (shell->cmds->args && cmp_echo_flag(shell->cmds->args[i]))
