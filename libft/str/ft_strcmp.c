@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   safe_close.c                                       :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/22 17:03:44 by renato            #+#    #+#             */
-/*   Updated: 2025/03/27 15:05:17 by redei-ma         ###   ########.fr       */
+/*   Created: 2024/11/22 11:00:35 by redei-ma          #+#    #+#             */
+/*   Updated: 2024/12/05 17:02:02 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	safe_close(int *fd)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	if (*fd != -1)
+	while (*s1 && (*s1 == *s2))
 	{
-		close(*fd);
-		*fd = -1;
+		s1++;
+		s2++;
 	}
+	return *(unsigned char *)s1 - *(unsigned char *)s2;
 }

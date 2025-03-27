@@ -6,13 +6,13 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 20:40:21 by renato            #+#    #+#             */
-/*   Updated: 2025/03/25 17:13:57 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/27 15:16:07 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	remove_quotes(char **str, t_shell *shell)
+void	remove_quotes(char **str)
 {
 	int		j;
 	int		old_len;
@@ -38,8 +38,6 @@ void	remove_quotes(char **str, t_shell *shell)
 			j++;
 	}
 	*str = ft_realloc(*str, old_len + 1, new_len + 1);
-	if (!*str)
-		exit_all("Error: malloc failed\n", shell, 1);
 }
 
 void	delete_quotes(t_cmd *cmds, t_shell *shell)
@@ -49,11 +47,15 @@ void	delete_quotes(t_cmd *cmds, t_shell *shell)
 	while (cmds)
 	{
 		i = 0;
-		remove_quotes(&cmds->cmd, shell);
+		remove_quotes(&cmds->cmd);
+		if (!cmds->cmd)
+			exit_all("Error: malloc failed\n", shell, 1);
 		while (cmds->args && cmds->args[i])
 		{
 			if (ft_strncmp(cmds->cmd, "echo", 4) != 0)
-				remove_quotes(&cmds->args[i], shell);
+				remove_quotes(&cmds->args[i]);
+			if (!cmds->args[i])
+				exit_all("Error: malloc failed\n", shell, 1);
 			i++;
 		}
 		cmds = cmds->next;

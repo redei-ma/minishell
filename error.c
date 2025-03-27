@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 19:33:11 by renato            #+#    #+#             */
-/*   Updated: 2025/03/26 16:59:07 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/27 15:05:47 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,8 @@ void	close_fds(t_shell *shell)
 	{
 		while (i < shell->piper->n_pipes)
 		{
-			safe_close(shell->piper->fds[i][0]);
-			safe_close(shell->piper->fds[i][1]);
+			safe_close(&shell->piper->fds[i][0]);
+			safe_close(&shell->piper->fds[i][1]);
 			i++;
 		}
 	}
@@ -99,9 +99,9 @@ void	close_all(t_shell *shell)
 	close_fds(shell);
 	while (shell->cmds)
 	{
-		safe_close(shell->cmds->file_i);
-		safe_close(shell->cmds->file_o);
-		safe_close(shell->cmds->file_a);
+		safe_close(&shell->cmds->file_i);
+		safe_close(&shell->cmds->file_o);
+		safe_close(&shell->cmds->file_a);
 		shell->cmds = shell->cmds->next;
 	}
 }

@@ -12,6 +12,26 @@
 
 #include "minishell.h"
 
+char	*get_path(char *cmd, char **envp)
+{
+	int		i;
+	char	*cmd_path;
+
+	i = 0;
+	while (envp[i])
+	{
+		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
+		{
+			cmd_path = find_command_path(envp[i] + 5, cmd);
+			if (!cmd_path)
+				return (NULL);
+			return (cmd_path);
+		}
+		i++;
+	}
+	return (NULL);
+}
+
 char	*already_path(char *cmd)
 {
 	char	*path;
@@ -54,7 +74,7 @@ char	**ft_cmd_join(char *cmd, char **args, t_shell *shell)
 	return (command);
 }
 
-void	set_dups(t_cmd *cmd)
+void	set_dups(t_cmd *cmd, t_shell *shell)
 {
 	if (cmd->file_i != -1)
 	{
@@ -89,7 +109,7 @@ void	ft_exec(t_shell *shell)
 	command = ft_cmd_join(shell->cmds->cmd, shell->cmds->args, shell);
 	if (!command)
 		exit_all("Error: malloc failed\n", shell, 1);
-	set_dups(shell->cmds);
+	set_dups(shell->cmds, shell);
 	close_all(shell);
 	delete_heredoc(shell);
 	free_all(shell);

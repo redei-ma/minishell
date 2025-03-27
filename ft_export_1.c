@@ -39,16 +39,50 @@ void	ft_printfd_shell(t_shell *shell, const char *format, char *args)
 	ft_printfd(fd, format, args);
 }
 
-void	print_env_declare(t_shell *shell)
+void	sort_env(char **srtd_env)
 {
-	int	i;
+	int		i;
+	int		j;
+	char	*tmp;
 
 	i = 0;
-	while (shell->env[i])
+	while (srtd_env[i])
 	{
-		ft_printfd_shell(shell, "declare -x %s\n", shell->env[i]);
+		j = i + 1;
+		while (srtd_env[j])
+		{
+			if (ft_strcmp(srtd_env[i], srtd_env[j]) > 0)
+			{
+				tmp = srtd_env[i];
+				srtd_env[i] = srtd_env[j];
+				srtd_env[j] = tmp;
+			}
+			j++;
+		}
 		i++;
 	}
+}
+
+void	print_env_declare(t_shell *shell)
+{
+	int			i;
+	char		**srtd_env;
+
+	srtd_env = malloc(sizeof(char *) * (shell->max + 2));
+	if (!srtd_env)
+	{
+		free(srtd_env);
+		return ;
+	}
+	i = -1;
+	while (++i < shell->max)
+		srtd_env[i] = shell->env[i];
+	srtd_env[i] = NULL;
+	sort_env(srtd_env);
+	i = -1;
+	while (srtd_env[++i])
+		ft_printfd_shell(shell, "declare -x %s\n", (char *)srtd_env[i]);
+	free(srtd_env);
 }
 
 void	process_export_arg(t_shell *shell, char *arg)
