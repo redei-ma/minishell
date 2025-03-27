@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 12:44:59 by renato            #+#    #+#             */
-/*   Updated: 2025/03/24 16:57:25 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/27 15:40:34 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	is_builtin(char *cmd)
 		return (1);
 	else if (ft_strncmp(cmd, "pwd", 3) == 0)
 		return (1);
-	else if(ft_strncmp(cmd, "export", 6) == 0)
+	else if (ft_strncmp(cmd, "export", 6) == 0)
 		return (1);
 	else if (ft_strncmp(cmd, "unset", 5) == 0)
 		return (1);

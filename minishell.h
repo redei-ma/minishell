@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/27 15:21:01 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/27 15:46:58 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,6 @@ char	*ft_getenv(char *nm_var, t_shell *shell);
 int		handle_env_variable(char *str, int i, t_shell *shell);
 int		handle_exit_status(t_shell *shell);
 
-
 // ft_export_1.c
 int		find_eq_sn(char *str);
 void	ft_printfd_shell(t_shell *shell, const char *format, char *args);
@@ -145,7 +144,7 @@ char	*var_creation(const char *nm_var, const char *var_val);
 int		srcd_env(t_shell *shell, const char *name);
 int		update_existing_var(t_shell *shell, int index, char *n_full_var);
 int		create_new_env_array(t_shell *shell, char *n_full_var);
-void 	upd_var(t_shell *shell, const char *nm_var, const char *var_val);
+void	upd_var(t_shell *shell, const char *nm_var, const char *var_val);
 
 // ft_exec_1.c
 char	*get_path(char *cmd, char **envp);
