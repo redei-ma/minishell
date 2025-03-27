@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lacerbi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 18:39:24 by lacerbi           #+#    #+#             */
-/*   Updated: 2025/03/26 18:39:37 by lacerbi          ###   ########.fr       */
+/*   Updated: 2025/03/27 15:23:26 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "minishell.h"
 
 char	*var_creation(const char *nm_var, const char *var_val)
 {
@@ -40,14 +42,14 @@ int	srcd_env(t_shell *shell, const char *name)
 	return (-1);
 }
 
-static int	update_existing_var(t_shell *shell, int index, char *n_full_var)
+int	update_existing_var(t_shell *shell, int index, char *n_full_var)
 {
 	free(shell->env[index]);
 	shell->env[index] = n_full_var;
 	return (1);
 }
 
-static int	create_new_env_array(t_shell *shell, char *n_full_var)
+int	create_new_env_array(t_shell *shell, char *n_full_var)
 {
 	char	**new_env;
 	int		i;

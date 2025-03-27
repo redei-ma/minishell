@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/27 08:12:52 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/27 15:21:01 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int		count_spec_char(char *input);
 void	set_spaces(char **input, t_shell *shell);
 
 // parsing_3.c
-void	remove_quotes(char **str, t_shell *shell);
+void	remove_quotes(char **str);
 void	delete_quotes(t_cmd *cmds, t_shell *shell);
 
 // ft_minisplit.c
@@ -151,7 +151,7 @@ void 	upd_var(t_shell *shell, const char *nm_var, const char *var_val);
 char	*get_path(char *cmd, char **envp);
 char	*already_path(char *cmd);
 char	**ft_cmd_join(char *cmd, char **args, t_shell *shell);
-void	set_dups(t_cmd *cmd);
+void	set_dups(t_cmd *cmd, t_shell *shell);
 void	ft_exec(t_shell *shell);
 
 // ft_exec_2.c

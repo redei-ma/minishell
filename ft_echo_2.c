@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 21:54:48 by renato            #+#    #+#             */
-/*   Updated: 2025/03/23 01:28:55 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/27 15:19:25 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	handle_exit_status(t_shell *shell)
 	char		*exit_cd;
 
 	last_exit_status = 0;
-	*exit_cd = ft_itoa(last_exit_status);
+	exit_cd = ft_itoa(last_exit_status);
 	if (!exit_cd)
 		return (-1);
 	write_to_fd(shell, exit_cd, ft_strlen(exit_cd));

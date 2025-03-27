@@ -74,7 +74,7 @@ char	**ft_cmd_join(char *cmd, char **args, t_shell *shell)
 	return (command);
 }
 
-void	set_dups(t_cmd *cmd)
+void	set_dups(t_cmd *cmd, t_shell *shell)
 {
 	if (cmd->file_i != -1)
 	{
@@ -109,7 +109,7 @@ void	ft_exec(t_shell *shell)
 	command = ft_cmd_join(shell->cmds->cmd, shell->cmds->args, shell);
 	if (!command)
 		exit_all("Error: malloc failed\n", shell, 1);
-	set_dups(shell->cmds);
+	set_dups(shell->cmds, shell);
 	close_all(shell);
 	delete_heredoc(shell);
 	free_all(shell);
