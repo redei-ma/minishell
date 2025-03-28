@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/27 20:15:27 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/28 14:39:34 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,9 +179,6 @@ void	handle_ctrl_c_exec(int signum);
 
 
 void	handle_ctrl_c_get(int signum);
-
-
-void	close_partial(t_shell *shell);
 
 
 char	**copy_mat(char **mat, int *max_env, t_shell *shell);

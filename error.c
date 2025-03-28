@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 19:33:11 by renato            #+#    #+#             */
-/*   Updated: 2025/03/27 20:09:09 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/28 14:39:26 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,38 +93,6 @@ void	delete_heredoc(t_shell *shell)
 		free(shell->heredocs);
 		shell->heredocs = NULL;
 	}
-}
-
-void	close_partial(t_shell *shell)
-{
-	int	i;
-	// t_intlist	*remaining_fds = shell->remaining_fds;
-	i = 0;
-	if (shell->piper)
-	{
-		while (i < shell->piper->n_pipes)
-		{
-			// if (!exit)
-			// 	add_to_remaining_fds(remaining_fds, shell->piper->fds[i][0]);
-			// safe_close(&shell->piper->fds[i][0]);
-			safe_close(&shell->piper->fds[i][1]);
-			i++;
-		}
-	}
-	shell->cmds = shell->head;
-	while (shell->cmds)
-	{
-		// if (!exit)
-		// add_to_remaining_fds(remaining_fds, shell->cmds->file_i);
-		// safe_close(&shell->cmds->file_i);
-		safe_close(&shell->cmds->file_o);
-		safe_close(&shell->cmds->file_a);
-		shell->cmds = shell->cmds->next;
-	}
-	// if (exit)
-	// 	close_remaining_fds(remaining_fds);
-	safe_close(&shell->original_stdin);
-	safe_close(&shell->original_stdout);
 }
 
 void	close_all(t_shell *shell)

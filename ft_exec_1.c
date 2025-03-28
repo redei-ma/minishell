@@ -112,8 +112,7 @@ void	ft_exec(t_shell *shell)
 		exit_all("Error: malloc failed\n", shell, 1);
 	set_dups(shell->cmds, shell);
 	copy_env = copy_mat(shell->env, NULL, shell);
-	// close_all(shell);
-	close_partial(shell);
+	close_all(shell);
 	free_all(shell);
 	execve(full_path, command, copy_env);
 	free(full_path);

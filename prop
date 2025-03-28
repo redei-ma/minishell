@@ -2,18 +2,41 @@ marzo 20/21 tutte le foto
 
 in particolare ciao= cat
 
+privare c==ciao non 
+
+non devo togieer egli spazi tra metacaratteri  devo farlo solo quando vedo che e uno solo per es e dopo mi serve sapere per il syntax error
+
+Devo fare i controlli dei sintaz error prima di parsare i cmd e creare le liste cosi la so che sara tuttp giusto e rispetto le rempisitche
+ho notato che non serve. ma di solito mi pareva lo facess --> pero deve triggerare qualcosa che dopo avere creat i comandi (che devo fare per forza senno mi salta l'here doc)(capire s i file out inesistenti li fa lo stesso)
 
 
-Provare comando "ls | | " che non va invece "ls ||" va 
-
+< i ls | << X cat -e devo fare in modo che questa cosa non esca del tutto
 
 espandere le variabili va fatto per tutti i comandi quindi penso sia meglio farlo nel parsing e passare gia il valore
 
 
-non devo togieer egli spazi tra metacaratteri  devo farlo solo quando vedo che e uno solo per es e dopo mi serve sapere per il syntax error
 
 
 syntax error giusti
 
+Provare comando "ls | | " che non va invece "ls ||" va 
 
-(ls | cat -e | pwd) anche (ls | cat -e | cd ..)   va in sif pipe ma (ls | cat -e | wc -l) no
+
+redei-ma@c2r2p8:~/Minishell$ echo $$
+1476377
+redei-ma@c2r2p8:~/Minishell$ echo $
+$
+redei-ma@c2r2p8:~/Minishell$ echo $$$
+1476377$
+redei-ma@c2r2p8:~/Minishell$ echo $$$$
+14763771476377
+redei-ma@c2r2p8:~/Minishell$ echo $i
+
+redei-ma@c2r2p8:~/Minishell$ echo $
+
+testare anche $"c" o $"$"
+
+
+controllare >, che splode e fa invalid read
+
+testatre e gestire questo al momento skippa e basta, almeno che stapi i $ senza cercare i pid del processo

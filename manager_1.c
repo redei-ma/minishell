@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 00:04:33 by renato            #+#    #+#             */
-/*   Updated: 2025/03/27 20:18:00 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/28 14:40:00 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,6 @@ void	fork_manger(t_shell *shell)
 		else if (shell->piper->pids[i] == 0)
 		{
 			cmd_find_son(shell, shell->cmds->cmd);
-			// close_partial(shell);
-			// delete_heredoc(shell);
-			// free_all(shell);
-			// exit(0);
 			exit_all(NULL, shell, 0);
 		}
 		shell->cmds = shell->cmds->next;
