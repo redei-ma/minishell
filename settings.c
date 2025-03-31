@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   settings.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:07:08 by renato            #+#    #+#             */
-/*   Updated: 2025/03/31 17:11:14 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/31 20:57:29 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,10 @@ void	loop_line(t_shell *shell)
 		add_history(shell->input);
 	if (shell->trigger || is_empty(shell->input))
 	{
-		return_partial(NULL, shell, shell->trigger);
+		if (is_empty(shell->input))
+			return_partial(NULL, shell, 0);
+		else
+			return_partial(NULL, shell, shell->trigger);
 		return ;
 	}
 	set_spaces(&shell->input, shell);
@@ -76,7 +79,8 @@ void	loop_line(t_shell *shell)
 	create_cmds(shell->tokens, shell);
 	if (shell->trigger)
 	{
-		return ; // errore da capire
+		return_partial(NULL, shell, shell->trigger);	
+		return ;
 	}
 	delete_quotes(shell->cmds, shell);
 	cmd_manage(shell);

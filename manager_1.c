@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manager_1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 00:04:33 by renato            #+#    #+#             */
-/*   Updated: 2025/03/28 14:40:00 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/31 21:12:55 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,11 @@ void	fork_manger(t_shell *shell)
 	close_all(shell);
 	while (wait(NULL) > 0)
 		;
-	signal(SIGINT, handle_ctrl_c_exec);
-	//controllare uscita figlio
+	signal(SIGINT, handle_ctrl_c);
+	if (WIFEXITED(status))
+		g_exit_status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		g_exit_status = 128 + WTERMSIG(status);
 }
 
 void	cmd_find_dad(t_shell *shell, char *cmd)
@@ -91,7 +94,10 @@ void	cmd_find_dad(t_shell *shell, char *cmd)
 			ft_exec(shell);
 		wait(NULL);
 		signal(SIGINT, handle_ctrl_c);
-		//bisogna cercare lo stato di uscita del figlio e aggiornarlo
+		if (WIFEXITED(status))
+			g_exit_status = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			g_exit_status = 128 + WTERMSIG(status);
 	}
 }
 
@@ -100,11 +106,9 @@ void	cmd_manage(t_shell *shell)
 	int	num_cmd;
 
 	num_cmd = ft_cmd_size(shell->cmds);
-	//se num_cmd == 0, cosa succede? in teroria non dovrebbe succedere perche ne creo subito uno
-	if (num_cmd == 1)
-		cmd_find_dad(shell, shell->cmds->cmd);
-	else if (num_cmd > 1)
+	if (num_cmd > 1)
 		fork_manger(shell);
+	else
+		cmd_find_dad(shell, shell->cmds->cmd);
 	return_partial(NULL, shell, 0);
-	//chiusura tutto per padre
 }

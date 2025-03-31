@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 20:40:21 by renato            #+#    #+#             */
-/*   Updated: 2025/03/31 19:52:37 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/31 21:01:46 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,7 @@ void	delete_quotes(t_cmd *cmds, t_shell *shell)
 			exit_all("Error: malloc failed\n", shell, 1);
 		while (cmds->args && cmds->args[i])
 		{
-			if (ft_strncmp(cmds->cmd, "echo", 4) != 0)
-				remove_quotes(&cmds->args[i]);
+			remove_quotes(&cmds->args[i]);
 			if (!cmds->args[i])
 				exit_all("Error: malloc failed\n", shell, 1);
 			i++;
@@ -63,45 +62,45 @@ void	delete_quotes(t_cmd *cmds, t_shell *shell)
 }
 //-----------------------------
 
-void	remove_spaces(char **input, int *i, char c, t_shell *shell)
-{
-	int	j;
-	int	count;
-	int	old_len;
+// void	remove_spaces(char **input, int *i, char c, t_shell *shell)
+// {
+// 	int	j;
+// 	int	count;
+// 	int	old_len;
 
-	old_len = ft_strlen(*input);
-	count = 0;
-	while ((*input)[*i] && (*input)[*i] == c)
-	{
-		count++;
-		(*i)++;
-		j = *i;
-		while ((*input)[j] && ft_isspace((*input)[j]))
-			j++;
-		if (j > *i)
-		{
-			ft_memmove(*input + *i, *input + j, old_len - j + 1);
-			*input = ft_realloc(*input, old_len + 1, old_len - (j - *i) + 1);
-			if (!(*input))
-				exit_all("Error: malloc failed\n", shell, 1);
-			old_len -= (j - *i);
-		}
-	}
-}
+// 	old_len = ft_strlen(*input);
+// 	count = 0;
+// 	while ((*input)[*i] && (*input)[*i] == c)
+// 	{
+// 		count++;
+// 		(*i)++;
+// 		j = *i;
+// 		while ((*input)[j] && ft_isspace((*input)[j]))
+// 			j++;
+// 		if (j > *i)
+// 		{
+// 			ft_memmove(*input + *i, *input + j, old_len - j + 1);
+// 			*input = ft_realloc(*input, old_len + 1, old_len - (j - *i) + 1);
+// 			if (!(*input))
+// 				exit_all("Error: malloc failed\n", shell, 1);
+// 			old_len -= (j - *i);
+// 		}
+// 	}
+// }
 
-void	remove_spaces_special_chars(char **input, t_shell *shell)
-{
-	int	i;
+// void	remove_spaces_special_chars(char **input, t_shell *shell)
+// {
+// 	int	i;
 
-	i = 0;
-	while ((*input)[i])
-	{
-		if ((*input)[i] == '|' || (*input)[i] == '<' || (*input)[i] == '>')
-			remove_spaces(input, &i, (*input)[i], shell);
-		else
-			i++;
-	}
-}
+// 	i = 0;
+// 	while ((*input)[i])
+// 	{
+// 		if ((*input)[i] == '|' || (*input)[i] == '<' || (*input)[i] == '>')
+// 			remove_spaces(input, &i, (*input)[i], shell);
+// 		else
+// 			i++;
+// 	}
+// }
 //----------------
 
 int	check_syntax(char *input, char c, t_shell *shell)
@@ -137,7 +136,6 @@ int	check_syntax(char *input, char c, t_shell *shell)
 			return_partial("syntax error near unexpected token `<'", shell, 2);
 		return (1);
 	}
-	//controllare gli altri mi pare sinao uguali per tutti 
 	return (0);
 }
 
