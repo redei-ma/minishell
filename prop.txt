@@ -1,8 +1,8 @@
+modificate tuttti gli int in size_t per scorrere una riga
+
 marzo 20/21 tutte le foto
 
 in particolare ciao= cat
-
-privare c==ciao non 
 
 non devo togieer egli spazi tra metacaratteri  devo farlo solo quando vedo che e uno solo per es e dopo mi serve sapere per il syntax error
 
@@ -15,7 +15,7 @@ ho notato che non serve. ma di solito mi pareva lo facess --> pero deve triggera
 espandere le variabili va fatto per tutti i comandi quindi penso sia meglio farlo nel parsing e passare gia il valore
 
 
-
+anche "||" e basta e un syntax error, controllare anche gli altri
 
 syntax error giusti
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_cmd_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:20:09 by renato            #+#    #+#             */
-/*   Updated: 2025/03/27 16:01:36 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/30 21:13:44 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,8 @@ int	handle_fdout(char *token, char c, t_shell *shell)
 		fd = open(token, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd < 0)
 	{
+		shell->trigger = 1;
 		exit_partial("open faild", shell, 1);
-		//non sono sicuro quale messaggio mettere
-		// if (errno == EACCES)
-		// 	return_msg("Error: permission denied\n", shell, 13);
-		// else if (errno == ENOENT)
-		// 	return_msg("Error: file not found\n", shell, 2);
-		// else if (errno == EISDIR)
-		// 	return_msg("Error: is a directory\n", shell, 126);
-		// else if (errno == 	ENOSPC)
-		// 	return_msg("Error: no space left on device\n", shell, 28);
-		// else if (errno == EROFS)
-		// 	return_msg("Error: read-only file system\n", shell, 30);
-		// else
-		// 	return_msg("Error: failed to open file\n", shell, 1);
 	}
 	return (fd);
 }
@@ -48,8 +36,8 @@ int	handle_fdin(char *token, t_shell *shell)
 	fd = open(token, O_RDONLY);
 	if (fd < 0)
 	{
-		//non sono sicuro dquale messaggio stamapre
-		exit_partial("open faild", shell, 1);
+		shell->trigger = 1;
+		return_partial("open faild", shell, 1);
 	}
 	return (fd);
 }
@@ -85,6 +73,7 @@ int	process_heredoc_line(int fd, char *limiter, t_shell *shell)
 {
 	char	*line;
 
+	signal(SIGINT, handle_ctrl_c_get);
 	ft_printfd(1, "> ");
 	line = get_next_line(0);
 	if (g_exit_status == 130)
@@ -92,28 +81,26 @@ int	process_heredoc_line(int fd, char *limiter, t_shell *shell)
 		if (line)
 			free(line);
 		dup2(shell->original_stdin, 0);
-		return (404);
-	}
-	if (!line)
-	{
-		ft_printf("merdeeee\n"); //strivere quello cgha fa bash con ctrl d
+		shell->trigger = 1;
 		return (0);
 	}
+	if (!line)
+		return (1);
+		// forse e ctrl
 	if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
 		return (free(line), 0);
 	ft_printfd(fd, "%s", line);
 	free(line);
+	signal(SIGINT, handle_ctrl_c);
 	return (1);
 }
 
 int	handle_heredoc(char *token, t_shell *shell)
 {
-	int		control;
 	int		fd;
 	char	*limiter;
 	char	*filename;
 
-	signal(SIGINT, handle_ctrl_c_get);
 	filename = search_name(shell);
 	shell->heredocs = ft_realloc(shell->heredocs, (shell->num_heredoc + 1) * sizeof(char *), (shell->num_heredoc + 2) * sizeof(char *));
 	if (!shell->heredocs)
@@ -123,21 +110,16 @@ int	handle_heredoc(char *token, t_shell *shell)
 	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 		//return_msg();
-		exit_partial("open faild", shell, 1);
+		return_partial("open faild", shell, 1);
 	limiter = ft_strjoin(token, "\n");
 	if (!limiter)
 		exit_all("Error: malloc failed\n", shell, 1);
-	while (1)
-	{
-		control = process_heredoc_line(fd, limiter, shell);
-		if (control == 404)
-			return (control);
-		else if (control == 0)
-			break ;
-	}
+	while (process_heredoc_line(fd, limiter, shell))
+		;
 	free(limiter);
 	close(fd);
+	if (shell->trigger)
+		return (-1);
 	fd = handle_fdin(filename, shell);
-	signal(SIGINT, handle_ctrl_c);
 	return (fd);
 }

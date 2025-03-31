@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:12:06 by renato            #+#    #+#             */
-/*   Updated: 2025/03/24 17:43:55 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/28 17:49:14 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,28 +52,6 @@ int	count_spec_char(char *input)
 	}
 	return (count + i + 1);
 }
-
-/* void	set_var(t_shell *shell, char *input, char *format, ...)
-{
-	int		i;
-	char	*spaced;
-	va_list	args;
-
-	i = 0;
-	spaced = ft_calloc(count_spec_char(input), sizeof(char));
-	if (!spaced)
-		exit_all("Error: malloc failed\n", shell, 1);
-	va_start(args, format);
-	while (format[i])
-	{
-		if (format[i] == '0')
-			*(va_arg(args, int *)) = 0;
-		else if (format[i] == '1')
-			*(va_arg(args, char **)) = spaced;
-		i++;
-	}
-	va_end(args);
-} */
 
 void	set_spaces(char **input, t_shell *shell)
 {

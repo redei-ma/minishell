@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/28 14:39:34 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/30 21:37:39 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_shell
 	int		signal;
 	int		original_stdin;
 	int		original_stdout;
+	int		trigger;
 }	t_shell;
 
 extern int	g_exit_status;
@@ -85,11 +86,11 @@ void	delete_quotes(t_cmd *cmds, t_shell *shell);
 char	**ft_minisplit(char const *s);
 
 // lst_cmd_1.c
-int		fileout_manager(t_shell *shell, char **tokens, int *i);
-int		filein_manager(t_shell *shell, char **tokens, int *i);
-int		pipe_manager(t_shell *shell, char **tokens, int *i);
+void	fileout_manager(t_shell *shell, char **tokens, int *i);
+void	filein_manager(t_shell *shell, char **tokens, int *i);
+void	pipe_manager(t_shell *shell, char **tokens, int *i);
 t_cmd	*ft_newcmd(t_shell *shell);
-int		create_cmds(char **tokens, t_shell *shell);
+void	create_cmds(char **tokens, t_shell *shell);
 
 // lst_cmd_2.c
 int		handle_fdout(char *token, char c, t_shell *shell);
@@ -182,5 +183,8 @@ void	handle_ctrl_c_get(int signum);
 
 
 char	**copy_mat(char **mat, int *max_env, t_shell *shell);
+
+void	check_syntax_error(char *input, t_shell *shell);
+int	skip_space(char *input);
 
 #endif

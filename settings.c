@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   settings.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:07:08 by renato            #+#    #+#             */
-/*   Updated: 2025/03/27 19:08:02 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/30 21:16:08 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@
 
 void	set_shell(t_shell *shell)
 {
+	shell->trigger = 0;
 	shell->cmds = NULL;
 	shell->heredocs = ft_calloc(1, sizeof(char *));
 	if (!shell->heredocs)
@@ -62,16 +63,22 @@ void	loop_line(t_shell *shell)
 		add_history(shell->input);
 	if (is_empty(shell->input))
 		return ;
-	remove_spaces_special_chars(&shell->input, shell);
 	set_spaces(&shell->input, shell);
+	check_syntax_error(shell->input, shell);
+	if (shell->trigger)
+	{
+		//capire se lo esegue. su mac mi pare che se sia prima lo fa senno no
+		// exec_heredoc(); // da fare
+		return_partial(NULL, shell, 1);
+	}
 	shell->tokens = ft_minisplit(shell->input);
 	if (!shell->tokens)
 		exit_all("Error: malloc failed\n", shell, 1);
-	int control = create_cmds(shell->tokens, shell);
-	if (control == 404)
+	create_cmds(shell->tokens, shell);
+	if (shell->trigger)
 	{
 		rl_on_new_line(); // serve?
-		return_partial(NULL, shell, 1); //errore da capire
+		return_partial(NULL, shell, 1); // errore da capire
 	}
 	delete_quotes(shell->cmds, shell);
 	cmd_manage(shell);
