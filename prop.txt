@@ -1,11 +1,13 @@
 modificate tuttti gli int in size_t per scorrere una riga
 
 
+controllare  g_exit_status
+
 marzo 20/21 tutte le foto
 in particolare ciao= cat
 
 
-< i ls | << X cat -e devo fare in modo che questa cosa non esca del tutto
+< i ls | << X cat -e mi esce prima dell'heredoc ma non ce scritto da nessuna oarta che non si puo
 
 
 espandere le variabili va fatto per tutti i comandi quindi penso sia meglio farlo nel parsing e passare gia il valore

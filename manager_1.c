@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 00:04:33 by renato            #+#    #+#             */
-/*   Updated: 2025/03/31 21:12:55 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/31 21:18:36 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	cmd_find_son(t_shell *shell, char *cmd)
 void	fork_manger(t_shell *shell)
 {
 	int	i;
+	int	status;
 
 	i = shell->piper->n_pids;
 	while (shell->cmds)
@@ -79,6 +80,7 @@ void	fork_manger(t_shell *shell)
 void	cmd_find_dad(t_shell *shell, char *cmd)
 {
 	pid_t	pid;
+	int		status;
 
 	if (is_builtin(cmd))
 		exe_builtin(shell);

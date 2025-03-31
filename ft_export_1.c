@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 22:02:16 by renato            #+#    #+#             */
-/*   Updated: 2025/03/27 19:07:31 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/31 21:35:06 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,4 +116,5 @@ void	ft_export(t_shell *shell, char **args)
 		process_export_arg(shell, args[i]);
 		i++;
 	}
+	g_exit_status = 0;
 }

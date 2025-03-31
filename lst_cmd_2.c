@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:20:09 by renato            #+#    #+#             */
-/*   Updated: 2025/03/31 20:56:48 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/31 21:17:19 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,9 +121,8 @@ int	handle_heredoc(char *token, t_shell *shell)
 		ft_printfd(2, "minishell: %s: No such file or directory\n", token);
 		return (shell->trigger = 1, -1);
 	}
-	while (process_heredoc_line(fd, limiter, token, shell))
+	while (process_heredoc_line(fd, token, shell))
 		;
-	free(limiter);
 	close(fd);
 	if (shell->trigger)
 		return (-1);

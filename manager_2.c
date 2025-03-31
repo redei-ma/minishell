@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manager_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 22:12:52 by renato            #+#    #+#             */
-/*   Updated: 2025/03/24 17:00:25 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/31 21:39:27 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	ft_pwd(t_shell *shell)
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 		ft_printfd_shell(shell, "%s\n", cwd);
 	else
-		return_partial("Error: pwd", shell, 1);
+		ft_printfd(2, "pwd: error retrieving current directory: getcwd: %s\n", strerror(errno));
 	g_exit_status = 0;
 }
 
@@ -95,6 +95,7 @@ void	ft_cd(char **string, t_shell *shell)
 	else if (chdir(string[0]) != 0)
 		return_partial("cd: no such file or directory: ", shell, 1);
 	// capire se devo chiudere gli fd o no
-	close_all(shell);
+	// close_all(shell);
+	// return_partial(NULL, shell, 0); //capire se va messo anche negli altri
 	g_exit_status = 0;
 }

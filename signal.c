@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 17:39:04 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/31 15:18:01 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/31 21:19:01 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	handle_ctrl_c_exec(int signum)
 {
 	(void)signum;
 	write(1, "\n", 1);
-	rl_replace_line("", 0);
+	// rl_replace_line("", 0);
 	rl_on_new_line();
 	g_exit_status = 130;
 }
@@ -25,7 +25,7 @@ void	handle_ctrl_c(int signum)
 {
 	(void)signum;
 	write(1, "\n", 1);
-	rl_replace_line("", 0);
+	// rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
 	g_exit_status = 130;

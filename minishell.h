@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/31 19:51:40 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/31 21:19:42 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	create_cmds(char **tokens, t_shell *shell);
 int		handle_fdout(char *token, char c, t_shell *shell);
 int		handle_fdin(char *token, t_shell *shell);
 char	*search_name(t_shell *shell);
-int		process_heredoc_line(int fd, char *limiter, t_shell *shell);
+int		process_heredoc_line(int fd, char *key, t_shell *shell);
 int		handle_heredoc(char *token, t_shell *shell);
 
 // lst_cmd_3.c
