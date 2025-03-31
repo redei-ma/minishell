@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 20:33:33 by renato            #+#    #+#             */
-/*   Updated: 2025/03/30 21:14:46 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/31 19:51:23 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,16 @@ void	in_quotes(char **input, t_shell *shell)
 	line = get_next_line(0);
 	if (g_exit_status == 130)
 	{
-		if (line)
-			free(line);
+		// if (line)
+		// 	free(line);
 		dup2(shell->original_stdin, 0);
-		return ; // da capire se devo portaare avanti l'errore o non serve
+		shell->trigger = 130;
+		return ;
 	}
 	if (!line)
 	{
-		ft_printf("merdeeee\n"); //strivere quello cgha fa bash con ctrl d e capire se devo freare
+		shell->trigger = 404;
 		return ;
-		// exit_all("exit\n", shell, 0);
-		// in teoria non dovrebbe mai entrare qui perche e un control C o D
-		// in_quotes(input);
 	}
 	newline = ft_strjoin(*input, line);
 	free(line);
@@ -46,19 +44,20 @@ void	in_quotes(char **input, t_shell *shell)
 
 void	find_unclosed_pipe(char **input, int *i, t_shell *shell)
 {
-	int	pipe_count;
+	int	count;
 
-	pipe_count = 0;
-	while ((*input)[*i] && (*input)[*i] == '|')
+	count = -1;
+	while ((*input)[*i] == '|')
 	{
-		pipe_count++;
 		(*i)++;
-		while ((*input)[*i] && ft_isspace((*input)[*i]))
-			(*i)++;
+		*i += skip_space(*input + *i);
+		count++;
 	}
-	if (!(*input)[*i] && (pipe_count == 1 || pipe_count == 2))
+	if (!(*input)[*i] && !count)
 	{
 		in_quotes(input, shell);
+		if (shell->trigger)
+			return ;
 		*i = 0;
 	}
 }
@@ -74,6 +73,8 @@ void	find_unclosed_quotes(char **input, int *i, t_shell *shell)
 	if (!(*input)[*i])
 	{
 		in_quotes(input, shell);
+		if (shell->trigger)
+			return ;
 		*i = 0;
 	}
 	else if ((*input)[*i] == quote)
@@ -90,8 +91,27 @@ void	check_unclosed(char **input, t_shell *shell)
 		if (((*input)[i] == '\'' || (*input)[i] == '\"'))
 			find_unclosed_quotes(input, &i, shell);
 		else if ((*input)[i] == '|')
-			find_unclosed_pipe(input, &i, shell);
+		{
+			if (i - skip_space(*input) <= 0)
+			{
+				if ((*input)[i + 1] && (*input)[i + 1] == '|')
+					ft_printfd(2, "syntax error near unexpected token `||'\n");
+				else
+					ft_printfd(2, "syntax error near unexpected token `|'\n");
+			}
+			else
+				find_unclosed_pipe(input, &i, shell);
+		}
 		else
 			i++;
+		if (shell->trigger)
+		{
+			if (shell->trigger == 404)
+			{
+				ft_printfd(2, "syntax error: unexpected end of file\n");
+				shell->trigger = 2;	
+			}
+			return ;
+		}
 	}
 }

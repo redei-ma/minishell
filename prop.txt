@@ -1,25 +1,21 @@
 modificate tuttti gli int in size_t per scorrere una riga
 
+
 marzo 20/21 tutte le foto
-
 in particolare ciao= cat
-
-non devo togieer egli spazi tra metacaratteri  devo farlo solo quando vedo che e uno solo per es e dopo mi serve sapere per il syntax error
-
-Devo fare i controlli dei sintaz error prima di parsare i cmd e creare le liste cosi la so che sara tuttp giusto e rispetto le rempisitche
-ho notato che non serve. ma di solito mi pareva lo facess --> pero deve triggerare qualcosa che dopo avere creat i comandi (che devo fare per forza senno mi salta l'here doc)(capire s i file out inesistenti li fa lo stesso)
 
 
 < i ls | << X cat -e devo fare in modo che questa cosa non esca del tutto
 
+
 espandere le variabili va fatto per tutti i comandi quindi penso sia meglio farlo nel parsing e passare gia il valore
 
 
-anche "||" e basta e un syntax error, controllare anche gli altri
-
 syntax error giusti
 
+
 Provare comando "ls | | " che non va invece "ls ||" va 
+potri spostare il syntax error prima non mi piace tropppo. senno gestire il caso specifico e non andare in dpipe
 
 
 redei-ma@c2r2p8:~/Minishell$ echo $$
@@ -36,7 +32,5 @@ redei-ma@c2r2p8:~/Minishell$ echo $
 
 testare anche $"c" o $"$"
 
-
-controllare >, che splode e fa invalid read
 
 testatre e gestire questo al momento skippa e basta, almeno che stapi i $ senza cercare i pid del processo

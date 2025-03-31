@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   settings.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:07:08 by renato            #+#    #+#             */
-/*   Updated: 2025/03/30 21:16:08 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/31 17:11:14 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,32 +55,29 @@ void	loop_line(t_shell *shell)
 {
 	set_shell(shell);
 	shell->input = readline("minishell> ");
-	// shell->input = ft_strdup("ls | ");
 	if (!shell->input)
-		exit_all("exit", shell, 0); // capire se viene chiamato due volte o va bene e se va bene il numero di uscita o se non deve stamapre niente
+		exit_all("exit", shell, 0);
 	check_unclosed(&shell->input, shell);
 	if (shell->input[0])
 		add_history(shell->input);
-	if (is_empty(shell->input))
+	if (shell->trigger || is_empty(shell->input))
+	{
+		return_partial(NULL, shell, shell->trigger);
 		return ;
+	}
 	set_spaces(&shell->input, shell);
 	check_syntax_error(shell->input, shell);
 	if (shell->trigger)
-	{
-		//capire se lo esegue. su mac mi pare che se sia prima lo fa senno no
-		// exec_heredoc(); // da fare
-		return_partial(NULL, shell, 1);
-	}
+		return ;
+		// Dovrei gestire gli heredoc prima dell syntax error pero non e' stabilito dal subject
 	shell->tokens = ft_minisplit(shell->input);
 	if (!shell->tokens)
 		exit_all("Error: malloc failed\n", shell, 1);
 	create_cmds(shell->tokens, shell);
 	if (shell->trigger)
 	{
-		rl_on_new_line(); // serve?
-		return_partial(NULL, shell, 1); // errore da capire
+		return ; // errore da capire
 	}
 	delete_quotes(shell->cmds, shell);
 	cmd_manage(shell);
 }
-

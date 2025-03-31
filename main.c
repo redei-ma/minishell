@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:35:37 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/27 18:15:47 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/31 13:42:12 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,5 @@ int	main(int ac, char **av, char **envp)
 	shell->original_stdout = dup(STDOUT_FILENO);
 	while (1)
 		loop_line(shell);
-	// loop_line(shell);
-	exit_all("Si e chiuso il programma", shell, 0); //da togliere
+	exit_all("\n\nSi e chiuso il programma\n\n", shell, 0); //da togliere
 }

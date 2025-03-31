@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_cmd_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:20:09 by renato            #+#    #+#             */
-/*   Updated: 2025/03/30 21:13:44 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/31 15:20:07 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	process_heredoc_line(int fd, char *limiter, t_shell *shell)
 		return (0);
 	}
 	if (!line)
-		return (1);
+		return (0);
 		// forse e ctrl
 	if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
 		return (free(line), 0);
@@ -109,8 +109,11 @@ int	handle_heredoc(char *token, t_shell *shell)
 	shell->num_heredoc++;
 	fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
-		//return_msg();
-		return_partial("open faild", shell, 1);
+	{
+		shell->trigger = 1;
+		ft_printfd(2, "minishell: %s: No such file or directory\n", token);
+		return (-1);
+	}
 	limiter = ft_strjoin(token, "\n");
 	if (!limiter)
 		exit_all("Error: malloc failed\n", shell, 1);

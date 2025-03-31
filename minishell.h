@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/30 21:37:39 by renato           ###   ########.fr       */
+/*   Updated: 2025/03/31 19:51:40 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,6 @@ void	handle_ctrl_c_get(int signum);
 char	**copy_mat(char **mat, int *max_env, t_shell *shell);
 
 void	check_syntax_error(char *input, t_shell *shell);
-int	skip_space(char *input);
+int		skip_space(char *input);
 
 #endif
