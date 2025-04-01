@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lacerbi <lacerbi@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/27 15:21:01 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/01 17:12:24 by lacerbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ typedef struct s_shell
 	t_cmd	*head;
 	t_pipex	*piper;
 	char	**env;
-	int		max;
+	int		first_env;
+	int		env_max;
 	char	*input;
 	char	**tokens;
 	char	**heredocs;
@@ -53,6 +54,7 @@ typedef struct s_shell
 	int		signal;
 	int		original_stdin;
 	int		original_stdout;
+	int		trigger;
 }	t_shell;
 
 extern int	g_exit_status;
@@ -85,11 +87,11 @@ void	delete_quotes(t_cmd *cmds, t_shell *shell);
 char	**ft_minisplit(char const *s);
 
 // lst_cmd_1.c
-int		fileout_manager(t_shell *shell, char **tokens, int *i);
-int		filein_manager(t_shell *shell, char **tokens, int *i);
-int		pipe_manager(t_shell *shell, char **tokens, int *i);
+void	fileout_manager(t_shell *shell, char **tokens, int *i);
+void	filein_manager(t_shell *shell, char **tokens, int *i);
+void	pipe_manager(t_shell *shell, char **tokens, int *i);
 t_cmd	*ft_newcmd(t_shell *shell);
-int		create_cmds(char **tokens, t_shell *shell);
+void	create_cmds(char **tokens, t_shell *shell);
 
 // lst_cmd_2.c
 int		handle_fdout(char *token, char c, t_shell *shell);
@@ -115,23 +117,18 @@ void	ft_unset(t_shell *shell, char **args);
 void	ft_pwd(t_shell *shell);
 void	ft_cd(char **string, t_shell *shell);
 
-// find.c
-int		is_env(char *cmd);
-int		is_builtin(char *cmd);
-
 // ft_echo_1.c
-int		handle_variable(char *str, int i, t_shell *shell);
 int		handle_quotes(char c, int *in_single_quote, int *in_double_quote);
 int		str_vars(char *str, t_shell *shell);
 int		cmp_echo_flag(char *str);
+char	*handle_variable(char *str, int i, t_shell *shell);
 void	ft_echo(t_shell *shell);
 
 // ft_echo_2.c
 void	write_to_fd(t_shell *shell, const char *str, int len);
 char	*ft_getenv(char *nm_var, t_shell *shell);
-int		handle_env_variable(char *str, int i, t_shell *shell);
+char	*handle_env_variable(char *str, int *i, t_shell *shell);
 int		handle_exit_status(t_shell *shell);
-
 
 // ft_export_1.c
 int		find_eq_sn(char *str);
@@ -145,7 +142,7 @@ char	*var_creation(const char *nm_var, const char *var_val);
 int		srcd_env(t_shell *shell, const char *name);
 int		update_existing_var(t_shell *shell, int index, char *n_full_var);
 int		create_new_env_array(t_shell *shell, char *n_full_var);
-void 	upd_var(t_shell *shell, const char *nm_var, const char *var_val);
+void	upd_var(t_shell *shell, const char *nm_var, const char *var_val);
 
 // ft_exec_1.c
 char	*get_path(char *cmd, char **envp);
@@ -159,11 +156,14 @@ char	*test_path(char **cmd_path, char *cmd, int j);
 char	*find_command_path(char *path, char *cmd);
 
 // utils.c
+int		is_env(char *cmd);
+int		is_builtin(char *cmd);
 int		ft_cmd_size(t_cmd *lst);
 int		is_empty(char *str);
 
 // error.c
-void	free_all_2(t_shell *shell);
+void	free_part_2(t_shell *shell);
+void	free_part(t_shell *shell);
 void	free_all(t_shell *shell);
 void	delete_heredoc(t_shell *shell);
 void	close_all(t_shell *shell);
@@ -178,6 +178,14 @@ void	interactive_ctrls(void);
 void	ni_ctrls(void);
 void	handle_ctrl_c_exec(int signum);
 
+
+
 void	handle_ctrl_c_get(int signum);
+
+
+char	**copy_mat(char **mat, int *max_env, t_shell *shell);
+
+void	check_syntax_error(char *input, t_shell *shell);
+int	skip_space(char *input);
 
 #endif

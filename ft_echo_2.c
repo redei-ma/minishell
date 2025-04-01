@@ -39,27 +39,27 @@ char	*ft_getenv(char *nm_var, t_shell *shell)
 	return (NULL);
 }
 
-int	handle_env_variable(char *str, int i, t_shell *shell)
+char	*handle_env_variable(char *str, int *i, t_shell *shell)
 {
 	int			ncv;
 	char		*nm_var;
 	char		*var_val;
 
-	ncv = i + 1;
+	ncv = *(i) + 1;
 	while (str[ncv] != '\0' && (ft_isalnum(str[ncv]) || str[ncv] == '_'))
 		ncv++;
-	nm_var = malloc((ncv - (i + 1)) + 1);
+	nm_var = malloc((ncv - (*(i) + 1)) + 1);
 	if (!nm_var)
-		return (-1);
-	ft_strlcpy(nm_var, &str[i + 1], ncv - i);
-	nm_var[ncv - (i + 1)] = '\0';
+		return (NULL);
+	ft_strlcpy(nm_var, &str[*(i) + 1], ncv - *(i));
+	nm_var[ncv - (*(i) + 1)] = '\0';
 	var_val = ft_getenv(nm_var, shell);
-	if (var_val)
-		write_to_fd(shell, var_val, ft_strlen(var_val));
-	else
-		write_to_fd(shell, "", 0);
 	free(nm_var);
-	return (ncv);
+	*(i) = ncv;
+	if (var_val)
+		return (ft_strdup(var_val));
+	else
+		return (ft_strdup(""));
 }
 
 int	handle_exit_status(t_shell *shell)

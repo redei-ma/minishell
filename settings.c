@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   settings.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lacerbi <lacerbi@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:07:08 by renato            #+#    #+#             */
-/*   Updated: 2025/03/27 07:57:43 by renato           ###   ########.fr       */
+/*   Updated: 2025/04/01 17:53:39 by lacerbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	ft_print_cmd(t_cmd *cmds)
 
 void	set_shell(t_shell *shell)
 {
+	shell->trigger = 0;
 	shell->cmds = NULL;
 	shell->heredocs = ft_calloc(1, sizeof(char *));
 	if (!shell->heredocs)
@@ -49,6 +50,138 @@ void	set_shell(t_shell *shell)
 		exit_all("Error: malloc failed\n", shell, 1);
 	shell->piper->n_pids = 0;
 }
+/*
+char	*expander(char *str, t_shell *shell)
+{
+	int	i;
+	int	j;
+	int	in_single_quote;
+	int	in_double_quote;
+	char	*exp_var;
+	char	*expanded;
+
+	i = 0;
+	j = 0;
+	in_single_quote = 0;
+	in_double_quote = 0;
+	expanded = malloc(ft_strlen(str) + 1);
+	if (!expanded)
+		return (NULL);
+	while (str[i] != '\0')
+	{
+		if (handle_quotes(str[i], &in_single_quote, &in_double_quote))
+			expanded[j++] = str[i++];
+		else if (str[i] == '$' && !in_single_quote && str[i + 1] != '?')
+		{
+			j = i;
+			exp_var = handle_env_variable(str, &i, shell);
+			if (exp_var && exp_var[0] != '\0')
+			{
+				expanded = ft_realloc(expanded, ft_strlen(expanded)
+						, ft_strlen(expanded) - (i - j) + ft_strlen(exp_var));
+				i = 0;
+				while (exp_var[i])
+					expanded[j++] = exp_var[i++];
+			}
+			else
+			{
+				expanded = ft_realloc(expanded, ft_strlen(expanded)
+						, ft_strlen(expanded) - (i - j));
+				str[j++] = ' ';
+			}
+			i = j;
+		}
+		else
+			expanded[j++] = str[i++];
+	}
+	expanded[j] = '\0';
+	return (expanded);
+}*/
+
+char *expander(char *str, t_shell *shell)
+{
+	int		i;
+	int		j;
+	int		in_single;
+	int		in_double;
+	char 	*expanded;
+
+	i = 0;
+	j = 0;
+	in_single = 0;
+	in_double = 0;
+	expanded = malloc(ft_strlen(str) + 1);
+	if (!expanded)
+		return (NULL);
+	while (str[i])
+	{
+		if (str[i] == '\'' && !in_double)
+		{
+			in_single = !in_single;
+			i++;
+			continue;
+		}
+		if (str[i] == '\"' && !in_single)
+		{
+			in_double = !in_double;
+			i++;
+			continue;
+		}
+		if (str[i] == '$' && !in_single)
+		{
+			if (str[i+1] == '?')
+			{
+				char *status = ft_itoa(g_exit_status);
+				ft_strlcpy(expanded+j, status, ft_strlen(status)+1);
+				j += ft_strlen(status);
+				i += 2;
+				free(status);
+			} 
+			else if (ft_isalnum(str[i+1]) || str[i+1] == '_')
+			{
+				char *var = handle_env_variable(str, &i, shell);
+				if (var)
+				{
+					ft_strlcpy(expanded+j, var, ft_strlen(var)+1);
+					j += ft_strlen(var);
+					free(var);
+				}
+			}
+			else
+			{
+				expanded[j++] = str[i++];
+			}
+		}
+		else
+		{
+			expanded[j++] = str[i++];
+		}
+	}
+	expanded[j] = '\0';
+	return expanded;
+}
+
+void	expand_vars(t_shell *shell)
+{
+	int		i;
+	t_cmd	*current;
+
+	current = shell->cmds;
+	while (current)
+	{
+		current->cmd = expander(current->cmd, shell);
+		if (current->args)
+		{
+			i = 0;
+			while (current->args[i])
+			{
+				current->args[i] = expander(current->args[i], shell);
+				i++;
+			}
+		}
+		current = current->next;
+	}
+}
 
 void	loop_line(t_shell *shell)
 {
@@ -58,44 +191,30 @@ void	loop_line(t_shell *shell)
 	if (!shell->input)
 		exit_all("exit", shell, 0); // capire se viene chiamato due volte o va bene e se va bene il numero di uscita o se non deve stamapre niente
 	check_unclosed(&shell->input, shell);
-	if (shell->input)
+	if (shell->input[0])
 		add_history(shell->input);
 	if (is_empty(shell->input))
 		return ;
-	remove_spaces_special_chars(&shell->input, shell);
 	set_spaces(&shell->input, shell);
+	//check_syntax_error(shell->input, shell);
+	if (shell->trigger)
+	{
+		//capire se lo esegue. su mac mi pare che se sia prima lo fa senno no
+		// exec_heredoc(); // da fare
+		return_partial(NULL, shell, 1);
+	}
 	shell->tokens = ft_minisplit(shell->input);
 	if (!shell->tokens)
 		exit_all("Error: malloc failed\n", shell, 1);
-	int control = create_cmds(shell->tokens, shell);
-	if (control == 404)
+	create_cmds(shell->tokens, shell);
+	if (shell->trigger)
 	{
 		rl_on_new_line(); // serve?
-		return_partial(NULL, shell, 1); //errore da capire
+		return_partial(NULL, shell, 1); // errore da capire
 	}
-	delete_quotes(shell->cmds, shell);
+	expand_vars(shell);
 	// ft_print_cmd(shell->cmds);
+	delete_quotes(shell->cmds, shell);
 	cmd_manage(shell);
 }
 
-void	init_env(t_shell *shell, char **envp)
-{
-	int	n;
-	int	i;
-
-	n = 0;
-	i = 0;
-	while (envp[n])
-		n++;
-	shell->env = ft_calloc((n + 1), sizeof(char *));
-	if (!shell->env)
-		exit_all("Error: malloc failed\n", shell, 1);
-	while (i < n)
-	{
-		shell->env[i] = ft_strdup(envp[i]);
-		if (!shell->env[i])
-			exit_all("Error: malloc failed\n", shell, 1);
-		i++;
-	}
-	shell->max = n;
-}

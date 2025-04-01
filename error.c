@@ -6,13 +6,13 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 19:33:11 by renato            #+#    #+#             */
-/*   Updated: 2025/03/27 15:05:47 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/28 14:39:26 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_all_2(t_shell *shell)
+void	free_part_2(t_shell *shell)
 {
 	if (shell->piper)
 	{
@@ -39,7 +39,7 @@ void	free_all_2(t_shell *shell)
 	}
 }
 
-void	free_all(t_shell *shell)
+void	free_part(t_shell *shell)
 {
 	t_cmd	*tmp;
 	t_cmd	*tmp2;
@@ -56,7 +56,25 @@ void	free_all(t_shell *shell)
 		tmp = tmp2;
 	}
 	shell->head = NULL;
-	free_all_2(shell);
+	free_part_2(shell);
+}
+
+void	free_all(t_shell *shell)
+{
+	free_part(shell);
+	free_part_2(shell);
+	if (shell->env)
+	{
+		ft_free_char_mat(shell->env);
+		shell->env = NULL;
+	}
+	if (shell->piper)
+	{
+		free(shell->piper);
+		shell->piper = NULL;
+	}
+	free(shell);
+	shell = NULL;
 }
 
 void	delete_heredoc(t_shell *shell)
@@ -77,7 +95,7 @@ void	delete_heredoc(t_shell *shell)
 	}
 }
 
-void	close_fds(t_shell *shell)
+void	close_all(t_shell *shell)
 {
 	int	i;
 
@@ -91,12 +109,7 @@ void	close_fds(t_shell *shell)
 			i++;
 		}
 	}
-}
-
-void	close_all(t_shell *shell)
-{
 	shell->cmds = shell->head;
-	close_fds(shell);
 	while (shell->cmds)
 	{
 		safe_close(&shell->cmds->file_i);
@@ -104,6 +117,8 @@ void	close_all(t_shell *shell)
 		safe_close(&shell->cmds->file_a);
 		shell->cmds = shell->cmds->next;
 	}
+	safe_close(&shell->original_stdin);
+	safe_close(&shell->original_stdout);
 }
 
 int	return_partial(char *msg, t_shell *shell, int status)
@@ -112,7 +127,7 @@ int	return_partial(char *msg, t_shell *shell, int status)
 		ft_printfd(2, "%s\n", msg);
 	close_all(shell);
 	delete_heredoc(shell);
-	free_all(shell);
+	free_part(shell);
 	g_exit_status = status;
 	return (status);
 }
@@ -123,7 +138,7 @@ void	exit_partial(char *msg, t_shell *shell, int status)
 		ft_printfd(2, "%s\n", msg);
 	close_all(shell);
 	delete_heredoc(shell);
-	free_all(shell);
+	free_part(shell);
 	g_exit_status = status;
 	exit(status);
 }
@@ -135,18 +150,6 @@ void	exit_all(char *msg, t_shell *shell, int status)
 	close_all(shell);
 	delete_heredoc(shell);
 	free_all(shell);
-	if (shell->env)
-	{
-		ft_free_char_mat(shell->env);
-		shell->env = NULL;
-	}
-	if (shell->piper)
-	{
-		free(shell->piper);
-		shell->piper = NULL;
-	}
-	free(shell);
-	shell = NULL;
 	g_exit_status = status;
 	exit(status);
 }

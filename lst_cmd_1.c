@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   lst_cmd_1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:17:38 by renato            #+#    #+#             */
-/*   Updated: 2025/03/27 15:16:44 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/30 21:30:30 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	fileout_manager(t_shell *shell, char **tokens, int *i)
+void	fileout_manager(t_shell *shell, char **tokens, int *i)
 {
 	int	j;
 
@@ -24,13 +24,10 @@ int	fileout_manager(t_shell *shell, char **tokens, int *i)
 	else if (j == 2 && tokens[++(*i)])
 		shell->cmds->file_a = handle_fdout(tokens[*i], 'a', shell);
 	else
-		//devo stampare syntax error
-		// exit_partial("syntax error near unexpected token `>>'\n", shell, 2);
-		return (404);
-	return (0);
+		shell->trigger = 1;
 }
 
-int	filein_manager(t_shell *shell, char **tokens, int *i)
+void	filein_manager(t_shell *shell, char **tokens, int *i)
 {
 	int	j;
 
@@ -42,34 +39,12 @@ int	filein_manager(t_shell *shell, char **tokens, int *i)
 	else if (j == 2 && tokens[++(*i)])
 		shell->cmds->file_i = handle_heredoc(tokens[*i], shell);
 	else
-		//devo stampare syntax error
-		// exit_partial("syntax error near unexpected token `<<'\n", shell, 2);
-		return (404);
-	if (shell->cmds->file_i == 404)
-		return (404);
-	return (0);
+		shell->trigger = 1;
 }
 
-int	pipe_manager(t_shell *shell, char **tokens, int *i)
+void	pipe_manager(t_shell *shell, char **tokens, int *i)
 {
-	int	j;
-
-	j = 0;
-	while (tokens[*i][j] == '|')
-		j++;
-	if (j > 3)
-		//devo stampare syntax error
-		// exit_partial("syntax error near unexpected token `||'", shell, 2);
-		return (404);
-	else if (j > 2)
-		//devo stampare i caratterei a indice 2 e 3 in syntax error
-		// exit_partial("syntax error near unexpected token `|'", shell, 2);
-		return (404);
-	else if (j > 1)
-		//devo stampare il carattere a indice 2 in syntax error
-		// return_partial("syntax error near unexpected token `|'", shell, 2);
-		return (404);
-	else if (tokens[*i + 1])
+	if (tokens[*i + 1])
 	{
 		shell->cmds->next = ft_newcmd(shell);
 		shell->piper->fds = ft_realloc(shell->piper->fds, (shell->piper->n_pipes + 1) * sizeof(int[2]), (shell->piper->n_pipes + 2) * sizeof(int[2]));
@@ -85,9 +60,7 @@ int	pipe_manager(t_shell *shell, char **tokens, int *i)
 		shell->cmds = shell->cmds->next;
 	}
 	else
-		//exit_msg a piacere
-		exit(1);
-	return (0);
+		shell->trigger = 1;
 }
 
 t_cmd	*ft_newcmd(t_shell *shell)
@@ -119,7 +92,7 @@ void	is_valid_env(char **tokens, int i, t_shell *shell)
 	}
 }
 
-void	parse_cmd(char **tokens, t_shell *shell, int *control)
+void	parse_cmd(char **tokens, t_shell *shell)
 {
 	int	i;
 
@@ -129,11 +102,11 @@ void	parse_cmd(char **tokens, t_shell *shell, int *control)
 		if (is_env(tokens[i]))
 			is_valid_env(tokens, i, shell);
 		else if (tokens[i][0] == '|')
-			*control = pipe_manager(shell, tokens, &i);
+			pipe_manager(shell, tokens, &i);
 		else if (tokens[i][0] == '<')
-			*control = filein_manager(shell, tokens, &i);
+			filein_manager(shell, tokens, &i);
 		else if (tokens[i][0] == '>')
-			*control = fileout_manager(shell, tokens, &i);
+			fileout_manager(shell, tokens, &i);
 		else if (!shell->cmds->cmd)
 		{
 			shell->cmds->cmd = ft_strdup(tokens[i]);
@@ -142,20 +115,15 @@ void	parse_cmd(char **tokens, t_shell *shell, int *control)
 		}
 		else
 			add_arg(&shell->cmds->args, tokens[i], shell);
-		if (!tokens[++i])
+		if (!tokens[++i] || shell->trigger)
 			break ;
 	}
 }
 
-int	create_cmds(char **tokens, t_shell *shell)
+void	create_cmds(char **tokens, t_shell *shell)
 {
-	int		control = 0;
-
 	shell->cmds = ft_newcmd(shell);
 	shell->head = shell->cmds;
-	parse_cmd(tokens, shell, &control);
-	if (control == 404)
-		return (404);
+	parse_cmd(tokens, shell);
 	shell->cmds = shell->head;
-	return (0);
 }

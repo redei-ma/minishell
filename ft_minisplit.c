@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_minisplit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 17:47:13 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/26 16:00:41 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/30 21:38:01 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static size_t	skip_quotes(const char *s)
 	return (i);
 }
 
-static size_t	skip_space(const char *s, int *in_word)
+static size_t	skip_space_sp(const char *s, int *in_word)
 {
 	size_t	i;
 
@@ -48,7 +48,7 @@ static size_t	ft_count_words(const char *s)
 	in_word = 0;
 	while (*s)
 	{
-		s += skip_space(s, &in_word);
+		s += skip_space_sp(s, &in_word);
 		if (!*s)
 			break ;
 		if (!in_word)
@@ -76,7 +76,7 @@ static char	**ft_allocate(char **dest, const char *s)
 	while (*s)
 	{
 		i = 0;
-		s += skip_space(s, NULL);
+		s += skip_space_sp(s, NULL);
 		if (!*s)
 			break ;
 		while (s[i] && (!ft_isspace(s[i])))

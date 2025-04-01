@@ -14,7 +14,6 @@ SRC =	main.c \
 		lst_cmd_3.c \
 		manager_1.c \
 		manager_2.c \
-		find.c \
 		ft_echo_1.c \
 		ft_echo_2.c \
 		ft_export_1.c \
@@ -22,9 +21,9 @@ SRC =	main.c \
 		ft_exec_1.c \
 		ft_exec_2.c \
 		ft_minisplit.c \
+		signal.c \
 		error.c \
-		utils.c \
-		signal.c
+		utils.c
 
 LIBFT_DIR = ./libft
 LIBFT = ./libft/libft.a

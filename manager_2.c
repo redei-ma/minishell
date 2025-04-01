@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manager_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lacerbi <lacerbi@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 22:12:52 by renato            #+#    #+#             */
-/*   Updated: 2025/03/24 17:00:25 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/01 17:10:35 by lacerbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	ft_unset(t_shell *shell, char **args)
 				shell->env[j] = shell->env[j + 1];
 				j++;
 			}
-			shell->max--;
+			shell->env_max--;
 		}
 		i++;
 	}
