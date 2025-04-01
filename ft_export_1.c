@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 22:02:16 by renato            #+#    #+#             */
-/*   Updated: 2025/03/31 21:35:06 by renato           ###   ########.fr       */
+/*   Updated: 2025/04/01 18:19:38 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,22 +53,27 @@ void	sort_env(char **srtd_env)
 void	print_env_declare(t_shell *shell)
 {
 	int			i;
+	int			j;
 	char		**srtd_env;
 
-	srtd_env = malloc(sizeof(char *) * (shell->max + 2));
+	i = -1;
+	srtd_env = copy_mat(shell->env, NULL, shell);
 	if (!srtd_env)
-	{
-		free(srtd_env);
-		return ;
-	}
-	i = -1;
-	while (++i < shell->max)
-		srtd_env[i] = shell->env[i];
-	srtd_env[i] = NULL;
+		exit_all("Error: malloc failed\n", shell, 1);
 	sort_env(srtd_env);
-	i = -1;
 	while (srtd_env[++i])
-		ft_printfd_shell(shell, "declare -x %s\n", (char *)srtd_env[i]);
+	{
+		write_to_fd(shell, "declare -x ", 11);
+		j = 0;
+		while (srtd_env[i][j])
+		{
+			write_to_fd(shell, srtd_env[i] + j, 1);
+			if (srtd_env[i][j] == '=')
+				write_to_fd(shell, "\"", 1);
+			j++;
+		}
+		write_to_fd(shell, "\"\n", 2);
+	}
 	free(srtd_env);
 }
 
@@ -96,9 +101,7 @@ void	process_export_arg(t_shell *shell, char *arg)
 		free(val);
 	}
 	else if (srcd_env(shell, arg) == -1)
-	{
 		upd_var(shell, arg, "");
-	}
 }
 
 void	ft_export(t_shell *shell, char **args)
@@ -106,15 +109,15 @@ void	ft_export(t_shell *shell, char **args)
 	int	i;
 
 	if (!args)
-	{
 		print_env_declare(shell);
-		return ;
+	else
+	 {
+		i = 0;
+		while (args[i])
+		{
+			process_export_arg(shell, args[i]);
+			i++;
+		}
 	}
-	i = 0;
-	while (args[i])
-	{
-		process_export_arg(shell, args[i]);
-		i++;
-	}
-	g_exit_status = 0;
+	return_partial(NULL, shell, 0);
 }

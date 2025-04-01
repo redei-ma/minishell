@@ -1,23 +1,31 @@
 modificate tuttti gli int in size_t per scorrere una riga
 
 
+bisogna togliere le virgolette subito, pero non se e una esp di var e sono singole
+
+
 controllare  g_exit_status
+
 
 marzo 20/21 tutte le foto
 in particolare ciao= cat
 
 
-< i ls | << X cat -e mi esce prima dell'heredoc ma non ce scritto da nessuna oarta che non si puo
+< i ls | << X cat -e
+ls ||
+ls |  |
 
 
-espandere le variabili va fatto per tutti i comandi quindi penso sia meglio farlo nel parsing e passare gia il valore
+capire perche excve se espando $? che e uguale a zero mi vede (null)
+
+
+risolvere che toglie le virgolette anche alle variabile esapnse
+
+
+export a  in env non ci deve essere invece in export si
 
 
 syntax error giusti
-
-
-Provare comando "ls | | " che non va invece "ls ||" va 
-potri spostare il syntax error prima non mi piace tropppo. senno gestire il caso specifico e non andare in dpipe
 
 
 redei-ma@c2r2p8:~/Minishell$ echo $$

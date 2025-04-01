@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_cmd_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:20:09 by renato            #+#    #+#             */
-/*   Updated: 2025/03/31 21:17:19 by renato           ###   ########.fr       */
+/*   Updated: 2025/04/01 13:38:28 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	handle_fdout(char *token, char c, t_shell *shell)
 		fd = open(token, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd < 0)
 	{
-		shell->trigger = 1;
+		shell->cmds->skip = 1;
 		ft_printfd(2, "minishell: %s: No such file or directory\n", token);
 	}
 	return (fd);
@@ -36,7 +36,7 @@ int	handle_fdin(char *token, t_shell *shell)
 	fd = open(token, O_RDONLY);
 	if (fd < 0)
 	{
-		shell->trigger = 1;
+		shell->cmds->skip = 1;
 		ft_printfd(2, "minishell: %s: No such file or directory\n", token);
 	}
 	return (fd);
@@ -119,7 +119,7 @@ int	handle_heredoc(char *token, t_shell *shell)
 	if (fd < 0)
 	{
 		ft_printfd(2, "minishell: %s: No such file or directory\n", token);
-		return (shell->trigger = 1, -1);
+		return (shell->cmds->skip = 1, -1);
 	}
 	while (process_heredoc_line(fd, token, shell))
 		;

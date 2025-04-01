@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manager_1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 00:04:33 by renato            #+#    #+#             */
-/*   Updated: 2025/03/31 21:18:36 by renato           ###   ########.fr       */
+/*   Updated: 2025/04/01 14:16:27 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,15 @@ void	fork_manger(t_shell *shell)
 	int	i;
 	int	status;
 
+	status = 0;
 	i = shell->piper->n_pids;
 	while (shell->cmds)
 	{
+		if (shell->cmds->skip)
+		{
+			shell->cmds = shell->cmds->next;
+			continue ;
+		}
 		shell->piper->pids = ft_realloc(shell->piper->pids,
 			(i + 1) * sizeof(pid_t), (i + 2) * sizeof(pid_t));
 		if (!shell->piper->pids)
@@ -82,7 +88,10 @@ void	cmd_find_dad(t_shell *shell, char *cmd)
 	pid_t	pid;
 	int		status;
 
-	if (is_builtin(cmd))
+	status = 0;
+	if (shell->cmds->skip)
+		return ;
+	else if (is_builtin(cmd))
 		exe_builtin(shell);
 	else if (is_env(cmd))
 		ft_export(shell, &shell->cmds->cmd);
@@ -100,6 +109,8 @@ void	cmd_find_dad(t_shell *shell, char *cmd)
 			g_exit_status = WEXITSTATUS(status);
 		else if (WIFSIGNALED(status))
 			g_exit_status = 128 + WTERMSIG(status);
+/* 		if (shell->cmds->next && g_exit_status == 127)
+			shell->cmds->next->skip = 1; */
 	}
 }
 

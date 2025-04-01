@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manager_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 22:12:52 by renato            #+#    #+#             */
-/*   Updated: 2025/03/31 21:39:27 by renato           ###   ########.fr       */
+/*   Updated: 2025/04/01 19:38:09 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,14 +86,10 @@ void	ft_pwd(t_shell *shell)
 
 void	ft_cd(char **string, t_shell *shell)
 {
-	if (!string)
-		return_partial("cd: too few arguments", shell, 1);
-	else if (ft_matlen(string) != 1)
-		return_partial("cd: too many arguments", shell, 1);
-	else if (ft_strlen(string[0]) == 0)
-		return_partial("cd: string not in pwd: ", shell, 1);
+	if (!string || ft_matlen(string) != 1)
+		return_partial("cd: bad arguments", shell, 1);
 	else if (chdir(string[0]) != 0)
-		return_partial("cd: no such file or directory: ", shell, 1);
+		return_partial("cd: no such file or directory", shell, 1);
 	// capire se devo chiudere gli fd o no
 	// close_all(shell);
 	// return_partial(NULL, shell, 0); //capire se va messo anche negli altri

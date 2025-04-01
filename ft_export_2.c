@@ -6,23 +6,23 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 18:39:24 by lacerbi           #+#    #+#             */
-/*   Updated: 2025/03/27 15:23:26 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/01 18:21:15 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*var_creation(const char *nm_var, const char *var_val)
+char *var_creation(const char *nm_var, const char *var_val)
 {
-	char	*temp;
-	char	*n_full_var;
-
-	temp = ft_strjoin(nm_var, "=");
-	if (!temp)
-		return (NULL);
-	n_full_var = ft_strjoin(temp, var_val);
-	free(temp);
-	return (n_full_var);
+	if (var_val && *var_val)
+	{
+		char *temp = ft_strjoin(nm_var, "=");
+		char *n_full_var = ft_strjoin(temp, var_val);
+		free(temp);
+		return n_full_var;
+	}
+	else
+		return ft_strdup(nm_var);
 }
 
 int	srcd_env(t_shell *shell, const char *name)
@@ -78,7 +78,7 @@ void	upd_var(t_shell *shell, const char *nm_var, const char *var_val)
 
 	n_full_var = var_creation(nm_var, var_val);
 	if (!n_full_var)
-		return ;
+		exit_all("Error: malloc failed\n", shell, 1);
 	index = srcd_env(shell, nm_var);
 	if (index != -1)
 		update_existing_var(shell, index, n_full_var);

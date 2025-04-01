@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   settings.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:07:08 by renato            #+#    #+#             */
-/*   Updated: 2025/03/31 20:57:29 by renato           ###   ########.fr       */
+/*   Updated: 2025/04/01 18:14:43 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/* void	ft_print_cmd(t_cmd *cmds)
+void	ft_print_cmd(t_cmd *cmds)
 {
 	while (cmds)
 	{
@@ -31,7 +31,7 @@
 		ft_printf("\n");
 		cmds = cmds->next;
 	}
-} */
+}
 
 void	set_shell(t_shell *shell)
 {
@@ -82,6 +82,7 @@ void	loop_line(t_shell *shell)
 		return_partial(NULL, shell, shell->trigger);	
 		return ;
 	}
+	expand_vars(shell);
 	delete_quotes(shell->cmds, shell);
 	cmd_manage(shell);
 }

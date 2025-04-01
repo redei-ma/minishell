@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_cmd_1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:17:38 by renato            #+#    #+#             */
-/*   Updated: 2025/03/31 20:45:24 by renato           ###   ########.fr       */
+/*   Updated: 2025/04/01 13:37:01 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ t_cmd	*ft_newcmd(t_shell *shell)
 	new->file_i = -1;
 	new->file_o = -1;
 	new->file_a = -1;
+	new->skip = 0;
 	new->next = NULL;
 	return (new);
 }

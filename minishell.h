@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/31 21:19:42 by renato           ###   ########.fr       */
+/*   Updated: 2025/04/01 18:25:07 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+#include <errno.h>
 
 typedef struct s_pipex
 {
@@ -36,6 +37,7 @@ typedef struct s_cmd
 	int				file_i;
 	int				file_o;
 	int				file_a;
+	int				skip;
 	struct s_cmd	*next;
 }	t_cmd;
 
@@ -126,7 +128,6 @@ void	ft_echo(t_shell *shell);
 // ft_echo_2.c
 void	write_to_fd(t_shell *shell, const char *str, int len);
 char	*ft_getenv(char *nm_var, t_shell *shell);
-int		handle_env_variable(char *str, int i, t_shell *shell);
 int		handle_exit_status(t_shell *shell);
 
 // ft_export_1.c
@@ -186,5 +187,9 @@ char	**copy_mat(char **mat, int *max_env, t_shell *shell);
 
 void	check_syntax_error(char *input, t_shell *shell);
 int		skip_space(char *input);
+
+char	*expander(char *str, t_shell *shell);
+void	expand_vars(t_shell *shell);
+char	*handle_env_variable(char *str, int *i, t_shell *shell);
 
 #endif

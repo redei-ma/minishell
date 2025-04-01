@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:35:37 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/31 13:42:12 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/01 19:27:03 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	main(int ac, char **av, char **envp)
 	(void )av;
 	if (ac != 1)
 		return (ft_printfd(2, "Error: too many arguments\n"), 1);
+	g_exit_status = 0;
 	shell = ft_calloc(1, sizeof(t_shell));
 	if (!shell)
 		return (ft_printf("Error: malloc failed"), 1);

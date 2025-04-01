@@ -2,7 +2,7 @@ NAME = minishell
 CC = cc
 CFLAG = -Wall -Wextra -Werror -g
 VALGRIND = valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes --log-file=valgrind-log.txt
-# SANITIZE = -fsanitize=address, -fsanitize=undefined
+SANITIZE = -fsanitize=address, -fsanitize=undefined
 
 SRC =	main.c \
 		settings.c \
@@ -23,7 +23,8 @@ SRC =	main.c \
 		ft_minisplit.c \
 		signal.c \
 		error.c \
-		utils.c
+		utils.c \
+		nuovo_leo.c
 
 LIBFT_DIR = ./libft
 LIBFT = ./libft/libft.a
@@ -38,7 +39,7 @@ $(NAME): $(LIBFT) $(SRC)
 	@echo "Compiling $(NAME)..."
 	@$(CC) $(CFLAG) $(SRC) $(LIBFT) -I$(CURDIR) -o $(NAME) -lreadline
 
-valgrind: $(NAME)
+val: $(NAME)
 	@echo "Using Valgrind..."
 	$(VALGRIND) ./$(NAME)
 
