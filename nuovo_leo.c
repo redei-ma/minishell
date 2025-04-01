@@ -3,6 +3,7 @@
 
 char *expander(char *str, t_shell *shell)
 {
+	int	len = ft_strlen(str);
 	int		i;
 	int		j;
 	int		in_single;
@@ -40,9 +41,11 @@ char *expander(char *str, t_shell *shell)
 					free(expanded);
 					exit_all("Error: malloc failed\n", shell, 1);
 				}
-				ft_strlcpy(expanded+j, status, ft_strlen(status)+1);
+				expanded = ft_realloc(expanded, (len + 1) * sizeof(char), (len + ft_strlen(status) - 2 + 1) * sizeof(char));
+				ft_strlcpy(expanded+j, status, ft_strlen(status) + 1);
 				j += ft_strlen(status);
 				i += 2;
+				len += ft_strlen(status) - 2;
 				free(status);
 			}
 			else if (ft_isalnum(str[i+1]) || str[i+1] == '_')
@@ -50,6 +53,7 @@ char *expander(char *str, t_shell *shell)
 				char *var = handle_env_variable(str, &i, shell);
 				if (var)
 				{
+					expanded = ft_realloc(expanded, (len + 1) * sizeof(char), (len + ft_strlen(var) + 1) * sizeof(char)); //manca quanto misura la var dopo dollaro
 					ft_strlcpy(expanded+j, var, ft_strlen(var)+1);
 					j += ft_strlen(var);
 					free(var);
@@ -102,16 +106,16 @@ char	*handle_env_variable(char *str, int *i, t_shell *shell)
 	char		*nm_var;
 	char		*var_val;
 
-	ncv = *(i) + 1;
+	ncv = *i + 1;
 	while (str[ncv] != '\0' && (ft_isalnum(str[ncv]) || str[ncv] == '_'))
 		ncv++;
-	nm_var = ft_calloc((ncv - (*(i) + 1)) + 1, sizeof(char));
+	nm_var = ft_calloc((ncv - (*i + 1)) + 1, sizeof(char));
 	if (!nm_var)
 		return (NULL);
-	ft_strlcpy(nm_var, &str[*(i) + 1], ncv - *(i));
+	ft_strlcpy(nm_var, &str[*i + 1], ncv - *i);
 	var_val = ft_getenv(nm_var, shell);
 	free(nm_var);
-	*(i) = ncv;
+	*i = ncv;
 	if (var_val)
 		return (ft_strdup(var_val));
 	else
