@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lacerbi <lacerbi@student.42firenze.it>     +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/04/01 17:12:24 by lacerbi          ###   ########.fr       */
+/*   Updated: 2025/04/02 15:35:41 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+#include <errno.h>
 
 typedef struct s_pipex
 {
@@ -36,6 +37,7 @@ typedef struct s_cmd
 	int				file_i;
 	int				file_o;
 	int				file_a;
+	int				skip;
 	struct s_cmd	*next;
 }	t_cmd;
 
@@ -45,8 +47,7 @@ typedef struct s_shell
 	t_cmd	*head;
 	t_pipex	*piper;
 	char	**env;
-	int		first_env;
-	int		env_max;
+	int		max;
 	char	*input;
 	char	**tokens;
 	char	**heredocs;
@@ -81,7 +82,7 @@ void	set_spaces(char **input, t_shell *shell);
 
 // parsing_3.c
 void	remove_quotes(char **str);
-void	delete_quotes(t_cmd *cmds, t_shell *shell);
+void	delete_quotes(char ***tokens, t_shell *shell);
 
 // ft_minisplit.c
 char	**ft_minisplit(char const *s);
@@ -97,7 +98,7 @@ void	create_cmds(char **tokens, t_shell *shell);
 int		handle_fdout(char *token, char c, t_shell *shell);
 int		handle_fdin(char *token, t_shell *shell);
 char	*search_name(t_shell *shell);
-int		process_heredoc_line(int fd, char *limiter, t_shell *shell);
+int		process_heredoc_line(int fd, char *key, t_shell *shell);
 int		handle_heredoc(char *token, t_shell *shell);
 
 // lst_cmd_3.c
@@ -118,16 +119,15 @@ void	ft_pwd(t_shell *shell);
 void	ft_cd(char **string, t_shell *shell);
 
 // ft_echo_1.c
+int		handle_variable(char *str, int i, t_shell *shell);
 int		handle_quotes(char c, int *in_single_quote, int *in_double_quote);
 int		str_vars(char *str, t_shell *shell);
 int		cmp_echo_flag(char *str);
-char	*handle_variable(char *str, int i, t_shell *shell);
 void	ft_echo(t_shell *shell);
 
 // ft_echo_2.c
 void	write_to_fd(t_shell *shell, const char *str, int len);
 char	*ft_getenv(char *nm_var, t_shell *shell);
-char	*handle_env_variable(char *str, int *i, t_shell *shell);
 int		handle_exit_status(t_shell *shell);
 
 // ft_export_1.c
@@ -138,11 +138,11 @@ void	process_export_arg(t_shell *shell, char *arg);
 void	ft_export(t_shell *shell, char **args);
 
 // ft_export_2.c
-char	*var_creation(const char *nm_var, const char *var_val);
+char	*var_creation(const char *nm_var, const char *var_val, int eqp);
 int		srcd_env(t_shell *shell, const char *name);
 int		update_existing_var(t_shell *shell, int index, char *n_full_var);
 int		create_new_env_array(t_shell *shell, char *n_full_var);
-void	upd_var(t_shell *shell, const char *nm_var, const char *var_val);
+void	upd_var(t_shell *shell, const char *nm_var, const char *var_val, int eqp);
 
 // ft_exec_1.c
 char	*get_path(char *cmd, char **envp);
@@ -186,6 +186,10 @@ void	handle_ctrl_c_get(int signum);
 char	**copy_mat(char **mat, int *max_env, t_shell *shell);
 
 void	check_syntax_error(char *input, t_shell *shell);
-int	skip_space(char *input);
+int		skip_space(char *input);
+
+char	*expander(char *str, t_shell *shell);
+void	expand_vars(char ***tokens, t_shell *shell);
+char	*handle_env_variable(char *str, int *i, t_shell *shell);
 
 #endif

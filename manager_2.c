@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manager_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lacerbi <lacerbi@student.42firenze.it>     +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 22:12:52 by renato            #+#    #+#             */
-/*   Updated: 2025/04/01 17:10:35 by lacerbi          ###   ########.fr       */
+/*   Updated: 2025/04/01 19:38:09 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	ft_unset(t_shell *shell, char **args)
 				shell->env[j] = shell->env[j + 1];
 				j++;
 			}
-			shell->env_max--;
+			shell->max--;
 		}
 		i++;
 	}
@@ -80,21 +80,18 @@ void	ft_pwd(t_shell *shell)
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 		ft_printfd_shell(shell, "%s\n", cwd);
 	else
-		return_partial("Error: pwd", shell, 1);
+		ft_printfd(2, "pwd: error retrieving current directory: getcwd: %s\n", strerror(errno));
 	g_exit_status = 0;
 }
 
 void	ft_cd(char **string, t_shell *shell)
 {
-	if (!string)
-		return_partial("cd: too few arguments", shell, 1);
-	else if (ft_matlen(string) != 1)
-		return_partial("cd: too many arguments", shell, 1);
-	else if (ft_strlen(string[0]) == 0)
-		return_partial("cd: string not in pwd: ", shell, 1);
+	if (!string || ft_matlen(string) != 1)
+		return_partial("cd: bad arguments", shell, 1);
 	else if (chdir(string[0]) != 0)
-		return_partial("cd: no such file or directory: ", shell, 1);
+		return_partial("cd: no such file or directory", shell, 1);
 	// capire se devo chiudere gli fd o no
-	close_all(shell);
+	// close_all(shell);
+	// return_partial(NULL, shell, 0); //capire se va messo anche negli altri
 	g_exit_status = 0;
 }

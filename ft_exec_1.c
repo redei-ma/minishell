@@ -32,19 +32,6 @@ char	*get_path(char *cmd, char **envp)
 	return (NULL);
 }
 
-char	*already_path(char *cmd)
-{
-	char	*path;
-
-	path = ft_strdup(cmd);
-	if (!path)
-		return (NULL);
-	if (access(cmd, F_OK) == 0)
-		return (path);
-	free(path);
-	return (NULL);
-}
-
 char	**ft_cmd_join(char *cmd, char **args, t_shell *shell)
 {
 	char	**command;
@@ -99,14 +86,13 @@ void	ft_exec(t_shell *shell)
 	char		**command;
 	char		**copy_env;
 
-	if (shell->cmds->cmd[0] == '/')
-		full_path = already_path(shell->cmds->cmd);
-	else if (shell->cmds->cmd[0] == '.' && shell->cmds->cmd[1] == '/')
-		full_path = already_path(shell->cmds->cmd);
-	else
-		full_path = get_path(shell->cmds->cmd, shell->env);
+	full_path = get_path(shell->cmds->cmd, shell->env);
 	if (!full_path)
-		exit_all("Error: command not found", shell, 127); //da gestire msg
+	{
+		full_path = ft_strdup(shell->cmds->cmd);
+		if (!full_path)
+			exit_all("Error: malloc failed\n", shell, 1);
+	}
 	command = ft_cmd_join(shell->cmds->cmd, shell->cmds->args, shell);
 	if (!command)
 		exit_all("Error: malloc failed\n", shell, 1);
@@ -118,6 +104,6 @@ void	ft_exec(t_shell *shell)
 	free(full_path);
 	ft_free_char_mat(command);
 	ft_free_char_mat(copy_env);
-	ft_printfd(2, "Error: execve failed\n");
+	ft_printfd(2, "%s: command not found\n", shell->cmds->cmd);
 	exit(127);
 }

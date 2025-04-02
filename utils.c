@@ -6,11 +6,21 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:23:27 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/27 19:14:02 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/31 13:15:46 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	skip_space(char *input)
+{
+	size_t	i;
+
+	i = 0;
+	while (input[i] && ft_isspace(input[i]))
+		i++;
+	return (i);
+}
 
 char	**copy_mat(char **mat, int *max_env, t_shell *shell)
 {
