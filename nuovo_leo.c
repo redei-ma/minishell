@@ -18,15 +18,8 @@ char *expander(char *str, t_shell *shell)
 		return (NULL);
 	while (str[i])
 	{
-		if (str[i] == '\'' && !in_double)
+		if (handle_quotes(str[i], &in_single, &in_double))
 		{
-			in_single = !in_single;
-			i++;
-			continue;
-		}
-		if (str[i] == '\"' && !in_single)
-		{
-			in_double = !in_double;
 			i++;
 			continue;
 		}
@@ -46,7 +39,7 @@ char *expander(char *str, t_shell *shell)
 					free(status);
 					exit_all("Error: malloc failed\n", shell, 1);
 				}
-				ft_strlcpy(expanded+j, status, ft_strlen(status) + 1);
+				ft_strlcpy(expanded + j, status, ft_strlen(status) + 1);
 				j += ft_strlen(status);
 				i += 2;
 				len += ft_strlen(status) - 2;
@@ -56,29 +49,26 @@ char *expander(char *str, t_shell *shell)
 			{
 				int x = i;
 				char *var = handle_env_variable(str, &i, shell);
-				if (var)
+				if (!var)
 				{
-					expanded = ft_realloc(expanded, (len + 1) * sizeof(char), (len + ft_strlen(var) - (i - x)  + 1) * sizeof(char)); //manca quanto misura la var dopo dollaro
-					ft_strlcpy(expanded+j, var, ft_strlen(var)+1);
-					j += ft_strlen(var);
-					free(var);
-				}
-				else
-				{
-					free(expanded);	
+					free(expanded);
 					exit_all("Error: malloc failed\n", shell, 1);
 				}
+				expanded = ft_realloc(expanded, (len + 1) * sizeof(char), (len + ft_strlen(var) - (i - x)  + 1) * sizeof(char)); //manca quanto misura la var dopo dollaro
+				if (!expanded)
+				{
+					free(var);
+					exit_all("Error: malloc failed\n", shell, 1);
+				}
+				ft_strlcpy(expanded+j, var, ft_strlen(var)+1);
+				j += ft_strlen(var);
+				free(var);
 			}
 			else
 				expanded[j++] = str[i++];
 		}
 		else
 			expanded[j++] = str[i++];
-	}
-	if (expanded[0] == '\0')
-	{
-		free(expanded);
-		expanded = NULL;
 	}
 	free(str);
 	return (expanded);
@@ -92,8 +82,6 @@ void	expand_vars(char ***tokens, t_shell *shell)
 	while ((*tokens)[i])
 	{
 		(*tokens)[i] = expander((*tokens)[i], shell);
-		if (!(*tokens)[i])
-			exit_all("Error: malloc failed\n", shell, 1);
 		i++;
 	}
 }

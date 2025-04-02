@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executables_2.c                                    :+:      :+:    :+:   */
+/*   ft_exec_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 08:11:35 by renato            #+#    #+#             */
-/*   Updated: 2025/03/27 08:12:09 by renato           ###   ########.fr       */
+/*   Updated: 2025/04/02 18:06:40 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*find_command_path(char *path, char *cmd)
 
 	cmd_path = ft_split(path, ':');
 	if (!cmd_path)
-		return (NULL);
+		exit_all("Error: malloc failed\n", NULL, 1);
 	j = 0;
 	while (cmd_path[j])
 		j++;

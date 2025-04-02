@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:17:38 by renato            #+#    #+#             */
-/*   Updated: 2025/04/01 13:37:01 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/02 20:11:02 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	parse_cmd(char **tokens, t_shell *shell)
 	int	i;
 
 	i = 0;
-	while (tokens[i])
+	while (tokens && tokens[i])
 	{
 		if (is_env(tokens[i]))
 			is_valid_env(tokens, i, shell);

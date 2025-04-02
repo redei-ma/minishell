@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/04/02 15:35:41 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/02 19:32:56 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ void	check_unclosed(char **input, t_shell *shell);
 void	copy_special_block(char **input, char *spaced, int *i, int *j);
 void	update_quotes(char c, int *in_single_quote, int *in_double_quote);
 int		count_spec_char(char *input);
-// void	set_var(t_shell *shell, char *input, char *format, ...);
 void	set_spaces(char **input, t_shell *shell);
 
 // parsing_3.c
@@ -138,11 +137,11 @@ void	process_export_arg(t_shell *shell, char *arg);
 void	ft_export(t_shell *shell, char **args);
 
 // ft_export_2.c
-char	*var_creation(const char *nm_var, const char *var_val);
+char	*var_creation(const char *nm_var, const char *var_val, int eqp);
 int		srcd_env(t_shell *shell, const char *name);
 int		update_existing_var(t_shell *shell, int index, char *n_full_var);
 int		create_new_env_array(t_shell *shell, char *n_full_var);
-void	upd_var(t_shell *shell, const char *nm_var, const char *var_val);
+void	upd_var(t_shell *shell, const char *nm_var, const char *var_val, int eqp);
 
 // ft_exec_1.c
 char	*get_path(char *cmd, char **envp);

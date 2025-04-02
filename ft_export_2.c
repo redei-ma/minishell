@@ -6,15 +6,15 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 18:39:24 by lacerbi           #+#    #+#             */
-/*   Updated: 2025/04/01 18:21:15 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/02 19:32:15 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char *var_creation(const char *nm_var, const char *var_val)
+char	*var_creation(const char *nm_var, const char *var_val, int eqp)
 {
-	if (var_val && *var_val)
+	if (var_val && eqp != -1)
 	{
 		char *temp = ft_strjoin(nm_var, "=");
 		char *n_full_var = ft_strjoin(temp, var_val);
@@ -35,7 +35,7 @@ int	srcd_env(t_shell *shell, const char *name)
 	while (shell->env[i])
 	{
 		if (ft_strncmp(shell->env[i], name, len) == 0
-			&& shell->env[i][len] == '=')
+			&& (shell->env[i][len] == '\0' || shell->env[i][len] == '='))
 			return (i);
 		i++;
 	}
@@ -71,12 +71,12 @@ int	create_new_env_array(t_shell *shell, char *n_full_var)
 	return (1);
 }
 
-void	upd_var(t_shell *shell, const char *nm_var, const char *var_val)
+void	upd_var(t_shell *shell, const char *nm_var, const char *var_val, int eqp)
 {
 	int		index;
 	char	*n_full_var;
 
-	n_full_var = var_creation(nm_var, var_val);
+	n_full_var = var_creation(nm_var, var_val, eqp);
 	if (!n_full_var)
 		exit_all("Error: malloc failed\n", shell, 1);
 	index = srcd_env(shell, nm_var);

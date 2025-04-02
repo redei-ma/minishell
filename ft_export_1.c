@@ -6,9 +6,11 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 22:02:16 by renato            #+#    #+#             */
-/*   Updated: 2025/04/01 18:19:38 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/02 19:37:55 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "minishell.h"
 
 #include "minishell.h"
 
@@ -54,9 +56,11 @@ void	print_env_declare(t_shell *shell)
 {
 	int			i;
 	int			j;
+	int			iseq;
 	char		**srtd_env;
 
 	i = -1;
+	iseq = 0;
 	srtd_env = copy_mat(shell->env, NULL, shell);
 	if (!srtd_env)
 		exit_all("Error: malloc failed\n", shell, 1);
@@ -69,12 +73,19 @@ void	print_env_declare(t_shell *shell)
 		{
 			write_to_fd(shell, srtd_env[i] + j, 1);
 			if (srtd_env[i][j] == '=')
+			{
+				iseq = !iseq;
 				write_to_fd(shell, "\"", 1);
+			}
 			j++;
 		}
-		write_to_fd(shell, "\"\n", 2);
+		if (iseq == 1)
+			write_to_fd(shell, "\"\n", 2);
+		else
+			write_to_fd(shell, "\n", 1);
+		iseq = 0;
 	}
-	free(srtd_env);
+	ft_free_char_mat(srtd_env);
 }
 
 void	process_export_arg(t_shell *shell, char *arg)
@@ -96,12 +107,12 @@ void	process_export_arg(t_shell *shell, char *arg)
 			free(val);
 			return ;
 		}
-		upd_var(shell, name, val);
+		upd_var(shell, name, val, eqp);
 		free(name);
 		free(val);
 	}
 	else if (srcd_env(shell, arg) == -1)
-		upd_var(shell, arg, "");
+		upd_var(shell, arg, "", eqp);
 }
 
 void	ft_export(t_shell *shell, char **args)

@@ -36,8 +36,24 @@ redei-ma@c2r2p8:~/Minishell$ echo $
 
 testare anche $"c" o $"$"
 
-
 testatre e gestire questo al momento skippa e basta, almeno che stapi i $ senza cercare i pid del processo
 
 
+./mi fa un disastro
+
+
 exit e ctrl+d leak
+
+
+mi sembra che export faccia leak
+
+
+decidere se fare c=ciao con la nuova matrice e chiamare export con una flag che aggiorni quella extra
+poi quando vai ad espandere devi controllarle entrambe
+
+
+echo cia'o ||merd'e  da syntaz error perche non tengo conto delle virgolette
+
+
+ora quando non esiste $r mi dorna strdup("") cosi esiste e non vs bene se lo metto  nullk non vedo opiu niente dopo
+dovrei attaccare la stringa prima a quella dopo

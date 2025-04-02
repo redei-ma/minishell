@@ -91,19 +91,24 @@ void	ft_exec(t_shell *shell)
 	{
 		full_path = ft_strdup(shell->cmds->cmd);
 		if (!full_path)
-			exit_all("Error: malloc failed\n", shell, 1);
+			exit_all("Error: malloc failed\n", shell, 1); //non sarebbe proprio cosi
 	}
 	command = ft_cmd_join(shell->cmds->cmd, shell->cmds->args, shell);
 	if (!command)
+	{
+		free(full_path);
 		exit_all("Error: malloc failed\n", shell, 1);
+	}
 	set_dups(shell->cmds, shell);
+	// se fallisce non frea cio che ho rcreato qui
 	copy_env = copy_mat(shell->env, NULL, shell);
+	//se non  torna mi perdo cose da freaer qua
 	close_all(shell);
 	free_all(shell);
 	execve(full_path, command, copy_env);
 	free(full_path);
 	ft_free_char_mat(command);
 	ft_free_char_mat(copy_env);
-	ft_printfd(2, "%s: command not found\n", shell->cmds->cmd);
+	ft_printfd(2, "Error: command not found\n");
 	exit(127);
 }
