@@ -1,9 +1,6 @@
 modificate tuttti gli int in size_t per scorrere una riga
 
 
-bisogna togliere le virgolette subito, pero non se e una esp di var e sono singole
-
-
 controllare  g_exit_status
 
 
@@ -19,10 +16,7 @@ ls |  |
 capire perche excve se espando $? che e uguale a zero mi vede (null)
 
 
-risolvere che toglie le virgolette anche alle variabile esapnse
-
-
-export a  in env non ci deve essere invece in export si
+leak con heredoc
 
 
 syntax error giusti
@@ -44,3 +38,6 @@ testare anche $"c" o $"$"
 
 
 testatre e gestire questo al momento skippa e basta, almeno che stapi i $ senza cercare i pid del processo
+
+
+exit e ctrl+d leak

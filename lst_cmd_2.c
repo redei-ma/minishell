@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:20:09 by renato            #+#    #+#             */
-/*   Updated: 2025/04/01 13:38:28 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/02 16:38:55 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,10 @@ int	process_heredoc_line(int fd, char *key, t_shell *shell)
 		shell->trigger = 2;
 		return (0);
 	}
+	line = expander(line, shell);
+	if (!line)
+		exit_all("Error: malloc failed\n", shell, 1);//magari la controllo gia
+	// manca il fatto che non deve guaerdare le virgolette ma espande sempre
 	if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
 		return (free(line), 0);
 	ft_printfd(fd, "%s", line);

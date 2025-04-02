@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 20:40:21 by renato            #+#    #+#             */
-/*   Updated: 2025/04/01 13:59:12 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/02 15:46:06 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,24 +40,50 @@ void	remove_quotes(char **str)
 	*str = ft_realloc(*str, old_len + 1, new_len + 1);
 }
 
-void	delete_quotes(t_cmd *cmds, t_shell *shell)
+/* void	check_esp_var(char **arg, t_shell *shell)
 {
-	int	i;
+	size_t	i;
+	int		in_double;
+	int		in_single;
 
-	while (cmds)
+	i = 0;
+	in_double = 0;
+	in_single = 0;
+	while ((*arg)[i])
 	{
-		i = 0;
-		remove_quotes(&cmds->cmd);
-		if (!cmds->cmd)
-			exit_all("Error: malloc failed\n", shell, 1);
-		while (cmds->args && cmds->args[i])
+		handle_quotes((*arg)[i], &in_single, &in_double);
+		if (in_single && (*arg)[i] == '$' && ft_isalnum((*arg)[i + 1]))
+			return ;
+		i++;
+	}
+	remove_quotes(arg);
+	if (!(*arg))
+		exit_all("Error: malloc failed\n", shell, 1);
+} */
+
+void	delete_quotes(char ***tokens, t_shell *shell)
+{
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	while ((*tokens)[i])
+	{
+		j = 0;
+		while ((*tokens)[i][j])
 		{
-			remove_quotes(&cmds->args[i]);
-			if (!cmds->args[i])
-				exit_all("Error: malloc failed\n", shell, 1);
-			i++;
+			if ((*tokens)[i][j] == '$' && (ft_isalnum((*tokens)[i][j + 1]) || (*tokens)[i][j + 1] == '_' || (*tokens)[i][j + 1] == '?'))
+				break ;
+			else if (!(*tokens)[i][j + 1])
+			{
+				remove_quotes(&(*tokens)[i]);
+				if (!(*tokens)[i])
+					exit_all("Error: malloc failed\n", shell, 1);
+				break ;
+			}
+			j++;
 		}
-		cmds = cmds->next;
+		i++;
 	}
 }
 //-----------------------------

@@ -1,7 +1,7 @@
 NAME = minishell
 CC = cc
 CFLAG = -Wall -Wextra -Werror -g
-VALGRIND = valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes --log-file=valgrind-log.txt
+VALGRIND = valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes #--log-file=valgrind-log.txt
 SANITIZE = -fsanitize=address, -fsanitize=undefined
 
 SRC =	main.c \
@@ -15,7 +15,6 @@ SRC =	main.c \
 		manager_1.c \
 		manager_2.c \
 		ft_echo_1.c \
-		ft_echo_2.c \
 		ft_export_1.c \
 		ft_export_2.c \
 		ft_exec_1.c \

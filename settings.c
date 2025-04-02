@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:07:08 by renato            #+#    #+#             */
-/*   Updated: 2025/04/01 18:14:43 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/02 15:46:34 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,13 @@ void	loop_line(t_shell *shell)
 	shell->tokens = ft_minisplit(shell->input);
 	if (!shell->tokens)
 		exit_all("Error: malloc failed\n", shell, 1);
+	delete_quotes(&shell->tokens, shell);
+	expand_vars(&shell->tokens, shell);
 	create_cmds(shell->tokens, shell);
 	if (shell->trigger)
 	{
 		return_partial(NULL, shell, shell->trigger);	
 		return ;
 	}
-	expand_vars(shell);
-	delete_quotes(shell->cmds, shell);
 	cmd_manage(shell);
 }

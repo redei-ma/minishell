@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/04/01 18:25:07 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/02 15:35:41 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	set_spaces(char **input, t_shell *shell);
 
 // parsing_3.c
 void	remove_quotes(char **str);
-void	delete_quotes(t_cmd *cmds, t_shell *shell);
+void	delete_quotes(char ***tokens, t_shell *shell);
 
 // ft_minisplit.c
 char	**ft_minisplit(char const *s);
@@ -189,7 +189,7 @@ void	check_syntax_error(char *input, t_shell *shell);
 int		skip_space(char *input);
 
 char	*expander(char *str, t_shell *shell);
-void	expand_vars(t_shell *shell);
+void	expand_vars(char ***tokens, t_shell *shell);
 char	*handle_env_variable(char *str, int *i, t_shell *shell);
 
 #endif
