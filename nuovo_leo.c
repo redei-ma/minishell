@@ -1,7 +1,7 @@
 #include "minishell.h"
 #include <stddef.h>
 
-char *expander(char *str, t_shell *shell)
+char *expander(char *str, t_shell *shell, int qts_yon)
 {
 	int	len = ft_strlen(str);
 	int		i;
@@ -19,9 +19,9 @@ char *expander(char *str, t_shell *shell)
 		return (NULL);
 	while (str[i])
 	{
-		if (handle_quotes(str[i], &in_single, &in_double))
+		if (qts_yon != 1 && handle_quotes(str[i], &in_single, &in_double))
 		{
-			i++;
+			expanded[j++] = str[i++];
 			continue;
 		}
 		if (str[i] == '$' && !in_single)
@@ -91,7 +91,7 @@ void	expand_vars(char ***tokens, t_shell *shell)
 			i++;
 			continue;
 		}
-		(*tokens)[i] = expander((*tokens)[i], shell);
+		(*tokens)[i] = expander((*tokens)[i], shell, 0);
 		if ((*tokens)[i][0] == '\0')
 		{
 			free((*tokens)[i]);

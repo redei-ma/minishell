@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 22:12:52 by renato            #+#    #+#             */
-/*   Updated: 2025/04/03 11:58:14 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/03 18:15:03 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,13 @@
 void	ft_exit(t_shell *shell, char **args)
 {
 	int	exit_code;
+	int	len;
 
 	exit_code = 0;
+	len = ft_matlen(args);
 	if (args && args[0])
 	{
-		if (args[1])
+		if (len > 1)
 			return_partial("exit: too many arguments", shell, 36);
 		else if (ft_natoi(args[0]) == 0
 			&& (args[0][0] != 0 || args[0][0] != '\0'))

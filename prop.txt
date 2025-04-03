@@ -59,3 +59,6 @@ se metto solo | va in loop e in teria dovrei gestire '|'
 
 
 dentro heredoc non devo togliere le virgolette quando esapndo le variabili
+
+
+bisogna salvare OLDPWD quando fai cd   (e gestire cd - ?? forse non serve)
