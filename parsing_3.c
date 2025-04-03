@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 20:40:21 by renato            #+#    #+#             */
-/*   Updated: 2025/04/02 15:46:06 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/03 15:14:48 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,7 +191,10 @@ void	check_syntax_error(char *input, t_shell *shell)
 	while (input[i])
 	{
 		if (input[i] == '|')
+		{
+			// printf("coglione\n");
 			s = check_syntax_pipe(input + i + 1, input[i], shell); 
+		}
 		else if (input[i] == '<' || input[i] == '>')
 			s = check_syntax(input + i + 1, input[i], shell);
 		if (s)

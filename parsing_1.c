@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 20:33:33 by renato            #+#    #+#             */
-/*   Updated: 2025/03/31 19:51:23 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/03 15:17:13 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,8 @@ void	check_unclosed(char **input, t_shell *shell)
 					ft_printfd(2, "syntax error near unexpected token `||'\n");
 				else
 					ft_printfd(2, "syntax error near unexpected token `|'\n");
+				shell->trigger = 2;
+				return ;
 			}
 			else
 				find_unclosed_pipe(input, &i, shell);

@@ -83,6 +83,14 @@ void	expand_vars(char ***tokens, t_shell *shell)
 	i = 0;
 	while ((*tokens)[i])
 	{
+		if (i > 0 && ((*tokens)[i - 1][0] == '<' && (*tokens)[i - 1][1] == '<'))
+		{
+			remove_quotes(&(*tokens)[i]);
+			if (!(*tokens)[i])
+				exit_all("Error: malloc failed\n", shell, 1);
+			i++;
+			continue;
+		}
 		(*tokens)[i] = expander((*tokens)[i], shell);
 		if ((*tokens)[i][0] == '\0')
 		{
