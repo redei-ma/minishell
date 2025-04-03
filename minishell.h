@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/04/02 15:35:41 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/02 19:32:56 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ void	check_unclosed(char **input, t_shell *shell);
 void	copy_special_block(char **input, char *spaced, int *i, int *j);
 void	update_quotes(char c, int *in_single_quote, int *in_double_quote);
 int		count_spec_char(char *input);
-// void	set_var(t_shell *shell, char *input, char *format, ...);
 void	set_spaces(char **input, t_shell *shell);
 
 // parsing_3.c
@@ -188,7 +187,7 @@ char	**copy_mat(char **mat, int *max_env, t_shell *shell);
 void	check_syntax_error(char *input, t_shell *shell);
 int		skip_space(char *input);
 
-char	*expander(char *str, t_shell *shell);
+char	*expander(char *str, t_shell *shell, int qts_yon);
 void	expand_vars(char ***tokens, t_shell *shell);
 char	*handle_env_variable(char *str, int *i, t_shell *shell);
 

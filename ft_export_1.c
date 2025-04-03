@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 22:02:16 by renato            #+#    #+#             */
-/*   Updated: 2025/04/01 18:19:38 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/03 15:05:15 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	print_env_declare(t_shell *shell)
 			write_to_fd(shell, "\n", 1);
 		iseq = 0;
 	}
-	free(srtd_env);
+	ft_free_char_mat(srtd_env);
 }
 
 void	process_export_arg(t_shell *shell, char *arg)
@@ -92,6 +92,11 @@ void	process_export_arg(t_shell *shell, char *arg)
 	char	*name;
 	char	*val;
 
+	if (arg[0] == '=')
+	{
+		ft_printfd(2, "export: `%s': not a valid identifier\n", arg);
+		return ;
+	}
 	eqp = find_eq_sn(arg);
 	if (eqp != -1)
 	{

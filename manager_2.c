@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 22:12:52 by renato            #+#    #+#             */
-/*   Updated: 2025/04/01 19:38:09 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/03 11:58:14 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	ft_unset(t_shell *shell, char **args)
 				shell->env[j] = shell->env[j + 1];
 				j++;
 			}
+			shell->env[j] = NULL;
 			shell->max--;
 		}
 		i++;
@@ -75,12 +76,13 @@ void	ft_unset(t_shell *shell, char **args)
 
 void	ft_pwd(t_shell *shell)
 {
-	char	cwd[4096];
+	char	*cwd;
 
-	if (getcwd(cwd, sizeof(cwd)) != NULL)
-		ft_printfd_shell(shell, "%s\n", cwd);
-	else
-		ft_printfd(2, "pwd: error retrieving current directory: getcwd: %s\n", strerror(errno));
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+		return_partial("pwd: error retrieving current directory", shell, 1);
+	ft_printfd_shell(shell, "%s\n", cwd);
+	free(cwd);
 	g_exit_status = 0;
 }
 

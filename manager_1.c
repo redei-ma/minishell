@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 00:04:33 by renato            #+#    #+#             */
-/*   Updated: 2025/04/01 14:16:27 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/02 17:18:34 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	cmd_find_son(t_shell *shell, char *cmd)
 	if (is_builtin(cmd))
 		exe_builtin(shell);
 	else if (is_env(cmd))
-		ft_export(shell, shell->cmds->args);
+		return ;
 	else
 	{
 		signal(SIGINT, handle_ctrl_c_exec);
@@ -94,7 +94,7 @@ void	cmd_find_dad(t_shell *shell, char *cmd)
 	else if (is_builtin(cmd))
 		exe_builtin(shell);
 	else if (is_env(cmd))
-		ft_export(shell, &shell->cmds->cmd);
+		return ;
 	else
 	{
 		signal(SIGINT, handle_ctrl_c_exec);

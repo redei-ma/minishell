@@ -98,7 +98,7 @@ int	process_heredoc_line(int fd, char *key, t_shell *shell)
 	}
 	if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0)
 		return (free(line), 0);
-	line = expander(line, shell, 1);
+	line = expander(line, shell, 0);
 	if (!line)
 		exit_all("Error: malloc failed\n", shell, 1);//magari la controllo gia
 	// manca il fatto che non deve guaerdare le virgolette ma espande sempre

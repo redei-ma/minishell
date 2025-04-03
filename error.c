@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 19:33:11 by renato            #+#    #+#             */
-/*   Updated: 2025/03/31 21:25:49 by renato           ###   ########.fr       */
+/*   Updated: 2025/04/02 18:03:05 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	free_part(t_shell *shell)
 void	free_all(t_shell *shell)
 {
 	free_part(shell);
-	free_part_2(shell);
+	delete_heredoc(shell);
 	if (shell->env)
 	{
 		ft_free_char_mat(shell->env);

@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:23:27 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/31 13:15:46 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/02 17:21:30 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	is_env(char *cmd)
 	int	i;
 
 	i = 0;
-	while (cmd[i] && cmd[i] != '=' && ft_isascii(cmd[i]))
+	while (cmd[i] && cmd[i] != '=' && (ft_isalnum(cmd[i]) || cmd[i] == '_'))
 		i++;
 	if (cmd[i] && cmd[i] == '=' && i > 0)
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 18:39:24 by lacerbi           #+#    #+#             */
-/*   Updated: 2025/04/01 18:21:15 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/02 19:32:15 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*var_creation(const char *nm_var, const char *var_val, int eqp)
 {
-	if (var_val && eqp != -1/*&& *var_val*/)
+	if (var_val && eqp != -1)
 	{
 		char *temp = ft_strjoin(nm_var, "=");
 		char *n_full_var = ft_strjoin(temp, var_val);
