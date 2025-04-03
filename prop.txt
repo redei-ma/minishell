@@ -57,3 +57,21 @@ echo cia'o ||merd'e  da syntaz error perche non tengo conto delle virgolette
 
 ora quando non esiste $r mi dorna strdup("") cosi esiste e non vs bene se lo metto  nullk non vedo opiu niente dopo
 dovrei attaccare la stringa prima a quella dopo
+
+
+ctr c in heredoc lekka
+
+
+	line = expander(line, shell);
+	if (!line)
+		exit_all("Error: malloc failed\n", shell, 1);//magari la controllo gia
+	// manca il fatto che non deve guaerdare le virgolette ma espande sempre
+
+
+minishell> export $c=ciao
+minishell> export
+declare -x ="ciao"
+declare -x CHROME_DESKTOP="code.desktop"
+declare -x COLORTERM="truecolor"
+
+non deve creare NULL="ciao"

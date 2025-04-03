@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include <stddef.h>
 
 char *expander(char *str, t_shell *shell)
 {
@@ -77,11 +78,24 @@ char *expander(char *str, t_shell *shell)
 void	expand_vars(char ***tokens, t_shell *shell)
 {
 	size_t	i;
+	size_t	j;
 
 	i = 0;
 	while ((*tokens)[i])
 	{
 		(*tokens)[i] = expander((*tokens)[i], shell);
+		if ((*tokens)[i][0] == '\0')
+		{
+			free((*tokens)[i]);
+			j = i;
+			while ((*tokens)[j])
+			{
+				(*tokens)[j] = (*tokens)[j + 1];
+				j++;
+			}
+			(*tokens)[j] = NULL;
+			i--;
+		}
 		i++;
 	}
 }
