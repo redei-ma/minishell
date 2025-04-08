@@ -129,7 +129,7 @@ int	return_partial(char *msg, t_shell *shell, int status)
 	delete_heredoc(shell);
 	free_part(shell);
 	g_exit_status = status;
-	//ft_printfd(2, "%d", g_exit_status);
+	ft_printfd(2, "%d", g_exit_status);
 	return (status);
 }
 

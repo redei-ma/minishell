@@ -187,7 +187,7 @@ char	**copy_mat(char **mat, int *max_env, t_shell *shell);
 void	check_syntax_error(char *input, t_shell *shell);
 int		skip_space(char *input);
 
-char	*expander(char *str, t_shell *shell, int qts_yon);
+char	*expander(char *str, t_shell *shell);
 void	expand_vars(char ***tokens, t_shell *shell);
 char	*handle_env_variable(char *str, int *i, t_shell *shell);
 

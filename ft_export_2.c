@@ -14,15 +14,18 @@
 
 char	*var_creation(const char *nm_var, const char *var_val, int eqp)
 {
+	char	*temp;
+	char	*n_full_var;
+
 	if (var_val && eqp != -1)
 	{
-		char *temp = ft_strjoin(nm_var, "=");
-		char *n_full_var = ft_strjoin(temp, var_val);
+		temp = ft_strjoin(nm_var, "=");
+		n_full_var = ft_strjoin(temp, var_val);
 		free(temp);
-		return n_full_var;
+		return (n_full_var);
 	}
 	else
-		return ft_strdup(nm_var);
+		return (ft_strdup(nm_var));
 }
 
 int	srcd_env(t_shell *shell, const char *name)
@@ -71,7 +74,8 @@ int	create_new_env_array(t_shell *shell, char *n_full_var)
 	return (1);
 }
 
-void	upd_var(t_shell *shell, const char *nm_var, const char *var_val, int eqp)
+void	upd_var(t_shell *shell, const char *nm_var,
+	const char *var_val, int eqp)
 {
 	int		index;
 	char	*n_full_var;

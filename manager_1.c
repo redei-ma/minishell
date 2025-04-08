@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manager_1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lacerbi <lacerbi@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 00:04:33 by renato            #+#    #+#             */
-/*   Updated: 2025/04/02 17:18:34 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/08 13:13:09 by lacerbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,5 +123,5 @@ void	cmd_manage(t_shell *shell)
 		fork_manger(shell);
 	else
 		cmd_find_dad(shell, shell->cmds->cmd);
-	return_partial(NULL, shell, 0);
+	return_partial(NULL, shell, g_exit_status);
 }
