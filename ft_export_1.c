@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lacerbi <lacerbi@student.42firenze.it>     +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 22:02:16 by renato            #+#    #+#             */
-/*   Updated: 2025/04/08 17:05:32 by lacerbi          ###   ########.fr       */
+/*   Updated: 2025/04/10 15:30:55 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,5 +142,4 @@ void	ft_export(t_shell *shell, char **args)
 			i++;
 		}
 	}
-	return_partial(NULL, shell, 0);
 }

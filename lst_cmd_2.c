@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:20:09 by renato            #+#    #+#             */
-/*   Updated: 2025/04/03 12:04:33 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/10 16:01:06 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ int	process_heredoc_line(int fd, char *key, t_shell *shell)
 		free(limiter);
 		dup2(shell->original_stdin, 0);
 		shell->trigger = 130;
+		// signal(SIGINT, handle_ctrl_c);
 		return (0);
 	}
 	if (!line)

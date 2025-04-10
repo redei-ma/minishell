@@ -1,8 +1,8 @@
 NAME = minishell
 CC = cc
 CFLAG = -Wall -Wextra -Werror -g
-VALGRIND = valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes #--log-file=valgrind-log.txt
-SANITIZE = -fsanitize=address, -fsanitize=undefined
+VALGRIND = valgrind --suppressions=$(CURDIR)/sup/readline.supp --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes #--log-file=valgrind-log.txt
+# SANITIZE = -fsanitize=address, -fsanitize=undefined
 
 SRC =	main.c \
 		settings.c \

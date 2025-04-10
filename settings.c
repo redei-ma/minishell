@@ -6,13 +6,13 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:07:08 by renato            #+#    #+#             */
-/*   Updated: 2025/04/02 15:46:34 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/10 15:52:04 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_print_cmd(t_cmd *cmds)
+/* void	ft_print_cmd(t_cmd *cmds)
 {
 	while (cmds)
 	{
@@ -31,7 +31,7 @@ void	ft_print_cmd(t_cmd *cmds)
 		ft_printf("\n");
 		cmds = cmds->next;
 	}
-}
+} */
 
 void	set_shell(t_shell *shell)
 {
