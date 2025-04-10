@@ -12,49 +12,41 @@
 
 #include "minishell.h"
 #include <stddef.h>
-
-char	*expander(char *str, t_shell *shell)
+/*
+char *expander(char *str, t_shell *shell, int qts_yon)
 {
-	int			len;
-	int			x;
-	int			i;
-	int			j;
-	int			in_single;
-	int			in_double;
-	char		*expanded;
-	char		*status;
-	char		*var;
+	int	len = ft_strlen(str);
+	int		i;
+	int		j;
+	int		in_single;
+	int		in_double;
+	char 	*expanded;
 
 	i = 0;
 	j = 0;
-	x = 0;
-	len = ft_strlen(str);
 	in_single = 0;
 	in_double = 0;
-	status = NULL;
-	var = NULL;
 	expanded = ft_calloc(ft_strlen(str) + 1, sizeof(char));
 	if (!expanded)
 		return (NULL);
 	while (str[i])
 	{
-		if (handle_quotes(str[i], &in_single, &in_double))
+		if (qts_yon != 1 && handle_quotes(str[i], &in_single, &in_double))
 		{
-			i++;
-			continue ;
+			expanded[j++] = str[i++];
+			continue;
 		}
 		if (str[i] == '$' && !in_single)
 		{
 			if (str[i + 1] == '?')
 			{
-				status = ft_itoa(g_exit_status);
+				char *status = ft_itoa(g_exit_status);
 				if (!status)
 				{
 					free(expanded);
 					exit_all("Error: malloc failed\n", shell, 1);
 				}
-				expanded = ft_realloc(expanded, (len + 1) * sizeof(char),
-						(len + ft_strlen(status) - 2 + 1) * sizeof(char));
+				expanded = ft_realloc(expanded, (len + 1) * sizeof(char), (len + ft_strlen(status) - 2 + 1) * sizeof(char));
 				if (!expanded)
 				{
 					free(status);
@@ -66,23 +58,22 @@ char	*expander(char *str, t_shell *shell)
 				len += ft_strlen(status) - 2;
 				free(status);
 			}
-			else if (ft_isalnum(str[i + 1]) || str[i + 1] == '_')
+			else if (ft_isalnum(str[i+1]) || str[i+1] == '_')
 			{
-				x = i;
-				var = handle_env_variable(str, &i, shell);
+				int x = i;
+				char *var = handle_env_variable(str, &i, shell);
 				if (!var)
 				{
 					free(expanded);
 					exit_all("Error: malloc failed\n", shell, 1);
 				}
-				expanded = ft_realloc(expanded, (len + 1) * sizeof(char),
-						(len + ft_strlen(var) - (i - x) + 1) * sizeof(char));
+				expanded = ft_realloc(expanded, (len + 1) * sizeof(char), (len + ft_strlen(var) - (i - x)  + 1) * sizeof(char)); //manca quanto misura la var dopo dollaro
 				if (!expanded)
 				{
 					free(var);
 					exit_all("Error: malloc failed\n", shell, 1);
 				}
-				ft_strlcpy(expanded + j, var, ft_strlen(var) + 1);
+				ft_strlcpy(expanded+j, var, ft_strlen(var)+1);
 				j += ft_strlen(var);
 				free(var);
 			}
@@ -91,6 +82,94 @@ char	*expander(char *str, t_shell *shell)
 		}
 		else
 			expanded[j++] = str[i++];
+	}
+	free(str);
+	return (expanded);
+}
+*/
+void	exit_status_var(char **expanded, int *iter_arr, t_shell *shell)
+{
+	char *status;
+
+	status = ft_itoa(g_exit_status);
+	if (!status)
+	{
+		free(*expanded);
+		exit_all("Error: malloc failed\n", shell, 1);
+	}
+	*expanded = ft_realloc(*expanded, (iter_arr[2] + 1), 
+		(iter_arr[2] + ft_strlen(status) - 1) * sizeof(char));
+	if (!*expanded)
+	{
+		free(status);
+		exit_all("Error: malloc failed\n", shell, 1);
+	}
+	ft_strlcpy(*expanded + iter_arr[1], status, ft_strlen(status) + 1);
+	iter_arr[1] += ft_strlen(status);
+	iter_arr[0] += 2;
+	iter_arr[2] += ft_strlen(status) - 2;
+	free(status);
+}
+
+void	var_cases(char **expanded, int *iter_arr, t_shell *shell, char *str)
+{
+	int		x;
+	char	*var;
+
+	x = iter_arr[0];
+	var = handle_env_variable(str, &iter_arr[0], shell);
+	if (!var)
+	{
+		free(*expanded);
+		exit_all("Error: malloc failed\n", shell, 1);
+	}
+	*expanded = ft_realloc(*expanded, (iter_arr[2] + 1),
+		(iter_arr[2] + ft_strlen(var) - (iter_arr[0] - x) + 1) * sizeof(char));
+	if (!*expanded)
+	{
+		free(var);
+		exit_all("Error: malloc failed\n", shell, 1);
+	}
+	ft_strlcpy(*expanded + iter_arr[1], var, ft_strlen(var) + 1);
+	iter_arr[1] += ft_strlen(var);
+	free(var);
+}
+
+void	stoplight(char **expanded, int *iter_arr, t_shell *shell, char *str)
+{
+	if (str[iter_arr[0] + 1] == '?')
+		exit_status_var(expanded, iter_arr, shell);
+	else if (ft_isalnum(str[iter_arr[0]+1]) || str[iter_arr[0]+1] == '_')
+		var_cases(expanded, iter_arr, shell, str);
+	else
+		(*expanded)[iter_arr[1]++] = str[iter_arr[0]++];
+}
+
+char	*expander(char *str, t_shell *shell, int qts_yon)
+{
+	int		iter_arr[3];
+	int		in_sd_qts[2];
+	char	*expanded;
+
+	iter_arr[0] = 0;
+	iter_arr[1] = 0;
+	iter_arr[2] = ft_strlen(str);
+	in_sd_qts[0] = 0;
+	in_sd_qts[1] = 0;
+	expanded = ft_calloc(iter_arr[2] + 1, sizeof(char));
+	if (!expanded)
+		return (NULL);
+	while (str[iter_arr[0]])
+	{
+		if (qts_yon != 1 && handle_quotes(str[iter_arr[0]], &in_sd_qts[0], &in_sd_qts[1]))
+		{
+			iter_arr[0]++;
+			continue;
+		}
+		if (str[iter_arr[0]] == '$' && !in_sd_qts[0])
+			stoplight(&expanded, iter_arr, shell, str);
+		else
+			expanded[iter_arr[1]++] = str[iter_arr[0]++];
 	}
 	free(str);
 	return (expanded);
@@ -110,9 +189,9 @@ void	expand_vars(char ***tokens, t_shell *shell)
 			if (!(*tokens)[i])
 				exit_all("Error: malloc failed\n", shell, 1);
 			i++;
-			continue ;
+			continue;
 		}
-		(*tokens)[i] = expander((*tokens)[i], shell);
+		(*tokens)[i] = expander((*tokens)[i], shell, 0);
 		if ((*tokens)[i][0] == '\0')
 		{
 			free((*tokens)[i]);

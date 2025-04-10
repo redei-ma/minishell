@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/04/02 19:32:56 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/03 17:46:28 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,7 @@ char	**copy_mat(char **mat, int *max_env, t_shell *shell);
 void	check_syntax_error(char *input, t_shell *shell);
 int		skip_space(char *input);
 
-char	*expander(char *str, t_shell *shell);
+char	*expander(char *str, t_shell *shell, int qts_yon);
 void	expand_vars(char ***tokens, t_shell *shell);
 char	*handle_env_variable(char *str, int *i, t_shell *shell);
 
