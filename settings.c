@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:07:08 by renato            #+#    #+#             */
-/*   Updated: 2025/04/03 17:37:59 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:51:30 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,6 @@ void	loop_line(t_shell *shell)
 		return_partial(NULL, shell, shell->trigger);	
 		return ;
 	}
-	ft_print_cmd(shell->cmds);
+	// ft_print_cmd(shell->cmds);
 	cmd_manage(shell);
 }

@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/27 08:11:35 by renato            #+#    #+#             */
-/*   Updated: 2025/04/02 18:06:40 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:51:30 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*test_path(char **cmd_path, char *cmd, int j)
 {
-	int		i;
+	int	i;
 	char	*full_path;
 	char	*tmp;
 
@@ -40,7 +40,7 @@ char	*find_command_path(char *path, char *cmd)
 {
 	char	**cmd_path;
 	char	*full_path;
-	int		j;
+	int	j;
 
 	cmd_path = ft_split(path, ':');
 	if (!cmd_path)

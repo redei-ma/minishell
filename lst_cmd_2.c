@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:20:09 by renato            #+#    #+#             */
-/*   Updated: 2025/04/03 17:46:46 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:51:30 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*search_name(t_shell *shell)
 {
 	char	*filename;
 	char	*num;
-	int		i;
+	int	i;
 
 	i = 0;
 	while (1)

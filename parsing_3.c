@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 20:40:21 by renato            #+#    #+#             */
-/*   Updated: 2025/04/03 17:41:09 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:51:30 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	remove_quotes(char **str)
 
 /* void	check_esp_var(char **arg, t_shell *shell)
 {
-	size_t	i;
+	int	i;
 	int		in_double;
 	int		in_single;
 
@@ -63,8 +63,8 @@ void	remove_quotes(char **str)
 
 void	delete_quotes(char ***tokens, t_shell *shell)
 {
-	size_t	i;
-	size_t	j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while ((*tokens)[i])
@@ -131,7 +131,7 @@ void	delete_quotes(char ***tokens, t_shell *shell)
 
 int	check_syntax(char *input, char c, t_shell *shell)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
 	if (*input && *input == c)
@@ -167,7 +167,7 @@ int	check_syntax(char *input, char c, t_shell *shell)
 
 int	check_syntax_pipe(char *input, char c, t_shell *shell)
 {
-	size_t	i;
+	int	i;
 
 	i = skip_space(input);
 	if (input[i] && input[i] == c)
@@ -183,7 +183,7 @@ int	check_syntax_pipe(char *input, char c, t_shell *shell)
 
 void	check_syntax_error(char *input, t_shell *shell)
 {
-	size_t	i;
+	int	i;
 	int		s;
 
 	s = 0;

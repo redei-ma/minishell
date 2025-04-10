@@ -77,8 +77,8 @@ char *expander(char *str, t_shell *shell, int qts_yon)
 
 void	expand_vars(char ***tokens, t_shell *shell)
 {
-	size_t	i;
-	size_t	j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while ((*tokens)[i])

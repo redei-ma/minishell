@@ -1,4 +1,3 @@
-modificate tuttti gli int in size_t per scorrere una riga
 
 
 controllare  g_exit_status
@@ -13,40 +12,13 @@ ls ||
 ls |  |
 
 
-capire perche excve se espando $? che e uguale a zero mi vede (null)
-
-
 leak con heredoc
-
-
-syntax error giusti
-
-
-redei-ma@c2r2p8:~/Minishell$ echo $$
-1476377
-redei-ma@c2r2p8:~/Minishell$ echo $
-$
-redei-ma@c2r2p8:~/Minishell$ echo $$$
-1476377$
-redei-ma@c2r2p8:~/Minishell$ echo $$$$
-14763771476377
-redei-ma@c2r2p8:~/Minishell$ echo $i
-
-redei-ma@c2r2p8:~/Minishell$ echo $
-
-testare anche $"c" o $"$"
-
-testatre e gestire questo al momento skippa e basta, almeno che stapi i $ senza cercare i pid del processo
 
 
 exit e ctrl+d leak
 
 
 mi sembra che export faccia leak
-
-
-decidere se fare c=ciao con la nuova matrice e chiamare export con una flag che aggiorni quella extra
-poi quando vai ad espandere devi controllarle entrambe
 
 
 echo cia'o ||merd'e  da syntaz error perche non tengo conto delle virgolette
@@ -62,3 +34,13 @@ dentro heredoc non devo togliere le virgolette quando esapndo le variabili
 
 
 bisogna salvare OLDPWD quando fai cd   (e gestire cd - ?? forse non serve)
+
+
+decidere se fare c=ciao con la nuova matrice e chiamare export con una flag che aggiorni quella extra
+poi quando vai ad espandere devi controllarle entrambe
+
+
+<<|>>
+
+||
+

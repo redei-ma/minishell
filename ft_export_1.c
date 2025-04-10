@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 22:02:16 by renato            #+#    #+#             */
-/*   Updated: 2025/04/03 15:05:15 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/10 15:28:54 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ void	sort_env(char **srtd_env)
 
 void	print_env_declare(t_shell *shell)
 {
-	int			i;
-	int			j;
-	int			iseq;
-	char		**srtd_env;
+	int	i;
+	int	j;
+	int		iseq;
+	char	**srtd_env;
 
 	i = -1;
 	iseq = 0;
@@ -133,5 +133,4 @@ void	ft_export(t_shell *shell, char **args)
 			i++;
 		}
 	}
-	return_partial(NULL, shell, 0);
 }

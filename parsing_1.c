@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 20:33:33 by renato            #+#    #+#             */
-/*   Updated: 2025/04/03 15:17:13 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:51:30 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	find_unclosed_quotes(char **input, int *i, t_shell *shell)
 
 void	check_unclosed(char **input, t_shell *shell)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while ((*input)[i])

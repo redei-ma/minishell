@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/04/03 17:46:28 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:51:30 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,11 @@ typedef struct s_shell
 	t_cmd	*head;
 	t_pipex	*piper;
 	char	**env;
-	int		max;
+	int	max;
 	char	*input;
 	char	**tokens;
 	char	**heredocs;
-	int		num_heredoc;
+	int	num_heredoc;
 	int		signal;
 	int		original_stdin;
 	int		original_stdout;
