@@ -33,7 +33,7 @@ void	handle_ctrl_c_get(int signum)
 {
 	(void)signum;
 	g_exit_status = 130;
-	ioctl(STDIN_FILENO, TIOCSTI, "\n");
+	ioctl(STDIN_FILENO, TIOCSTI, "\n");  // Inietta un newline nel buffer di input
 	rl_replace_line("", 0);
 	rl_on_new_line();
 }
