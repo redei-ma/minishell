@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/04/11 11:49:34 by renato           ###   ########.fr       */
+/*   Updated: 2025/04/11 14:15:33 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,11 +99,21 @@ void	create_cmds(char **tokens, t_shell *shell);
 int		handle_fdout(char *token, char c, t_shell *shell);
 int		handle_fdin(char *token, t_shell *shell);
 char	*search_name(t_shell *shell);
-int		process_heredoc_line(int fd, char *key, t_shell *shell);
+int		process_heredoc_line(int *fd, char *key, t_shell *shell);
 int		handle_heredoc(char *token, t_shell *shell);
 
 // lst_cmd_3.c
 void	add_arg(char ***args, char *token, t_shell *shell);
+
+// expander_1.c
+void	exit_status_var(char **expanded, int *iter_arr, t_shell *shell);
+void	var_cases(char **expanded, int *iter_arr, t_shell *shell, char *str);
+void	stoplight(char **expanded, int *iter_arr, t_shell *shell, char *str);
+char	*expander(char *str, t_shell *shell, int qts_yon);
+void	expand_vars(char ***tokens, t_shell *shell);
+char	*handle_env_variable(char *str, int *i, t_shell *shell);
+char	*ft_getenv(char *nm_var, t_shell *shell);
+int		handle_exit_status(t_shell *shell);
 
 // manager_1.c
 void	exe_builtin(t_shell *shell);
@@ -152,7 +162,7 @@ char	*test_path(char **cmd_path, char *cmd, int j);
 char	*find_command_path(char *path, char *cmd);
 
 // utils.c
-int		skip_path(char *cmd);
+int		skip_space(char *input);
 char	**copy_mat(char **mat, int *max_env, t_shell *shell);
 void	ft_printfd_shell(t_shell *shell, const char *format, char *args);
 int		is_env(char *cmd);

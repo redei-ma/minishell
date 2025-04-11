@@ -37,10 +37,11 @@ $(LIBFT):
 
 $(OBJDIR)/%.o: %.c $(LIBFT)
 	@mkdir -p $(@D)
-	@$(CC) $(CFLAG) $(SRC) $(LIBFT) -I$(CURDIR) -o $(NAME) -lreadline
+	@$(CC) $(CFLAG) -I$(CURDIR) -I$(LIBFT_DIR) -c $< -o $@
 
 $(NAME): $(OBJ)
 	@echo "Compiling $(NAME)..."
+	@$(CC) $(CFLAG) $(OBJ) $(LIBFT) -I$(CURDIR) -o $(NAME) -lreadline
 
 val: $(NAME)
 	@echo "Using Valgrind..."
