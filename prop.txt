@@ -1,0 +1,44 @@
+modificate tuttti gli int in size_t per scorrere una riga
+
+
+controllare  g_exit_status
+
+
+marzo 20/21 tutte le foto
+in particolare ciao= cat
+
+
+< i ls | << X cat -e
+ls ||
+ls |  |
+
+
+se faccio prima un here docc e poi fallisco un cmd da leak heredoc
+
+
+leak con heredoc
+
+
+syntax error giusti
+
+
+exit e ctrl+d leak
+
+
+mi sembra che export faccia leak
+
+
+decidere se fare c=ciao con la nuova matrice e chiamare export con una flag che aggiorni quella extra
+poi quando vai ad espandere devi controllarle entrambe
+
+
+echo cia'o ||merd'e  da syntaz error perche non tengo conto delle virgolette
+
+
+ctr c in heredoc lekka
+
+
+se metto solo | va in loop e in teria dovrei gestire '|'
+
+
+dentro heredoc non devo togliere le virgolette quando esapndo le variabili

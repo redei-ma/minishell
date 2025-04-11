@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 10:58:38 by redei-ma          #+#    #+#             */
-/*   Updated: 2024/12/05 17:00:57 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/24 17:07:26 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,13 @@
 
 static void	*ft_rev(void *dest, const void *src, size_t n)
 {
-	char	*tempd;
-	char	*temps;
+	unsigned char		*tempd;
+	unsigned const char	*temps;
 
-	tempd = (char *)dest + (n - 1);
-	temps = (char *)src + (n - 1);
+	tempd = (unsigned char *)dest + (n - 1);
+	temps = (unsigned const char *)src + (n - 1);
 	while (n--)
-	{
-		*tempd = *temps;
-		tempd--;
-		temps--;
-	}
+		*tempd-- = *temps--;
 	return (dest);
 }
 
@@ -34,10 +30,7 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 		return (dest);
 	else if (src > dest)
 		return (ft_memcpy(dest, src, n));
-	else
-	{
-		return (ft_rev(dest, src, n));
-	}
+	return (ft_rev(dest, src, n));
 }
 
 /* int main()

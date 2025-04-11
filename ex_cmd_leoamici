@@ -1,2 +1,0 @@
-c"at" < f1 | grep "error ciao" | echo -n > o""ut | $PW" "D
-

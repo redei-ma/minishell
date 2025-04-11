@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 11:52:12 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/03 15:36:29 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/27 18:54:26 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_list
 int		ft_abs(int x);
 int		ft_atoi(char *str);
 void	ft_bzero(void *s, size_t n);
+char	**ft_free_char_mat(char **mat);
 void	*ft_calloc(size_t nmemb, size_t size);
 void	**ft_freemat(void **mat, int size);
 int		ft_isalnum(int c);
@@ -82,5 +83,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 int		ft_tolower(int c);
 int		ft_toupper(int c);
 char	*get_next_line(int fd);
+void	safe_close(int *fd);
+int		ft_strcmp(const char *s1, const char *s2);
 
 #endif

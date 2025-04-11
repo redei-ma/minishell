@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_matlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 19:01:46 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/03 15:35:29 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/03/23 03:38:32 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_matlen(char **mat)
 	int	i;
 
 	i = 0;
-	while (mat[i])
+	while (mat && mat[i])
 		i++;
 	return (i);
 }

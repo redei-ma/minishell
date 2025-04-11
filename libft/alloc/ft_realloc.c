@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 17:13:42 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/02/05 19:33:10 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/01 20:27:42 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,13 @@ void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
 {
 	void	*new_ptr;
 	size_t	copy_size;
-
+	
 	if (new_size == 0)
-		return (free(ptr), NULL);
+	{
+		if (ptr)
+			free(ptr);
+		return (NULL);
+	}
 	if (!ptr)
 		return (ft_calloc(new_size, 1));
 	if (new_size == old_size)
