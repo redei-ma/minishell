@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 20:33:33 by renato            #+#    #+#             */
-/*   Updated: 2025/04/11 10:44:22 by renato           ###   ########.fr       */
+/*   Updated: 2025/04/14 12:49:50 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	in_quotes(char **input, t_shell *shell)
 	{
 		// if (line)
 		// 	free(line);
-		dup2(shell->original_stdin, 0);
+		// dup2(shell->original_stdin, 0);
 		shell->trigger = 130;
 		return ;
 	}

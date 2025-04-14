@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:23:27 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/04/02 17:21:30 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/14 11:55:32 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	skip_space(char *input)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
 	while (input[i] && ft_isspace(input[i]))

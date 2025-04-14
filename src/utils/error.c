@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 19:33:11 by renato            #+#    #+#             */
-/*   Updated: 2025/04/02 18:03:05 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/14 12:26:08 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,6 @@ void	close_all(t_shell *shell)
 		safe_close(&shell->cmds->file_a);
 		shell->cmds = shell->cmds->next;
 	}
-	safe_close(&shell->original_stdin);
-	safe_close(&shell->original_stdout);
 }
 
 int	return_partial(char *msg, t_shell *shell, int status)

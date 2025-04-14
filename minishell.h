@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/04/11 14:15:33 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/14 15:36:18 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,44 +20,52 @@
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <sys/wait.h>
-#include <errno.h>
-#include <sys/ioctl.h>
-#include <termios.h> 
+# include <errno.h>
+# include <sys/ioctl.h>
+# include <termios.h> 
+
+enum e_token
+{
+	PIPE = 124,			// '|'
+	REDIR_IN = 60,		// '<'
+	HEREDOC = 257,		// '<<'
+	REDIR_OUT = 62,		// '>'
+	REDIR_APPEND = 256,	// '>>'
+	WORD = 258,			// other
+};
 
 typedef struct s_pipex
 {
-	pid_t	*pids;
-	int		n_pids;
-	int		(*fds)[2];
-	int		n_pipes;
+	pid_t	*pids;		// array of process ids
+	int		n_pids;		// number of processes
+	int		(*fds)[2];	// array of pipes
+	int		n_pipes;	// number of pipes
 }	t_pipex;
 
 typedef struct s_cmd
 {
-	char			*cmd;
-	char			**args;
-	int				file_i;
-	int				file_o;
-	int				file_a;
-	int				skip;
+	int				type;		// enum e_token
+	char			*cmd;		// name_command
+	char			**args;		// arguments_command
+	int				file_i;		// file_in
+	int				file_o;		// file_out
+	int				file_a;		// file_append
+	int				skip;		// flag
 	struct s_cmd	*next;
 }	t_cmd;
 
 typedef struct s_shell
 {
-	t_cmd	*cmds;
-	t_cmd	*head;
-	t_pipex	*piper;
-	char	**env;
-	int		max;
-	char	*input;
-	char	**tokens;
-	char	**heredocs;
-	int		num_heredoc;
-	int		signal;
-	int		original_stdin;
-	int		original_stdout;
-	int		trigger;
+	t_cmd	*cmds;			// list of commands
+	t_cmd	*head;			// head of commands list
+	t_pipex	*piper;			// pipex struct
+	char	**env;			// minishell variables
+	int		max;			// size of env
+	char	*input;			// readline input
+	char	**tokens;		// tokens of input
+	char	**heredocs;		// heredocs list
+	int		num_heredoc;	// number of heredocs
+	int		trigger;		// error trigger
 }	t_shell;
 
 extern int	g_exit_status;
@@ -151,7 +159,8 @@ char	*var_creation(const char *nm_var, const char *var_val, int eqp);
 int		srcd_env(t_shell *shell, const char *name);
 int		update_existing_var(t_shell *shell, int index, char *n_full_var);
 int		create_new_env_array(t_shell *shell, char *n_full_var);
-void	upd_var(t_shell *shell, const char *nm_var, const char *var_val, int eqp);
+void	upd_var(t_shell *shell, const char *nm_var,
+			const char *var_val, int eqp);
 
 // ft_exec_1.c
 char	*get_path(char *cmd, char **envp);

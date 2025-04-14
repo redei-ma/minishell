@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ft_minisplit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 17:47:13 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/03/30 21:38:01 by renato           ###   ########.fr       */
+/*   Updated: 2025/04/14 11:55:34 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static size_t	skip_quotes(const char *s)
+static int	skip_quotes(const char *s)
 {
 	char	quote;
-	size_t	i;
+	int	i;
 
 	i = 0;
 	quote = s[i];
@@ -27,9 +27,9 @@ static size_t	skip_quotes(const char *s)
 	return (i);
 }
 
-static size_t	skip_space_sp(const char *s, int *in_word)
+static int	skip_space_sp(const char *s, int *in_word)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
 	while (s[i] && ft_isspace(s[i]))
@@ -39,10 +39,10 @@ static size_t	skip_space_sp(const char *s, int *in_word)
 	return (i);
 }
 
-static size_t	ft_count_words(const char *s)
+static int	ft_count_words(const char *s)
 {
-	size_t	count;
-	int		in_word;
+	int	count;
+	int	in_word;
 
 	count = 0;
 	in_word = 0;
@@ -97,8 +97,8 @@ static char	**ft_allocate(char **dest, const char *s)
 
 char	**ft_minisplit(char const *s)
 {
-	char		**dest;
-	size_t		words;
+	char	**dest;
+	int		words;
 
 	if (!s)
 		return (NULL);
