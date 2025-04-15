@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/04/14 15:36:18 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/15 17:51:04 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,9 @@ void	set_shell(t_shell *shell);
 void	loop_line(t_shell *shell);
 
 // parsing_1.c
-void	in_quotes(char **input, t_shell *shell);
-void	find_unclosed_pipe(char **input, int *i, t_shell *shell);
-void	find_unclosed_quotes(char **input, int *i, t_shell *shell);
-void	check_unclosed(char **input, t_shell *shell);
+int		find_unclosed_pipe(char **input, int *i, t_shell *shell);
+int		find_unclosed_quotes(char **input, int *i, t_shell *shell);
+int		check_unclosed(char **input, t_shell *shell);
 
 // parsing_2.c
 void	copy_special_block(char **input, char *spaced, int *i, int *j);
@@ -179,7 +178,7 @@ void	ft_printfd_shell(t_shell *shell, const char *format, char *args);
 int		is_env(char *cmd);
 int		is_builtin(char *cmd);
 int		ft_cmd_size(t_cmd *lst);
-int		is_empty(char *str);
+int		is_empty(t_shell *shell);
 
 // error.c
 void	free_part_2(t_shell *shell);

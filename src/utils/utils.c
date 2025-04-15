@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:23:27 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/04/14 11:55:32 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/15 17:53:52 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,14 +105,15 @@ int	ft_cmd_size(t_cmd *lst)
 	return (count);
 }
 
-int	is_empty(char *str)
+int	is_empty(t_shell *shell)
 {
 	int	i;
 
 	i = 0;
-	while (str[i] && ft_isspace(str[i]))
+	while (shell->input[i] && ft_isspace(shell->input[i]))
 		i++;
-	if (str[i])
+	if (shell->input[i])
 		return (0);
+	return_partial(NULL, shell, 0);
 	return (1);
 }

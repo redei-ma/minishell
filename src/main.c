@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:35:37 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/04/14 12:06:34 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/15 17:51:03 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,11 @@ void	loop_line(t_shell *shell)
 	shell->input = readline("minishell> ");
 	if (!shell->input)
 		exit_all("exit", shell, 0);
-	check_unclosed(&shell->input, shell);
 	if (shell->input[0])
 		add_history(shell->input);
-	if (shell->trigger || is_empty(shell->input))
-	{
-		if (is_empty(shell->input))
-			return_partial(NULL, shell, 0);
-		else
-			return_partial(NULL, shell, shell->trigger);
+	if (is_empty(shell) || check_unclosed(&shell->input, shell))
 		return ;
-	}
+	// tokenizator(shell);
 	set_spaces(&shell->input, shell);
 	check_syntax_error(shell->input, shell);
 	if (shell->trigger)
