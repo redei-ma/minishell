@@ -1,32 +1,33 @@
 NAME = minishell
 CC = cc
 CFLAG = -Wall -Wextra -Werror -g
-VALGRIND = valgrind --suppressions=readline.supp --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes --trace-children=yes #--log-file=valgrind-log.txt
-SANITIZE = -fsanitize=address, -fsanitize=undefined
+VALGRIND = valgrind --suppressions=$(CURDIR)/readline.supp --leak-check=full --show-leak-kinds=all \
+			--track-origins=yes --track-fds=yes --trace-children=yes #--log-file=valgrind-log.txt
 
-SRC =	main.c \
-		settings.c \
-		parsing_1.c \
-		parsing_2.c \
-		parsing_3.c \
-		lst_cmd_1.c \
-		lst_cmd_2.c \
-		lst_cmd_3.c \
-		manager_1.c \
-		manager_2.c \
-		ft_echo_1.c \
-		ft_export_1.c \
-		ft_export_2.c \
-		ft_exec_1.c \
-		ft_exec_2.c \
-		ft_minisplit.c \
-		signal.c \
-		error.c \
-		utils.c \
-		nuovo_leo.c
+SRC =	src/main.c \
+		src/parser/parsing_1.c \
+		src/parser/parsing_2.c \
+		src/parser/parsing_3.c \
+		src/parser/ft_minisplit.c \
+		src/interpreter/lst_cmd_1.c \
+		src/interpreter/lst_cmd_2.c \
+		src/interpreter/lst_cmd_3.c \
+		src/interpreter/expander.c \
+		src/executor/manager_1.c \
+		src/executor/manager_2.c \
+		src/executor/ft_echo_1.c \
+		src/executor/ft_export_1.c \
+		src/executor/ft_export_2.c \
+		src/executor/ft_exec_1.c \
+		src/executor/ft_exec_2.c \
+		src/utils/signal.c \
+		src/utils/error.c \
+		src/utils/utils.c
 
-LIBFT_DIR = ./libft
-LIBFT = ./libft/libft.a
+LIBFT_DIR = libft
+LIBFT = $(LIBFT_DIR)/libft.a
+# OBJDIR = .obj
+# OBJ = $(SRC:%.c=$(OBJDIR)/%.o)
 
 all: $(NAME)
 
@@ -34,7 +35,11 @@ $(LIBFT):
 	@echo "Compiling libft..."
 	@$(MAKE) -C $(LIBFT_DIR) --quiet
 
-$(NAME): $(LIBFT) $(SRC)
+# $(OBJDIR)/%.o: %.c $(LIBFT)
+# 	@mkdir -p $(@D)
+# 	@$(CC) $(CFLAG) -I$(CURDIR) -I$(LIBFT_DIR) -c $< -o $@
+
+$(NAME): $(SRC) $(LIBFT)
 	@echo "Compiling $(NAME)..."
 	@$(CC) $(CFLAG) $(SRC) $(LIBFT) -I$(CURDIR) -o $(NAME) -lreadline
 
@@ -42,13 +47,9 @@ val: $(NAME)
 	@echo "Using Valgrind..."
 	$(VALGRIND) ./$(NAME)
 
-# sanitize: fclean
-# 	@echo "Compiling $(NAME) with Address Sanitizer..."
-# 	@$(CC) $(CFLAG) $(SANITIZE) $(SRC) $(LIBFT) -I$(CURDIR) -o $(NAME) -lreadline
-# 	./$(NAME) 2> sanitize_log.txt
-
 clean:
 	@echo "Removing object files..."
+#	@rm -rf $(OBJDIR)
 	@$(MAKE) -C $(LIBFT_DIR) clean --quiet
 
 fclean: clean

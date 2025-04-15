@@ -1,9 +1,3 @@
-modificate tuttti gli int in size_t per scorrere una riga
-
-
-controllare  g_exit_status
-
-
 marzo 20/21 tutte le foto
 in particolare ciao= cat
 
@@ -11,6 +5,9 @@ in particolare ciao= cat
 < i ls | << X cat -e
 ls ||
 ls |  |
+
+
+se trovo sintaz error non devo espandere dquote
 
 
 se faccio prima un here docc e poi fallisco un cmd da leak heredoc
