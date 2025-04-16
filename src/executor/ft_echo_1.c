@@ -3,26 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo_1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 21:52:54 by renato            #+#    #+#             */
-/*   Updated: 2025/04/02 19:34:07 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/15 19:41:16 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/* int	handle_variable(char *str, int i, t_shell *shell)
-{
-	if (str[i + 1] == '?')
-	{
-		if (handle_exit_status(shell) == -1)
-			return (-1);
-		return (i + 2);
-	}
-	else
-		return (handle_env_variable(str, i, shell));
-} */
 
 int	handle_quotes(char c, int *in_single_quote, int *in_double_quote)
 {

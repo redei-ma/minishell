@@ -3,47 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 18:39:24 by lacerbi           #+#    #+#             */
-/*   Updated: 2025/04/02 19:32:15 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/16 11:22:54 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*var_creation(const char *nm_var, const char *var_val, int eqp)
-{
-	char	*temp;
-	char	*n_full_var;
-
-	if (var_val && eqp != -1)
-	{
-		temp = ft_strjoin(nm_var, "=");
-		n_full_var = ft_strjoin(temp, var_val);
-		free(temp);
-		return (n_full_var);
-	}
-	else
-		return (ft_strdup(nm_var));
-}
-
-int	srcd_env(t_shell *shell, const char *name)
-{
-	int	i;
-	int	len;
-
-	i = 0;
-	len = ft_strlen(name);
-	while (shell->env[i])
-	{
-		if (ft_strncmp(shell->env[i], name, len) == 0
-			&& (shell->env[i][len] == '\0' || shell->env[i][len] == '='))
-			return (i);
-		i++;
-	}
-	return (-1);
-}
 
 int	update_existing_var(t_shell *shell, int index, char *n_full_var)
 {
@@ -88,4 +55,42 @@ void	upd_var(t_shell *shell, const char *nm_var,
 		update_existing_var(shell, index, n_full_var);
 	else
 		create_new_env_array(shell, n_full_var);
+}
+
+int	find_eq_sn(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '=')
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
+void	sort_env(char **srtd_env)
+{
+	int		i;
+	int		j;
+	char	*tmp;
+
+	i = 0;
+	while (srtd_env[i])
+	{
+		j = i + 1;
+		while (srtd_env[j])
+		{
+			if (ft_strcmp(srtd_env[i], srtd_env[j]) > 0)
+			{
+				tmp = srtd_env[i];
+				srtd_env[i] = srtd_env[j];
+				srtd_env[j] = tmp;
+			}
+			j++;
+		}
+		i++;
+	}
 }

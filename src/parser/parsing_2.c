@@ -5,78 +5,103 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/20 13:12:06 by renato            #+#    #+#             */
-/*   Updated: 2025/03/28 17:49:14 by renato           ###   ########.fr       */
+/*   Created: 2025/03/20 20:40:21 by renato            #+#    #+#             */
+/*   Updated: 2025/04/16 10:55:46 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	copy_special_block(char **input, char *spaced, int *i, int *j)
+void	print_redir_error(char c, char next, t_shell *shell)
 {
-	char	special;
-
-	special = (*input)[*i];
-	spaced[(*j)++] = ' ';
-	while ((*input)[*i] == special)
-		spaced[(*j)++] = (*input)[(*i)++];
-	spaced[(*j)++] = ' ';
+	if (c == '>')
+	{
+		if (next == '>')
+			return_partial("syntax error near unexpected token `>>'", shell, 2);
+		else
+			return_partial("syntax error near unexpected token `>'", shell, 2);
+	}
+	else if (c == '<')
+	{
+		if (next == '<')
+			return_partial("syntax error near unexpected token `<<'", shell, 2);
+		else
+			return_partial("syntax error near unexpected token `<'", shell, 2);
+	}
 }
 
-void	update_quotes(char c, int *in_single_quote, int *in_double_quote)
+int	check_syntax_redir(char *input, char c, t_shell *shell)
 {
-	if (c == '\'' && !(*in_double_quote))
-		*in_single_quote = !(*in_single_quote);
-	else if (c == '"' && !(*in_single_quote))
-		*in_double_quote = !(*in_double_quote);
-}
-
-int	count_spec_char(char *input)
-{
-	int		i;
-	int		count;
-	char	special;
+	int	i;
 
 	i = 0;
-	count = 0;
+	if (input[i] == c)
+		i++;
+	i += skip_space(input);
+	if (!input[i])
+	{
+		return_partial("syntax error near unexpected token `newline'", shell, 2);
+		return (1);
+	}
+	if (input[i] == c)
+	{
+		print_redir_error(input[i], input[i + 1], shell);
+		return (1);
+	}
+	if (check_syntax_pipe(input + i, shell))
+		return (1);
+	return (0);
+}
+
+int	check_syntax_pipe(char *input, t_shell *shell)
+{
+	int	i;
+
+	i = skip_space(input);
+	if (input[i] && input[i] == '|')
+	{
+		if (input[i + 1] == '|')
+			return_partial("syntax error near unexpected token `||'", shell, 2);
+		else
+			return_partial("syntax error near unexpected token `|'", shell, 2);
+		return (1);
+	}
+	return (0);
+}
+
+void	skip_quotes(char *input, int *i)
+{
+	char	quote;
+
+	quote = input[*i];
+	(*i)++;
+	while (input[*i] && input[*i] != quote)
+		(*i)++;
+}
+
+int	check_syntax_error(char *input, t_shell *shell)
+{
+	int		i;
+	int		s;
+
+	s = 0;
+	i = 0;
 	while (input[i])
 	{
-		if (input[i] == '|' || input[i] == '>' || input[i] == '<')
+		if (input[i] == '\"' || input[i] == '\'')
 		{
-			special = input[i];
-			while (special == input[i] && input[i + 1] == special)
-				i++;
-			count += 2;
+			slip_quotes(input, &i);
+			if (!input[i])
+				return (0);
+			i++;
 		}
+		if (input[i] == '|')
+			s = check_syntax_pipe(input + i + 1, shell); 
+		else if (input[i] == '<' || input[i] == '>')
+			s = check_syntax_redir(input + i + 1, input[i], shell);
+		if (s)
+			return (1);
 		i++;
 	}
-	return (count + i + 1);
-}
-
-void	set_spaces(char **input, t_shell *shell)
-{
-	int		i;
-	int		j;
-	int		in_single_quote;
-	int		in_double_quote;
-	char	*spaced;
-
-	i = 0;
-	j = 0;
-	in_single_quote = 0;
-	in_double_quote = 0;
-	spaced = ft_calloc(count_spec_char(*input), sizeof(char));
-	if (!spaced)
-		exit_all("Error: malloc failed\n", shell, 1);
-	while ((*input)[i])
-	{
-		update_quotes((*input)[i], &in_single_quote, &in_double_quote);
-		if (((*input)[i] == '|' || (*input)[i] == '>' || (*input)[i] == '<')
-			&& !in_single_quote && !in_double_quote)
-			copy_special_block(input, spaced, &i, &j);
-		else
-			spaced[j++] = (*input)[i++];
-	}
-	free(*input);
-	*input = spaced;
+	return (0);
 }

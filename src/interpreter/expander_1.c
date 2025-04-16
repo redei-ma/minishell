@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 22:02:16 by renato            #+#    #+#             */
-/*   Updated: 2025/04/14 11:55:42 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/15 19:34:02 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void	expand_vars(char ***tokens, t_shell *shell)
 			i++;
 			continue;
 		}
-		(*tokens)[i] = expander((*tokens)[i], shell, 1);
+		(*tokens)[i] = expander((*tokens)[i], shell, 0);
 		if ((*tokens)[i][0] == '\0')
 		{
 			free((*tokens)[i]);

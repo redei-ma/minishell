@@ -6,41 +6,11 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:17:38 by renato            #+#    #+#             */
-/*   Updated: 2025/04/11 10:31:55 by renato           ###   ########.fr       */
+/*   Updated: 2025/04/16 11:13:39 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	fileout_manager(t_shell *shell, char **tokens, int *i)
-{
-	int	j;
-
-	j = 0;
-	while (tokens[*i][j] == '>')
-		j++;
-	if (j == 1 && tokens[++(*i)])
-		shell->cmds->file_o = handle_fdout(tokens[*i], 'o', shell);
-	else if (j == 2 && tokens[++(*i)])
-		shell->cmds->file_a = handle_fdout(tokens[*i], 'a', shell);
-	else
-		shell->trigger = 1;
-}
-
-void	filein_manager(t_shell *shell, char **tokens, int *i)
-{
-	int	j;
-
-	j = 0;
-	while (tokens[*i][j] == '<')
-		j++;
-	if (j == 1 && tokens[++(*i)])
-		shell->cmds->file_i = handle_fdin(tokens[*i], shell);
-	else if (j == 2 && tokens[++(*i)])
-		shell->cmds->file_i = handle_heredoc(tokens[*i], shell);
-	else
-		shell->trigger = 1;
-}
 
 void	pipe_manager(t_shell *shell, char **tokens, int *i)
 {
@@ -58,8 +28,8 @@ void	pipe_manager(t_shell *shell, char **tokens, int *i)
 		shell->piper->n_pipes++;
 		shell->cmds = shell->cmds->next;
 	}
-	else
-		shell->trigger = 1;
+	// else
+	// 	shell->trigger = 1;
 }
 
 t_cmd	*ft_newcmd(t_shell *shell)
@@ -101,11 +71,11 @@ void	parse_cmd(char **tokens, t_shell *shell)
 	{
 		if (is_env(tokens[i]))
 			is_valid_env(tokens, i, shell);
-		else if (tokens[i][0] == '|')
+		else if (tokens[i][0] == '|' && shell->tok_type[i] == PIPE)
 			pipe_manager(shell, tokens, &i);
-		else if (tokens[i][0] == '<')
+		else if (tokens[i][0] == '<' && shell->tok_type[i] == REDIR_IN)
 			filein_manager(shell, tokens, &i);
-		else if (tokens[i][0] == '>')
+		else if (tokens[i][0] == '>' && shell->tok_type[i] == REDIR_OUT)
 			fileout_manager(shell, tokens, &i);
 		else if (!shell->cmds->cmd)
 		{

@@ -6,7 +6,7 @@
 /*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:35:37 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/04/15 17:51:03 by renato           ###   ########.fr       */
+/*   Updated: 2025/04/15 19:47:56 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,14 @@ void	loop_line(t_shell *shell)
 		exit_all("exit", shell, 0);
 	if (shell->input[0])
 		add_history(shell->input);
-	if (is_empty(shell) || check_unclosed(&shell->input, shell))
-		return ;
-	// tokenizator(shell);
+	if (is_empty(shell) || check_syntax_error(shell->input, shell)
+			|| check_unclosed(&shell->input, shell))
+		return ;	// Dovrei gestire gli heredoc prima dell syntax error pero non e' stabilito dal subject
 	set_spaces(&shell->input, shell);
-	check_syntax_error(shell->input, shell);
-	if (shell->trigger)
-		return ;
-		// Dovrei gestire gli heredoc prima dell syntax error pero non e' stabilito dal subject
 	shell->tokens = ft_minisplit(shell->input);
 	if (!shell->tokens)
 		exit_all("Error: malloc failed\n", shell, 1);
+	tokenizator(shell);
 	delete_quotes(&shell->tokens, shell);
 	expand_vars(&shell->tokens, shell);
 	create_cmds(shell->tokens, shell);

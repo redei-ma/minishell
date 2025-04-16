@@ -5,24 +5,29 @@ VALGRIND = valgrind --suppressions=$(CURDIR)/readline.supp --leak-check=full --s
 			--track-origins=yes --track-fds=yes --trace-children=yes #--log-file=valgrind-log.txt
 
 SRC =	src/main.c \
+		src/parser/ft_minisplit.c \
 		src/parser/parsing_1.c \
 		src/parser/parsing_2.c \
 		src/parser/parsing_3.c \
-		src/parser/ft_minisplit.c \
+		src/parser/parsing_4.c \
+		src/interpreter/expander_1.c \
 		src/interpreter/lst_cmd_1.c \
 		src/interpreter/lst_cmd_2.c \
 		src/interpreter/lst_cmd_3.c \
-		src/interpreter/expander.c \
-		src/executor/manager_1.c \
-		src/executor/manager_2.c \
+		src/executor/ft_builtin_1.c \
 		src/executor/ft_echo_1.c \
-		src/executor/ft_export_1.c \
-		src/executor/ft_export_2.c \
 		src/executor/ft_exec_1.c \
 		src/executor/ft_exec_2.c \
-		src/utils/signal.c \
-		src/utils/error.c \
-		src/utils/utils.c
+		src/executor/ft_export_1.c \
+		src/executor/ft_export_2.c \
+		src/executor/manager_1.c \
+		src/executor/manager_2.c \
+		src/utils/error_1.c \
+		src/utils/error_2.c \
+		src/utils/signal_1.c \
+		src/utils/signal_2.c \
+		src/utils/utils_1.c \
+		src/utils/utils_2.c
 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
