@@ -10,10 +10,10 @@ echo $'' (togliere il $ prima delle virgolette)
 
 echo $"$ho'me' $HOME" '$HO'ME$$$' $home' (invalid read)
 
-<<"" (non deve chiudere se c'e' scritto qualcosa)
-
 << a <<< (dovrebbe aprire gli heredoc)
 
 export ciao="echo cioa"(CONSIGLIO DI FARLO)
 
 export 1aa=a
+
+<<><< (salta il primo syntaz error)

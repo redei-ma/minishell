@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_cmd_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lacerbi <lacerbi@student.42firenze.it>     +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:20:09 by renato            #+#    #+#             */
-/*   Updated: 2025/04/16 14:48:23 by lacerbi          ###   ########.fr       */
+/*   Updated: 2025/04/16 16:37:16 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	process_heredoc_line(int *fd, char *key, t_shell *shell)
 	line = readline("> ");
 	if (!handle_ctrl_c_or_eof(fd, key, shell, line))
 		return (0);
-	if (ft_strncmp(line, key, ft_strlen(key)) == 0)
+	if (ft_strcmp(line, key) == 0)
 		return (free(line), 0);
 	line = expander(line, shell);
 	if (!line)
