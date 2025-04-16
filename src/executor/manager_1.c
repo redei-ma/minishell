@@ -83,7 +83,7 @@ void	cmd_find_dad(t_shell *shell, char *cmd)
 		else if (pid == 0)
 			ft_exec(shell);
 		signal(SIGINT, handle_ctrl_c);
-		g_exit_status = ft_wifexit(pid);
+		g_exit_status = ft_wifexit();
 	}
 }
 

@@ -16,7 +16,7 @@ void	*ft_realloc(void *ptr, size_t old_size, size_t new_size)
 {
 	void	*new_ptr;
 	size_t	copy_size;
-	
+
 	if (new_size == 0)
 	{
 		if (ptr)

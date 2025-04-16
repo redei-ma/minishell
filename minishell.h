@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lacerbi <lacerbi@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/04/16 13:51:19 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/16 14:54:24 by lacerbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ char	**ft_minisplit(char const *s);
 // expander_1.c
 void	var_cases(char **expanded, int *iter_arr, t_shell *shell, char *str);
 void	stoplight(char **expanded, int *iter_arr, t_shell *shell, char *str);
-char	*expander(char *str, t_shell *shell, int qts_yon);
+char	*expander(char *str, t_shell *shell);
 void	expand_vars(char ***tokens, t_shell *shell);
 
 // expander_2.c
@@ -147,6 +147,7 @@ void	ft_unset(t_shell *shell, char **args);
 void	ft_pwd(t_shell *shell);
 
 // ft_cd.c
+void	new_pwd(char *cwd, t_shell *shell);
 void	ft_cd(char **string, t_shell *shell);
 
 // ft_echo_1.c

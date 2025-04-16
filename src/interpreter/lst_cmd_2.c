@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_cmd_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lacerbi <lacerbi@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:20:09 by renato            #+#    #+#             */
-/*   Updated: 2025/04/16 13:28:43 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/16 14:48:23 by lacerbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	process_heredoc_line(int *fd, char *key, t_shell *shell)
 		return (0);
 	if (ft_strncmp(line, key, ft_strlen(key)) == 0)
 		return (free(line), 0);
-	line = expander(line, shell, 1);
+	line = expander(line, shell);
 	if (!line)
 		exit_all("Error: malloc failed\n", shell, 1);
 	ft_printfd(*fd, "%s\n", line);
