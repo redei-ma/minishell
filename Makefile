@@ -11,15 +11,18 @@ SRC =	src/main.c \
 		src/parser/parsing_3.c \
 		src/parser/parsing_4.c \
 		src/interpreter/expander_1.c \
+		src/interpreter/expander_2.c \
 		src/interpreter/lst_cmd_1.c \
 		src/interpreter/lst_cmd_2.c \
 		src/interpreter/lst_cmd_3.c \
-		src/executor/ft_builtin_1.c \
+		src/executor/ft_builtin.c \
+		src/executor/ft_cd.c \
 		src/executor/ft_echo_1.c \
 		src/executor/ft_exec_1.c \
 		src/executor/ft_exec_2.c \
 		src/executor/ft_export_1.c \
 		src/executor/ft_export_2.c \
+		src/executor/ft_export_3.c \
 		src/executor/manager_1.c \
 		src/executor/manager_2.c \
 		src/utils/error_1.c \

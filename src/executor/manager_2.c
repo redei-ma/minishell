@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manager_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:02:16 by renato            #+#    #+#             */
-/*   Updated: 2025/04/16 11:18:55 by renato           ###   ########.fr       */
+/*   Updated: 2025/04/16 13:43:58 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,16 @@ void	exe_builtin(t_shell *shell)
 		ft_exit(shell, shell->cmds->args);
 }
 
-int	ft_wifexit()
+int	ft_wifexit(void)
 {
 	int	status;
 
+	status = 0;
 	while (wait(NULL) > 0)
 		;
 	if (WIFEXITED(status))
 		return (WEXITSTATUS(status));
 	else if (WIFSIGNALED(status))
 		return (128 + WTERMSIG(status));
+	return (0);
 }

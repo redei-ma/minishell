@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:35:37 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/04/15 19:47:56 by renato           ###   ########.fr       */
+/*   Updated: 2025/04/16 13:25:45 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ void	loop_line(t_shell *shell)
 	if (shell->input[0])
 		add_history(shell->input);
 	if (is_empty(shell) || check_syntax_error(shell->input, shell)
-			|| check_unclosed(&shell->input, shell))
-		return ;	// Dovrei gestire gli heredoc prima dell syntax error pero non e' stabilito dal subject
+		|| check_unclosed(&shell->input, shell))
+		return ;
 	set_spaces(&shell->input, shell);
 	shell->tokens = ft_minisplit(shell->input);
 	if (!shell->tokens)
@@ -53,7 +53,7 @@ void	loop_line(t_shell *shell)
 	create_cmds(shell->tokens, shell);
 	if (shell->trigger)
 	{
-		return_partial(NULL, shell, shell->trigger);	
+		return_partial(NULL, shell, shell->trigger);
 		return ;
 	}
 	cmd_manage(shell);
@@ -78,10 +78,6 @@ int	main(int ac, char **av, char **envp)
 	if (!shell->piper)
 		return (free(shell), ft_printfd(2, "Error, Malloc faild"), 1);
 	shell->env = copy_mat(envp, &shell->max, shell);
-	// shell->signal = 0;
-	// shell->original_stdin = dup(STDIN_FILENO);
-	// shell->original_stdout = dup(STDOUT_FILENO);
 	while (1)
 		loop_line(shell);
-	exit_all("\n\nSi e chiuso il programma\n\n", shell, 0); //da togliere
 }

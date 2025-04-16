@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 20:33:33 by renato            #+#    #+#             */
-/*   Updated: 2025/04/15 17:54:36 by renato           ###   ########.fr       */
+/*   Updated: 2025/04/16 13:35:50 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	find_unclosed_quotes(char **input, int *i, t_shell *shell)
 {
 	char	quote;
 
-	quote = (*input)[*i];;
+	quote = (*input)[*i];
 	(*i)++;
 	while ((*input)[*i] && (*input)[*i] != quote)
 		(*i)++;

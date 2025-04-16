@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo_1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 21:52:54 by renato            #+#    #+#             */
-/*   Updated: 2025/04/15 19:41:16 by renato           ###   ########.fr       */
+/*   Updated: 2025/04/16 13:41:50 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,39 @@ int	str_vars(char *str, t_shell *shell)
 	return (0);
 }
 
+void	n_finder(int *i, t_shell *shell)
+{
+	int	x;
+
+	while (shell->cmds->args && shell->cmds->args[(*i)][0] == '-'
+		&& shell->cmds->args[(*i)][1] == 'n')
+	{
+		x = 2;
+		while (shell->cmds->args[*i][x] == 'n')
+			x++;
+		if (!shell->cmds->args[*i][x])
+		{
+			(*i)++;
+			if (!shell->cmds->args[*i])
+				return ;
+		}
+		else
+			break ;
+	}
+}
+
 void	ft_echo(t_shell *shell)
 {
 	int	i;
 
 	i = 0;
-	if (shell->cmds->args && ft_strcmp(shell->cmds->args[0], "-n") == 0)
+	n_finder(&i, shell);
+	if (shell->cmds->args && i > 0)
 	{
-		while (shell->cmds->args[i + 1])
+		while (shell->cmds->args[i])
 		{
-			str_vars(shell->cmds->args[i + 1], shell);
-			if (shell->cmds->args[i + 2])
+			str_vars(shell->cmds->args[i], shell);
+			if (shell->cmds->args[i + 1])
 				write_to_fd(shell, " ", 1);
 			i++;
 		}

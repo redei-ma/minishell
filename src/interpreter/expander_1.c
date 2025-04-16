@@ -1,40 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expander.c                                         :+:      :+:    :+:   */
+/*   expander_1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 22:02:16 by renato            #+#    #+#             */
-/*   Updated: 2025/04/15 19:34:02 by renato           ###   ########.fr       */
+/*   Updated: 2025/04/16 13:49:33 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	exit_status_var(char **expanded, int *iter_arr, t_shell *shell)
-{
-	char *status;
-
-	status = ft_itoa(g_exit_status);
-	if (!status)
-	{
-		free(*expanded);
-		exit_all("Error: malloc failed\n", shell, 1);
-	}
-	*expanded = ft_realloc(*expanded, (iter_arr[2] + 1), 
-		(iter_arr[2] + ft_strlen(status) - 1) * sizeof(char));
-	if (!*expanded)
-	{
-		free(status);
-		exit_all("Error: malloc failed\n", shell, 1);
-	}
-	ft_strlcpy(*expanded + iter_arr[1], status, ft_strlen(status) + 1);
-	iter_arr[1] += ft_strlen(status);
-	iter_arr[0] += 2;
-	iter_arr[2] += ft_strlen(status) - 2;
-	free(status);
-}
 
 void	var_cases(char **expanded, int *iter_arr, t_shell *shell, char *str)
 {
@@ -116,7 +92,7 @@ void	expand_vars(char ***tokens, t_shell *shell)
 			i++;
 			continue;
 		}
-		(*tokens)[i] = expander((*tokens)[i], shell, 0);
+		(*tokens)[i] = expander((*tokens)[i], shell, 1);
 		if ((*tokens)[i][0] == '\0')
 		{
 			free((*tokens)[i]);
@@ -131,54 +107,4 @@ void	expand_vars(char ***tokens, t_shell *shell)
 		}
 		i++;
 	}
-}
-
-char	*handle_env_variable(char *str, int *i, t_shell *shell)
-{
-	int		ncv;
-	char	*nm_var;
-	char	*var_val;
-
-	ncv = *i + 1;
-	while (str[ncv] != '\0' && (ft_isalnum(str[ncv]) || str[ncv] == '_'))
-		ncv++;
-	nm_var = ft_calloc((ncv - (*i + 1)) + 1, sizeof(char));
-	if (!nm_var)
-		return (NULL);
-	ft_strlcpy(nm_var, &str[*i + 1], ncv - *i);
-	var_val = ft_getenv(nm_var, shell);
-	free(nm_var);
-	*i = ncv;
-	if (var_val)
-		return (ft_strdup(var_val));
-	else
-		return (ft_strdup(""));
-}
-
-char	*ft_getenv(char *nm_var, t_shell *shell)
-{
-	int		i;
-	char	*val;
-
-	i = srcd_env(shell, nm_var);
-	if (i == -1)
-		return (NULL);
-	val = ft_strchr(shell->env[i], '=');
-	if (val)
-		return (val + 1);
-	return (NULL);
-}
-
-int	handle_exit_status(t_shell *shell)
-{
-	int		last_exit_status;
-	char	*exit_cd;
-
-	last_exit_status = 0;
-	exit_cd = ft_itoa(last_exit_status);
-	if (!exit_cd)
-		return (-1);
-	write_to_fd(shell, exit_cd, ft_strlen(exit_cd));
-	free(exit_cd);
-	return (0);
 }

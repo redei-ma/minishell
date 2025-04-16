@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_4.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 18:57:04 by renato            #+#    #+#             */
-/*   Updated: 2025/04/15 20:13:02 by renato           ###   ########.fr       */
+/*   Updated: 2025/04/16 13:38:52 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ void	delete_quotes(char ***tokens, t_shell *shell)
 		j = 0;
 		while ((*tokens)[i][j])
 		{
-			if ((*tokens)[i][j] == '$' && (ft_isalnum((*tokens)[i][j + 1]) || (*tokens)[i][j + 1] == '_' || (*tokens)[i][j + 1] == '?'))
+			if ((*tokens)[i][j] == '$' && (ft_isalnum((*tokens)[i][j + 1])
+				|| (*tokens)[i][j + 1] == '_' || (*tokens)[i][j + 1] == '?'))
 				break ;
 			else if (!(*tokens)[i][j + 1])
 			{

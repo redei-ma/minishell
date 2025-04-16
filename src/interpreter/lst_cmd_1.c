@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_cmd_1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:17:38 by renato            #+#    #+#             */
-/*   Updated: 2025/04/16 11:13:39 by renato           ###   ########.fr       */
+/*   Updated: 2025/04/16 13:35:12 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,24 @@
 
 void	pipe_manager(t_shell *shell, char **tokens, int *i)
 {
+	t_pipex	*piper;
+
+	piper = shell->piper;
 	if (tokens[*i + 1])
 	{
 		shell->cmds->next = ft_newcmd(shell);
-		shell->piper->fds = ft_realloc(shell->piper->fds, (shell->piper->n_pipes + 1) * sizeof(int[2]), (shell->piper->n_pipes + 2) * sizeof(int[2]));
-		if (!shell->piper->fds)
+		piper->fds = ft_realloc(piper->fds, (piper->n_pipes + 1)
+				* sizeof(int [2]), (piper->n_pipes + 2) * sizeof(int [2]));
+		if (!piper->fds)
 			exit_all("Error: malloc failed\n", shell, 1);
-		if (pipe(shell->piper->fds[shell->piper->n_pipes]) < 0)
+		if (pipe(piper->fds[piper->n_pipes]) < 0)
 			exit_all("Error: pipe failed\n", shell, 1);
 		if (shell->cmds->file_o == -1)
-			shell->cmds->file_o = shell->piper->fds[shell->piper->n_pipes][1];
-		shell->cmds->next->file_i = shell->piper->fds[shell->piper->n_pipes][0];
-		shell->piper->n_pipes++;
+			shell->cmds->file_o = piper->fds[piper->n_pipes][1];
+		shell->cmds->next->file_i = piper->fds[piper->n_pipes][0];
+		piper->n_pipes++;
 		shell->cmds = shell->cmds->next;
 	}
-	// else
-	// 	shell->trigger = 1;
 }
 
 t_cmd	*ft_newcmd(t_shell *shell)

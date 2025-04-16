@@ -6,16 +6,16 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/25 17:47:13 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/04/14 11:55:34 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/16 13:38:08 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	skip_quotes(const char *s)
+static int	skip_quotes_sp(const char *s)
 {
 	char	quote;
-	int	i;
+	int		i;
 
 	i = 0;
 	quote = s[i];
@@ -57,7 +57,7 @@ static int	ft_count_words(const char *s)
 			in_word = 1;
 		}
 		if (*s == '"' || *s == '\'')
-			s += skip_quotes(s);
+			s += skip_quotes_sp(s);
 		else
 		{
 			while (*s && !ft_isspace(*s) && *s != '"' && *s != '\'')
@@ -82,7 +82,7 @@ static char	**ft_allocate(char **dest, const char *s)
 		while (s[i] && (!ft_isspace(s[i])))
 		{
 			if (s[i] == '"' || s[i] == '\'')
-				i += skip_quotes(s + i);
+				i += skip_quotes_sp(s + i);
 			else
 				i++;
 		}

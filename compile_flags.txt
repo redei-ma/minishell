@@ -1,2 +1,2 @@
+-Wall -Wextra -Werror
 -I$(CURDIR)
-

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/04/16 11:32:05 by renato           ###   ########.fr       */
+/*   Updated: 2025/04/16 13:51:19 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ enum e_token
 	PIPE,		// '|'
 	REDIR_IN,	// '<' or '<<'
 	REDIR_OUT,	// '>' or '>>'
-	WORD		// other
+	WORD,		// command or argument
 };
 
 typedef struct s_pipex
@@ -99,14 +99,15 @@ void	delete_quotes(char ***tokens, t_shell *shell);
 char	**ft_minisplit(char const *s);
 
 // expander_1.c
-void	exit_status_var(char **expanded, int *iter_arr, t_shell *shell);
 void	var_cases(char **expanded, int *iter_arr, t_shell *shell, char *str);
 void	stoplight(char **expanded, int *iter_arr, t_shell *shell, char *str);
 char	*expander(char *str, t_shell *shell, int qts_yon);
 void	expand_vars(char ***tokens, t_shell *shell);
-char	*handle_env_variable(char *str, int *i, t_shell *shell);
+
+// expander_2.c
+void	exit_status_var(char **expanded, int *iter_arr, t_shell *shell);
 char	*ft_getenv(char *nm_var, t_shell *shell);
-int		handle_exit_status(t_shell *shell);
+char	*handle_env_variable(char *str, int *i, t_shell *shell);
 
 // lst_cmd_1.c
 void	pipe_manager(t_shell *shell, char **tokens, int *i);
@@ -116,6 +117,7 @@ void	parse_cmd(char **tokens, t_shell *shell);
 void	create_cmds(char **tokens, t_shell *shell);
 
 // lst_cmd_2.c
+int		handle_ctrl_c_or_eof(int *fd, char *key, t_shell *shell, char *line);
 int		process_heredoc_line(int *fd, char *key, t_shell *shell);
 int		handle_heredoc(char *token, t_shell *shell);
 void	fileout_manager(t_shell *shell, char **tokens, int *i);
@@ -136,19 +138,22 @@ void	cmd_manage(t_shell *shell);
 
 // manager_2.c
 void	exe_builtin(t_shell *shell);
-int		ft_wifexit();
+int		ft_wifexit(void);
 
-// ft_builtin_1.c
+// ft_builtin.c
 void	ft_exit(t_shell *shell, char **args);
 void	ft_env(t_shell *shell);
 void	ft_unset(t_shell *shell, char **args);
 void	ft_pwd(t_shell *shell);
+
+// ft_cd.c
 void	ft_cd(char **string, t_shell *shell);
 
 // ft_echo_1.c
 int		handle_quotes(char c, int *in_single_quote, int *in_double_quote);
 void	write_to_fd(t_shell *shell, const char *str, int len);
 int		str_vars(char *str, t_shell *shell);
+void	n_finder(int *i, t_shell *shell);
 void	ft_echo(t_shell *shell);
 
 // ft_exec_1.c
@@ -172,7 +177,7 @@ void	ft_export(t_shell *shell, char **args);
 int		update_existing_var(t_shell *shell, int index, char *n_full_var);
 int		create_new_env_array(t_shell *shell, char *n_full_var);
 void	upd_var(t_shell *shell, const char *nm_var,
-	const char *var_val, int eqp);
+			const char *var_val, int eqp);
 int		find_eq_sn(char *str);
 void	sort_env(char **env);
 

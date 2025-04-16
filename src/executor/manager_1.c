@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manager_1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 00:04:33 by renato            #+#    #+#             */
-/*   Updated: 2025/04/16 11:03:50 by renato           ###   ########.fr       */
+/*   Updated: 2025/04/16 13:43:54 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	fork_manger(t_shell *shell)
 			continue ;
 		}
 		shell->piper->pids = ft_realloc(shell->piper->pids,
-			(i + 1) * sizeof(pid_t), (i + 2) * sizeof(pid_t));
+				(i + 1) * sizeof(pid_t), (i + 2) * sizeof(pid_t));
 		if (!shell->piper->pids)
 			exit_all("Error: malloc failed\n", shell, 1);
 		forking(shell, i);
