@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 20:40:21 by renato            #+#    #+#             */
-/*   Updated: 2025/04/16 15:35:52 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/16 17:41:29 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	check_syntax_redir(char *input, char c, t_shell *shell)
 			shell, 2);
 		return (1);
 	}
-	if (input[i] == c)
+	if (input[i] == '>' || input[i] == '<')
 	{
 		print_redir_error(input[i], input[i + 1], shell);
 		return (1);

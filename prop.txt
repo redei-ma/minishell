@@ -1,7 +1,3 @@
-
-dentro heredoc non devo togliere le virgolette quando esapndo le variabili
-
-
 echo $HOME$ci (invalid read)
 
 echo $123 (invalid read)
@@ -10,10 +6,13 @@ echo $'' (togliere il $ prima delle virgolette)
 
 echo $"$ho'me' $HOME" '$HO'ME$$$' $home' (invalid read)
 
-<< a <<< (dovrebbe aprire gli heredoc)
-
 export ciao="echo cioa"(CONSIGLIO DI FARLO)
 
 export 1aa=a
 
-<<><< (salta il primo syntaz error)
+
+
+
+dentro heredoc non devo togliere le virgolette quando esapndo le variabili
+
+<< a <<< (dovrebbe aprire gli heredoc)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lacerbi <lacerbi@student.42firenze.it>     +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 22:02:16 by renato            #+#    #+#             */
-/*   Updated: 2025/04/16 14:48:17 by lacerbi          ###   ########.fr       */
+/*   Updated: 2025/04/16 22:04:35 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,11 @@ void	stoplight(char **expanded, int *iter_arr, t_shell *shell, char *str)
 char	*expander(char *str, t_shell *shell)
 {
 	int		iter_arr[3];
-	int		in_sd_qts[2];
 	char	*expanded;
 
 	iter_arr[0] = 0;
 	iter_arr[1] = 0;
 	iter_arr[2] = ft_strlen(str);
-	in_sd_qts[0] = 0;
-	in_sd_qts[1] = 0;
 	expanded = ft_calloc(iter_arr[2] + 1, sizeof(char));
 	if (!expanded)
 		exit_all("Error: malloc failed\n", shell, 1);
@@ -80,13 +77,13 @@ void	expand_vars(char ***tokens, t_shell *shell)
 	i = -1;
 	while ((*tokens)[++i])
 	{
-		if (i > 0 && (*tokens)[i - 1][0] == '<' && (*tokens)[i - 1][1] == '<')
-		{
-			remove_quotes(&(*tokens)[i]);
-			if (!(*tokens)[i])
-				exit_all("Error: malloc failed\n", shell, 1);
-			continue ;
-		}
+		// if (i > 0 && (*tokens)[i - 1][0] == '<' && (*tokens)[i - 1][1] == '<')
+		// {
+		// 	remove_quotes(&(*tokens)[i]);
+		// 	if (!(*tokens)[i])
+		// 		exit_all("Error: malloc failed\n", shell, 1);
+		// 	continue ;
+		// }
 		(*tokens)[i] = expander((*tokens)[i], shell);
 		if ((*tokens)[i][0] != '\0')
 			continue ;
