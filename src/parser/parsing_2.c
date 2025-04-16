@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 20:40:21 by renato            #+#    #+#             */
-/*   Updated: 2025/04/16 13:37:55 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/16 15:35:52 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,8 @@ int	check_syntax_error(char *input, t_shell *shell)
 			s = check_syntax_redir(input + i + 1, input[i], shell);
 		if (s)
 			return (1);
-		i++;
+		if (input[i])
+			i++;
 	}
 	return (0);
 }

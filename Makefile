@@ -49,7 +49,7 @@ $(LIBFT):
 
 $(NAME): $(SRC) $(LIBFT)
 	@echo "Compiling $(NAME)..."
-	@$(CC) $(CFLAG) $(SRC) $(LIBFT) -I$(CURDIR) -o $(NAME) -lreadline
+	@$(CC) $(CFLAG) $(SRC) $(LIBFT) -Iinclude -o $(NAME) -lreadline
 
 val: $(NAME)
 	@echo "Using Valgrind..."

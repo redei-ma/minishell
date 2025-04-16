@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 00:04:33 by renato            #+#    #+#             */
-/*   Updated: 2025/04/16 13:43:54 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/16 15:59:03 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 
 void	cmd_find_son(t_shell *shell, char *cmd)
 {
+	if (!cmd)
+	{
+		g_exit_status = 127;
+		return ;
+	}
 	if (is_builtin(cmd))
 		exe_builtin(shell);
 	else if (is_env(cmd))
@@ -65,6 +70,11 @@ void	cmd_find_dad(t_shell *shell, char *cmd)
 {
 	pid_t	pid;
 
+	if (!cmd)
+	{
+		g_exit_status = 127;
+		return ;
+	}
 	if (shell->cmds->skip)
 	{
 		g_exit_status = 1;

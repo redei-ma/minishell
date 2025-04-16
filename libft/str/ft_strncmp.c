@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 11:00:35 by redei-ma          #+#    #+#             */
-/*   Updated: 2024/12/05 17:02:02 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/16 15:55:51 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 	ss2 = (unsigned char *)s2;
 	if (n == 0)
 		return (0);
-	while (n && *ss1 == *ss2 && *ss1)
+	while (n && *ss1 && *ss2 && *ss1 == *ss2)
 	{
 		ss1++;
 		ss2++;
