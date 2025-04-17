@@ -44,7 +44,7 @@ int	check_syntax_redir(char *input, char c, t_shell *shell)
 			shell, 2);
 		return (1);
 	}
-	if (input[i] == c)
+	if (input[i] == '>' || input[i] == '<')
 	{
 		print_redir_error(input[i], input[i + 1], shell);
 		return (1);

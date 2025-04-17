@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lacerbi <lacerbi@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:49:18 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/04/16 13:51:55 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/16 18:01:06 by lacerbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,13 @@ char	*handle_env_variable(char *str, int *i, t_shell *shell)
 	char	*var_val;
 
 	ncv = *i + 1;
-	while (str[ncv] != '\0' && (ft_isalnum(str[ncv]) || str[ncv] == '_'))
+	if (str[ncv] && ft_isdigit(str[ncv]))
 		ncv++;
+	else
+	{
+		while (str[ncv] != '\0' && (ft_isalnum(str[ncv]) || str[ncv] == '_'))
+			ncv++;
+	}
 	nm_var = ft_calloc((ncv - (*i + 1)) + 1, sizeof(char));
 	if (!nm_var)
 		return (NULL);

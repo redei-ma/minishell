@@ -73,6 +73,22 @@ int	handle_export_value(t_shell *shell, char *arg, int eq_pos)
 	return (1);
 }
 
+int	is_valid_identifier(char *str)
+{
+	int	i;
+
+	if (!str || (!ft_isalpha(str[0]) && str[0] != '_'))
+		return (0);
+	i = 1;
+	while (str[i] && str[i] != '=')
+	{
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 void	process_export_arg(t_shell *shell, char *arg)
 {
 	int	eq_pos;
@@ -82,6 +98,8 @@ void	process_export_arg(t_shell *shell, char *arg)
 		ft_printfd(2, "export: `%s': not a valid identifier\n", arg);
 		return ;
 	}
+	if (!is_valid_identifier(arg))
+		return ;
 	eq_pos = find_eq_sn(arg);
 	if (eq_pos != -1)
 		handle_export_value(shell, arg, eq_pos);

@@ -6,7 +6,7 @@
 /*   By: lacerbi <lacerbi@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 22:02:16 by renato            #+#    #+#             */
-/*   Updated: 2025/04/16 14:48:17 by lacerbi          ###   ########.fr       */
+/*   Updated: 2025/04/17 14:36:12 by lacerbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	var_cases(char **expanded, int *iter_arr, t_shell *shell, char *str)
 {
 	int		x;
 	char	*var;
+	int		new_len;
 
 	x = iter_arr[0];
 	var = handle_env_variable(str, &iter_arr[0], shell);
@@ -24,22 +25,25 @@ void	var_cases(char **expanded, int *iter_arr, t_shell *shell, char *str)
 		free(*expanded);
 		exit_all("Error: malloc failed\n", shell, 1);
 	}
-	*expanded = ft_realloc(*expanded, (iter_arr[2] + 1),
-			(iter_arr[2] + ft_strlen(var)
-				- (iter_arr[0] - x) + 1) * sizeof(char));
+	new_len = iter_arr[1] + ft_strlen(var) + 1;
+	*expanded = ft_realloc(*expanded, iter_arr[2], new_len * sizeof(char));
 	if (!*expanded)
 	{
 		free(var);
 		exit_all("Error: malloc failed\n", shell, 1);
 	}
+
 	ft_strlcpy(*expanded + iter_arr[1], var, ft_strlen(var) + 1);
 	iter_arr[1] += ft_strlen(var);
+	iter_arr[2] = new_len;
 	free(var);
 }
 
 void	stoplight(char **expanded, int *iter_arr, t_shell *shell, char *str)
 {
-	if (str[iter_arr[0] + 1] == '?')
+	if (str[iter_arr[0] + 1] == '\'' || str[iter_arr[0] + 1] == '\"')
+		iter_arr[0]++;
+	else if (str[iter_arr[0] + 1] == '?')
 		exit_status_var(expanded, iter_arr, shell);
 	else if (ft_isalnum(str[iter_arr[0] + 1]) || str[iter_arr[0] + 1] == '_')
 		var_cases(expanded, iter_arr, shell, str);
@@ -50,20 +54,17 @@ void	stoplight(char **expanded, int *iter_arr, t_shell *shell, char *str)
 char	*expander(char *str, t_shell *shell)
 {
 	int		iter_arr[3];
-	int		in_sd_qts[2];
 	char	*expanded;
 
 	iter_arr[0] = 0;
 	iter_arr[1] = 0;
-	iter_arr[2] = ft_strlen(str);
-	in_sd_qts[0] = 0;
-	in_sd_qts[1] = 0;
+	iter_arr[2] = ft_strlen(str) + 1;
 	expanded = ft_calloc(iter_arr[2] + 1, sizeof(char));
 	if (!expanded)
 		exit_all("Error: malloc failed\n", shell, 1);
 	while (str[iter_arr[0]])
 	{
-		if (str[iter_arr[0]] == '$' && !in_sd_qts[0])
+		if (str[iter_arr[0]] == '$')
 			stoplight(&expanded, iter_arr, shell, str);
 		else
 			expanded[iter_arr[1]++] = str[iter_arr[0]++];
