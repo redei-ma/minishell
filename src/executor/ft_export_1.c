@@ -3,52 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: lacerbi <lacerbi@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 22:02:16 by renato            #+#    #+#             */
-/*   Updated: 2025/04/11 10:52:54 by renato           ###   ########.fr       */
+/*   Updated: 2025/04/28 12:58:05 by lacerbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	find_eq_sn(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '=')
-			return (i);
-		i++;
-	}
-	return (-1);
-}
-
-void	sort_env(char **srtd_env)
-{
-	int		i;
-	int		j;
-	char	*tmp;
-
-	i = 0;
-	while (srtd_env[i])
-	{
-		j = i + 1;
-		while (srtd_env[j])
-		{
-			if (ft_strcmp(srtd_env[i], srtd_env[j]) > 0)
-			{
-				tmp = srtd_env[i];
-				srtd_env[i] = srtd_env[j];
-				srtd_env[j] = tmp;
-			}
-			j++;
-		}
-		i++;
-	}
-}
 
 void	print_env_var(t_shell *shell, char *var)
 {
@@ -57,7 +19,7 @@ void	print_env_var(t_shell *shell, char *var)
 
 	j = 0;
 	iseq = 0;
-	while (var[j])
+	while (var[j] != '\0')
 	{
 		write_to_fd(shell, &var[j], 1);
 		if (var[j] == '=')
@@ -111,6 +73,23 @@ int	handle_export_value(t_shell *shell, char *arg, int eq_pos)
 	return (1);
 }
 
+int	is_valid_identifier(char *str)
+{
+	int	i;
+
+	//ft_printfd(2, "%s\n", str);
+	if (!str || (!ft_isalpha(str[0]) && str[0] != '_'))
+		return (0);
+	i = 1;
+	while (str[i] && str[i] != '=')
+	{
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 void	process_export_arg(t_shell *shell, char *arg)
 {
 	int	eq_pos;
@@ -118,6 +97,11 @@ void	process_export_arg(t_shell *shell, char *arg)
 	if (arg[0] == '=')
 	{
 		ft_printfd(2, "export: `%s': not a valid identifier\n", arg);
+		return ;
+	}
+	if (!is_valid_identifier(arg))
+	{
+		ft_printfd(2, "minishell: export: not a valid identifier\n");
 		return ;
 	}
 	eq_pos = find_eq_sn(arg);

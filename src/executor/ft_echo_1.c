@@ -6,23 +6,11 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 21:52:54 by renato            #+#    #+#             */
-/*   Updated: 2025/04/02 19:34:07 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/16 13:41:50 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/* int	handle_variable(char *str, int i, t_shell *shell)
-{
-	if (str[i + 1] == '?')
-	{
-		if (handle_exit_status(shell) == -1)
-			return (-1);
-		return (i + 2);
-	}
-	else
-		return (handle_env_variable(str, i, shell));
-} */
 
 int	handle_quotes(char c, int *in_single_quote, int *in_double_quote)
 {
@@ -65,17 +53,39 @@ int	str_vars(char *str, t_shell *shell)
 	return (0);
 }
 
+void	n_finder(int *i, t_shell *shell)
+{
+	int	x;
+
+	while (shell->cmds->args && shell->cmds->args[(*i)][0] == '-'
+		&& shell->cmds->args[(*i)][1] == 'n')
+	{
+		x = 2;
+		while (shell->cmds->args[*i][x] == 'n')
+			x++;
+		if (!shell->cmds->args[*i][x])
+		{
+			(*i)++;
+			if (!shell->cmds->args[*i])
+				return ;
+		}
+		else
+			break ;
+	}
+}
+
 void	ft_echo(t_shell *shell)
 {
 	int	i;
 
 	i = 0;
-	if (shell->cmds->args && ft_strcmp(shell->cmds->args[0], "-n") == 0)
+	n_finder(&i, shell);
+	if (shell->cmds->args && i > 0)
 	{
-		while (shell->cmds->args[i + 1])
+		while (shell->cmds->args[i])
 		{
-			str_vars(shell->cmds->args[i + 1], shell);
-			if (shell->cmds->args[i + 2])
+			str_vars(shell->cmds->args[i], shell);
+			if (shell->cmds->args[i + 1])
 				write_to_fd(shell, " ", 1);
 			i++;
 		}
