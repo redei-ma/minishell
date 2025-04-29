@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:02:16 by renato            #+#    #+#             */
-/*   Updated: 2025/04/16 13:43:58 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/29 11:39:12 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,14 @@ void	exe_builtin(t_shell *shell)
 
 int	ft_wifexit(void)
 {
-	int	status;
+	int	stat;
 
-	status = 0;
-	while (wait(NULL) > 0)
+	stat = 0;
+	while (wait(&stat) > 0)
 		;
-	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
-	else if (WIFSIGNALED(status))
-		return (128 + WTERMSIG(status));
+	if (WIFEXITED(stat))
+		return (WEXITSTATUS(stat));
+	else if (WIFSIGNALED(stat))
+		return (128 + WTERMSIG(stat));
 	return (0);
 }

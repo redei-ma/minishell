@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_cmd_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lacerbi <lacerbi@student.42firenze.it>     +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:20:09 by renato            #+#    #+#             */
-/*   Updated: 2025/04/28 17:42:53 by lacerbi          ###   ########.fr       */
+/*   Updated: 2025/04/29 13:20:04 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	handle_ctrl_c_or_eof(int *fd, char *key, t_shell *shell, char *line)
 {
-	if (g_exit_status == 130)
+	if (g_signal == 130)
 	{
 		close(*fd);
 		unlink(shell->heredocs[shell->num_heredoc - 1]);
@@ -25,7 +25,7 @@ int	handle_ctrl_c_or_eof(int *fd, char *key, t_shell *shell, char *line)
 	}
 	if (!line)
 	{
-		if (g_exit_status == 130)
+		if (g_signal == 130)
 			shell->trigger = 1;
 		else
 		{
@@ -41,13 +41,14 @@ end-of-file (wanted `%s')\n", key);
 int	process_heredoc_line(int *fd, char *key, t_shell *shell)
 {
 	char	*line;
-	int		x = 10;
+	int		x;
 
+	x = -404;
 	signal(SIGINT, handle_ctrl_c_get);
 	line = readline("> ");
 	if (!handle_ctrl_c_or_eof(fd, key, shell, line))
 		return (0);
-	if (ft_strncmp(line, key, ft_strlen(key)) == 0)
+	if (ft_strcmp(line, key) == 0)
 		return (free(line), 0);
 	line = expander(line, &x, shell);
 	x = 0;

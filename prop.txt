@@ -1,21 +1,40 @@
-DEVO RIMETTERE LA GESTIONE DELLE VIRGOLETTE IN EXPANDER E SISTEMARE ECHO $''
+	DEVO RIMETTERE LA GESTIONE DELLE VIRGOLETTE IN EXPANDER E SISTEMARE ECHO $''
+	echo $'' (togliere il $ prima delle virgolette)
 
 
-dentro heredoc non devo togliere le virgolette quando esapndo le variabili
+	dentro heredoc devo espandere anche se quote singola
 
 
-echo $HOME$ci (invalid read)
+	echo $HOME$ci (invalid read)
 
-echo $123 (invalid read)
+	echo $123 (invalid read)
 
-echo $'' (togliere il $ prima delle virgolette)
 
-echo $"$ho'me' $HOME" '$HO'ME$$$' $home' (invalid read)
 
-<<"" (non deve chiudere se c'e' scritto qualcosa)
+	echo $"$ho'me' $HOME" '$HO'ME$$$' $home' (invalid read)
+
+
+	redei-ma@c2r1p8:~/Minishell/kong$ export c=ciao
+	redei-ma@c2r1p8:~/Minishell/kong$ export e=echo
+	redei-ma@c2r1p8:~/Minishell/kong$ export d="$e $c"
+	redei-ma@c2r1p8:~/Minishell/kong$ $d
+
+	memory leak
+
+
+
 
 << a <<< (dovrebbe aprire gli heredoc)
 
-export ciao="echo cioa"(CONSIGLIO DI FARLO)
+$PWD
 
-export 1aa=a
+
+
+	export ciao="echo cioa"(CONSIGLIO DI FARLO)
+
+
+export c="echo ciao"    e poi lo espando in here_doc esplode tutto
+soluzione veloce creare un expandere apposta
+
+
+sistemare ctrl+c heredoc

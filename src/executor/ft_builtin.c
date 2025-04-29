@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lacerbi <lacerbi@student.42firenze.it>     +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 22:12:52 by renato            #+#    #+#             */
-/*   Updated: 2025/04/28 16:13:13 by lacerbi          ###   ########.fr       */
+/*   Updated: 2025/04/29 11:37:02 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,24 @@
 
 void	ft_exit(t_shell *shell, char **args)
 {
-	int	exit_code;
 
-	exit_code = 0;
+	if (ft_cmd_size(shell->head) == 1)
+		ft_printfd(1, "exit\n");
 	if (args && args[0])
 	{
-		if (args[1])
-			return_partial("exit: too many arguments", shell, 36);
-		else if (ft_natoi(args[0]) == 0
-			&& (args[0][0] != 0 || args[0][0] != '\0'))
-			return_partial("exit: numeric argument required", shell, 44);
+		
+		if (ft_natoi(args[0]) == 0
+			&& !(args[0][0] == 0 && args[0][1] == '\0'))
+			exit_all("exit: numeric argument required", shell, 2);
+		else if (args[1])
+		{
+			return_partial("exit: too many arguments", shell, 1);
+			return ;
+		}
 		else
-			exit_code = ft_natoi(args[0]) % 256;
+			status = ft_natoi(args[0]) % 256;
 	}
-	ft_printfd(1, "exit\n");
-	exit_all(NULL, shell, exit_code);
+	exit_all(NULL, shell, status);
 }
 
 void	ft_env(t_shell *shell)
@@ -46,7 +49,7 @@ void	ft_env(t_shell *shell)
 				ft_printfd_shell(shell, "%s\n", shell->env[i]);
 			i++;
 		}
-		g_exit_status = 0;
+		status = 0;
 	}
 }
 
@@ -85,7 +88,7 @@ void	ft_unset(t_shell *shell, char **args)
 		}
 		i++;
 	}
-	g_exit_status = 0;
+	status = 0;
 }
 
 void	ft_pwd(t_shell *shell)
@@ -102,5 +105,5 @@ void	ft_pwd(t_shell *shell)
 		return_partial("pwd: error retrieving current directory", shell, 1);
 	ft_printfd_shell(shell, "%s\n", cwd);
 	free(cwd);
-	g_exit_status = 0;
+	status = 0;
 }

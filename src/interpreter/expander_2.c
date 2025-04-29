@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lacerbi <lacerbi@student.42firenze.it>     +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:49:18 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/04/26 18:17:58 by lacerbi          ###   ########.fr       */
+/*   Updated: 2025/04/29 11:41:31 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,26 @@
 
 void	exit_status_var(char **expanded, int *iter_arr, t_shell *shell)
 {
-	char	*status;
+	char	*stat;
 
-	status = ft_itoa(g_exit_status);
-	if (!status)
+	stat = ft_itoa(status);
+	if (!stat)
 	{
 		free(*expanded);
 		exit_all("Error: malloc failed\n", shell, 1);
 	}
 	*expanded = ft_realloc(*expanded, (iter_arr[2] + 1),
-			(iter_arr[2] + ft_strlen(status) - 1) * sizeof(char));
+			(iter_arr[2] + ft_strlen(stat) - 1) * sizeof(char));
 	if (!*expanded)
 	{
-		free(status);
+		free(stat);
 		exit_all("Error: malloc failed\n", shell, 1);
 	}
-	ft_strlcpy(*expanded + iter_arr[1], status, ft_strlen(status) + 1);
-	iter_arr[1] += ft_strlen(status);
+	ft_strlcpy(*expanded + iter_arr[1], stat, ft_strlen(stat) + 1);
+	iter_arr[1] += ft_strlen(stat);
 	iter_arr[0] += 2;
-	iter_arr[2] += ft_strlen(status) - 2;
-	free(status);
+	iter_arr[2] += ft_strlen(stat) - 2;
+	free(stat);
 }
 
 char	*ft_getenv(char *nm_var, t_shell *shell)

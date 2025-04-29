@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lacerbi <lacerbi@student.42firenze.it>     +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/04/28 16:13:54 by lacerbi          ###   ########.fr       */
+/*   Updated: 2025/04/29 13:28:49 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
 # include <errno.h>
 # include <sys/ioctl.h>
 # include <termios.h> 
+
+# define status (shell->exit_status)
 
 enum e_token
 {
@@ -64,9 +66,10 @@ typedef struct s_shell
 	char	**heredocs;		// heredocs list
 	int		num_heredoc;	// number of heredocs
 	int		trigger;		// error trigger
+	int 	exit_status;	// single quote flag
 }	t_shell;
 
-extern int	g_exit_status;
+extern int	g_signal;
 
 // main.c
 void	set_shell(t_shell *shell);
@@ -191,9 +194,8 @@ int		srcd_env(t_shell *shell, const char *name);
 // error_1.c
 void	delete_heredoc(t_shell *shell);
 void	close_all(t_shell *shell);
-int		return_partial(char *msg, t_shell *shell, int status);
-void	exit_partial(char *msg, t_shell *shell, int status);
-void	exit_all(char *msg, t_shell *shell, int status);
+int		return_partial(char *msg, t_shell *shell, int stat);
+void	exit_all(char *msg, t_shell *shell, int stat);
 
 // error_2.c
 void	free_part_2(t_shell *shell);

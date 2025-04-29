@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lacerbi <lacerbi@student.42firenze.it>     +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 22:02:16 by renato            #+#    #+#             */
-/*   Updated: 2025/04/28 17:06:31 by lacerbi          ###   ########.fr       */
+/*   Updated: 2025/04/29 13:11:42 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,19 +58,6 @@ int	var_size(char *var, char *expanded, int *iter_arr, t_shell *shell)
 	return (1);
 }*/
 
-void ft_free_matrix(char **matrix)
-{
-    int i = 0;
-    if (!matrix) return;
-    
-    while (matrix[i])
-    {
-        free(matrix[i]);
-        i++;
-    }
-    free(matrix);
-}
-
 int var_size(char *var, int *iter_arr, t_shell *shell)
 {
 	int     var_sp_len;
@@ -81,20 +68,18 @@ int var_size(char *var, int *iter_arr, t_shell *shell)
 
 	var_split = ft_minisplit(var);
 	if (!var_split)
-	{
 		exit_all("Error: malloc failed\n", shell, 1);
-	}
 	var_sp_len = ft_matlen(var_split);
 	if (var_sp_len == 1)
 	{
-		ft_free_matrix(var_split);
+		ft_free_char_mat(var_split);
 		return (0);
 	}
 	tok_len = ft_matlen(shell->tokens);
 	tmp_tokens = ft_realloc(shell->tokens, (tok_len + 1) * sizeof(char *), (tok_len + var_sp_len) * sizeof(char *));
 	if (!tmp_tokens)
 	{
-		ft_free_matrix(var_split);
+		ft_free_char_mat(var_split);
 		exit_all("Error: malloc failed\n", shell, 1);
 	}
 	shell->tokens = tmp_tokens;
@@ -106,11 +91,11 @@ int var_size(char *var, int *iter_arr, t_shell *shell)
 	}
 	/*if (shell->tokens[iter_arr[3]])
         free(shell->tokens[iter_arr[3]]);*/
-    shell->tokens[iter_arr[3]] = ft_strdup(var_split[0]);
+    shell->tokens[iter_arr[3]] = var_split[0];
     i = 1;
     while (i < var_sp_len)
     {
-        shell->tokens[iter_arr[3] + i] = ft_strdup(var_split[i]);
+        shell->tokens[iter_arr[3] + i] = var_split[i];
         i++;
     }
 	free(var_split);
@@ -139,6 +124,7 @@ void	var_cases(char **expanded, int *iter_arr, t_shell *shell, char *str)
 	if (iter_arr[3] != -1 && ft_strcmp(var, "") != 0 && is_isolated && var_size(var, iter_arr, shell))
 	{
 		free(var);
+		free(*expanded);
 		return ;
 	}
 	//new_len = iter_arr[1] + ft_strlen(var) + 1;
@@ -180,13 +166,13 @@ char	*expander(char *str, int *i, t_shell *shell)
 	iter_arr[3] = *i;
 	in_sd_qts[0] = 0;
 	in_sd_qts[1] = 0;
-	expanded = malloc((iter_arr[2] + 1) * sizeof(char));
+	expanded = ft_calloc((iter_arr[2] + 1), sizeof(char));
 	if (!expanded)
 		exit_all("Error: malloc failed\n", shell, 1);
 	expanded[iter_arr[2]] = '\0';
 	while (str[iter_arr[0]])
 	{
-		if (handle_quotes(str[iter_arr[0]], &in_sd_qts[0], &in_sd_qts[1]))
+		if (*i != -404 && (handle_quotes(str[iter_arr[0]], &in_sd_qts[0], &in_sd_qts[1])))
 		{
 			expanded[iter_arr[1]++] = str[iter_arr[0]++];
 			continue ;

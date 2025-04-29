@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 00:04:33 by renato            #+#    #+#             */
-/*   Updated: 2025/04/16 15:59:03 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/29 11:38:49 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	cmd_find_son(t_shell *shell, char *cmd)
 {
 	if (!cmd)
 	{
-		g_exit_status = 127;
+		status = 127;
 		return ;
 	}
 	if (is_builtin(cmd))
@@ -63,7 +63,7 @@ void	fork_manger(t_shell *shell)
 	shell->piper->n_pids = i;
 	close_all(shell);
 	signal(SIGINT, handle_ctrl_c);
-	g_exit_status = ft_wifexit();
+	status = ft_wifexit();
 }
 
 void	cmd_find_dad(t_shell *shell, char *cmd)
@@ -72,12 +72,12 @@ void	cmd_find_dad(t_shell *shell, char *cmd)
 
 	if (!cmd)
 	{
-		g_exit_status = 127;
+		status = 127;
 		return ;
 	}
 	if (shell->cmds->skip)
 	{
-		g_exit_status = 1;
+		status = 1;
 		return ;
 	}
 	else if (is_builtin(cmd))
@@ -93,7 +93,7 @@ void	cmd_find_dad(t_shell *shell, char *cmd)
 		else if (pid == 0)
 			ft_exec(shell);
 		signal(SIGINT, handle_ctrl_c);
-		g_exit_status = ft_wifexit();
+		status = ft_wifexit();
 	}
 }
 
@@ -106,5 +106,5 @@ void	cmd_manage(t_shell *shell)
 		fork_manger(shell);
 	else
 		cmd_find_dad(shell, shell->cmds->cmd);
-	return_partial(NULL, shell, g_exit_status);
+	return_partial(NULL, shell, status);
 }

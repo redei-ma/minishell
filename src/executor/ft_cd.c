@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lacerbi <lacerbi@student.42firenze.it>     +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:44:34 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/04/28 16:10:02 by lacerbi          ###   ########.fr       */
+/*   Updated: 2025/04/29 11:36:28 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,5 @@ void	ft_cd(char **string, t_shell *shell)
 		new_pwd(shell);
 	}
 	free(cwd);
-	g_exit_status = 0;
+	status = 0;
 }

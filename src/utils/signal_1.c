@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_1.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 17:39:04 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/04/16 11:29:41 by renato           ###   ########.fr       */
+/*   Updated: 2025/04/29 13:29:21 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,12 @@
 
 void	handle_ctrl_bl(int signum)
 {
+	struct termios	term;
+
 	(void)signum;
+	tcgetattr(STDIN_FILENO, &term);
+	term.c_lflag &= ~ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
 
 void	interactive_ctrls(void)
