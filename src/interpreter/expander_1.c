@@ -169,7 +169,6 @@ char	*expander(char *str, int *i, t_shell *shell)
 	expanded = ft_calloc((iter_arr[2] + 1), sizeof(char));
 	if (!expanded)
 		exit_all("Error: malloc failed\n", shell, 1);
-	expanded[iter_arr[2]] = '\0';
 	while (str[iter_arr[0]])
 	{
 		if (*i != -404 && (handle_quotes(str[iter_arr[0]], &in_sd_qts[0], &in_sd_qts[1])))

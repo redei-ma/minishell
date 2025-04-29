@@ -112,6 +112,9 @@ void	exit_status_var(char **expanded, int *iter_arr, t_shell *shell);
 char	*ft_getenv(char *nm_var, t_shell *shell);
 char	*handle_env_variable(char *str, int *i, t_shell *shell, int *new_len);
 
+//HD_expander.c
+char	*HD_expander(char *str, t_shell *shell);
+
 // lst_cmd_1.c
 void	pipe_manager(t_shell *shell, char **tokens, int *i);
 t_cmd	*ft_newcmd(t_shell *shell);

@@ -41,17 +41,14 @@ end-of-file (wanted `%s')\n", key);
 int	process_heredoc_line(int *fd, char *key, t_shell *shell)
 {
 	char	*line;
-	int		x;
 
-	x = -404;
 	signal(SIGINT, handle_ctrl_c_get);
 	line = readline("> ");
 	if (!handle_ctrl_c_or_eof(fd, key, shell, line))
 		return (0);
 	if (ft_strcmp(line, key) == 0)
 		return (free(line), 0);
-	line = expander(line, &x, shell);
-	x = 0;
+	line = HD_expander(line, shell);
 	if (!line)
 		exit_all("Error: malloc failed\n", shell, 1);
 	ft_printfd(*fd, "%s\n", line);
