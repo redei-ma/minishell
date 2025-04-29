@@ -79,6 +79,7 @@ void	ft_echo(t_shell *shell)
 {
 	int	i;
 
+	i = 0;
 	n_finder(&i, shell);
 	if (shell->cmds->args && i > 0)
 	{

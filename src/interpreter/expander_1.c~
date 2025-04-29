@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander_1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lacerbi <lacerbi@student.42firenze.it>     +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 22:02:16 by renato            #+#    #+#             */
-/*   Updated: 2025/04/29 17:10:01 by lacerbi          ###   ########.fr       */
+/*   Updated: 2025/04/29 13:11:42 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,30 +114,34 @@ void	stoplight(char **expanded, int *iter_arr, t_shell *shell, char *str, int in
 
 char	*expander(char *str, int *i, t_shell *shell)
 {
-	int		iterr[4];
-	int		qts[2];
+	int		iter_arr[4];
+	int		in_sd_qts[2];
 	char	*expanded;
 
-	iterr[0] = 0;
-	iterr[1] = 0;
-	iterr[2] = ft_strlen(str);
-	iterr[3] = *i;
-	qts[0] = 0;
-	qts[1] = 0;
-	expanded = ft_calloc((iterr[2] + 1), sizeof(char));
+	iter_arr[0] = 0;
+	iter_arr[1] = 0;
+	iter_arr[2] = ft_strlen(str);
+	iter_arr[3] = *i;
+	in_sd_qts[0] = 0;
+	in_sd_qts[1] = 0;
+	expanded = ft_calloc((iter_arr[2] + 1), sizeof(char));
 	if (!expanded)
 		exit_all("Error: malloc failed\n", shell, 1);
-	while (str[iterr[0]])
+	while (str[iter_arr[0]])
 	{
-		if (*i != -404 && (handle_quotes(str[iterr[0]], &qts[0], &qts[1])))
-			expanded[iterr[1]++] = str[iterr[0]++];
-		else if (str[iterr[0]] == '$' && !qts[0])
+		if (*i != -404 && (handle_quotes(str[iter_arr[0]],
+					&in_sd_qts[0], &in_sd_qts[1])))
 		{
-			stoplight(&expanded, iterr, shell, str, qts[1]);
-			*i = iterr[3];
+			expanded[iter_arr[1]++] = str[iter_arr[0]++];
+			continue ;
+		}
+		if (str[iter_arr[0]] == '$' && !in_sd_qts[0])
+		{
+			stoplight(&expanded, iter_arr, shell, str, in_sd_qts[1]);
+			*i = iter_arr[3];
 		}
 		else
-			expanded[iterr[1]++] = str[iterr[0]++];
+			expanded[iter_arr[1]++] = str[iter_arr[0]++];
 	}
 	free(str);
 	return (expanded);
@@ -182,4 +186,5 @@ void	expand_vars(t_shell *shell)
 			i--;
 		}
 	}
+	//ft_printfd(2, "%s\n%s", shell->tokens[0], shell->tokens[1]);
 }

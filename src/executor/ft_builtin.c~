@@ -51,35 +51,11 @@ void	ft_env(t_shell *shell)
 	}
 }
 
-static void	process_unset_arg(t_shell *shell, char *arg, int *stat)
-{
-	int	index;
-	int	j;
-
-	if (!is_valid_identifier(arg))
-	{
-		ft_printfd(2, "unset: '%s' not a valide identifier\n", arg);
-		*stat = 1;
-		return ;
-	}
-	index = srcd_env(shell, arg);
-	if (index != -1)
-	{
-		free(shell->env[index]);
-		j = index;
-		while (shell->env[j])
-		{
-			shell->env[j] = shell->env[j + 1];
-			j++;
-		}
-		shell->env[j] = NULL;
-		shell->max--;
-	}
-}
-
 void	ft_unset(t_shell *shell, char **args)
 {
+	int	index;
 	int	i;
+	int	j;
 	int	stat;
 
 	stat = 0;
@@ -91,7 +67,26 @@ void	ft_unset(t_shell *shell, char **args)
 	i = 0;
 	while (args[i])
 	{
-		process_unset_arg(shell, args[i], &stat);
+		if (!is_valid_identifier(args[i]))
+		{
+			ft_printfd(2, "unset: '%s' not a valide identifier\n", args[i]);
+			i++;
+			stat = 1;
+			continue ;
+		}
+		index = srcd_env(shell, args[i]);
+		if (index != -1)
+		{
+			free(shell->env[index]);
+			j = index;
+			while (shell->env[j])
+			{
+				shell->env[j] = shell->env[j + 1];
+				j++;
+			}
+			shell->env[j] = NULL;
+			shell->max--;
+		}
 		i++;
 	}
 	if (stat)

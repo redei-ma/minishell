@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manager_1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lacerbi <lacerbi@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 00:04:33 by renato            #+#    #+#             */
-/*   Updated: 2025/04/29 11:38:49 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/29 17:45:25 by lacerbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,14 @@ void	cmd_find_dad(t_shell *shell, char *cmd)
 		return ;
 	else
 	{
-		signal(SIGINT, handle_ctrl_c_exec);
 		pid = fork();
 		if (pid == -1)
 			exit_all("Error: fork failed\n", shell, 1);
 		else if (pid == 0)
+		{
+			signal(SIGINT, handle_ctrl_c_exec);
 			ft_exec(shell);
+		}
 		signal(SIGINT, handle_ctrl_c);
 		status = ft_wifexit();
 	}
