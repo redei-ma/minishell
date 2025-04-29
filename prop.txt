@@ -33,8 +33,8 @@ $PWD
 	export ciao="echo cioa"(CONSIGLIO DI FARLO)
 
 
-export c="echo ciao"    e poi lo espando in here_doc esplode tutto
-soluzione veloce creare un expandere apposta
+	export c="echo ciao"    e poi lo espando in here_doc esplode tutto
+	soluzione veloce creare un expandere apposta
 
 
 sistemare ctrl+c heredoc

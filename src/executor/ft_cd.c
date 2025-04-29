@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:44:34 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/04/29 11:36:28 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/29 15:24:58 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,23 @@
 
 void	new_pwd(t_shell *shell)
 {
-	char	*oldpwd_var;
+	char	*pwd_var;
 	char	*export_args[2];
 	char	*cwd;
 
+	if (ft_getenv("PWD", shell) == NULL)
+		return ;
 	cwd = getcwd(NULL, 0);
-	oldpwd_var = ft_strjoin("PWD=", cwd);
-	if (!oldpwd_var)
+	pwd_var = ft_strjoin("PWD=", cwd);
+	if (!pwd_var)
 	{
 		free(cwd);
 		exit_all("Error: malloc failed\n", shell, 1);
 	}
-	export_args[0] = oldpwd_var;
+	export_args[0] = pwd_var;
 	export_args[1] = NULL;
 	ft_export(shell, export_args);
-	free(oldpwd_var);
+	free(pwd_var);
 }
 
 void	new_old_pwd(char *cwd, t_shell *shell)
@@ -36,6 +38,8 @@ void	new_old_pwd(char *cwd, t_shell *shell)
 	char	*oldpwd_var;
 	char	*export_args[2];
 
+	if (ft_getenv("OLDPWD", shell) == NULL || ft_getenv("PWD", shell) == NULL)
+		return ;
 	oldpwd_var = ft_strjoin("OLDPWD=", cwd);
 	if (!oldpwd_var)
 	{

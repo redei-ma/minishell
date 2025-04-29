@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:29:45 by renato            #+#    #+#             */
-/*   Updated: 2025/04/29 13:19:08 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/29 15:38:41 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	handle_ctrl_c(int signum)
 void	handle_ctrl_c_get(int signum)
 {
 	ioctl(STDIN_FILENO, TIOCSTI, "\n");
-	// rl_replace_line("", 0);
-	// rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_on_new_line();
 	g_signal = signum;
 }

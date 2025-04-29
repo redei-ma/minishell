@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 22:12:52 by renato            #+#    #+#             */
-/*   Updated: 2025/04/29 11:37:02 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/29 15:08:43 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,9 @@ void	ft_unset(t_shell *shell, char **args)
 	int	index;
 	int	i;
 	int	j;
+	int	stat;
 
+	stat = 0; 
 	if (!args || !args[0])
 	{
 		return_partial("unset: too few arguments", shell, 1);
@@ -71,6 +73,7 @@ void	ft_unset(t_shell *shell, char **args)
 		{
 			ft_printfd(2, "unset: '%s' not a valide identifier\n", args[i]);
 			i++;
+			stat = 1;
 			continue ;
 		}
 		index = srcd_env(shell, args[i]);
@@ -88,7 +91,10 @@ void	ft_unset(t_shell *shell, char **args)
 		}
 		i++;
 	}
-	status = 0;
+	if (stat)
+		status = 1;
+	else
+		status = 0;
 }
 
 void	ft_pwd(t_shell *shell)

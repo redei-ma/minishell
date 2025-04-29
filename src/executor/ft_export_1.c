@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 22:02:16 by renato            #+#    #+#             */
-/*   Updated: 2025/04/29 11:36:08 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/29 15:10:59 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ int	is_valid_identifier(char *str)
 {
 	int	i;
 
-	//ft_printfd(2, "%s\n", str);
 	if (!str || (!ft_isalpha(str[0]) && str[0] != '_'))
 		return (0);
 	i = 1;
@@ -97,11 +96,13 @@ void	process_export_arg(t_shell *shell, char *arg)
 	if (arg[0] == '=')
 	{
 		ft_printfd(2, "export: `%s': not a valid identifier\n", arg);
+		status = 1;
 		return ;
 	}
 	if (!is_valid_identifier(arg))
 	{
 		ft_printfd(2, "minishell: export: not a valid identifier\n");
+		status = 1;
 		return ;
 	}
 	eq_pos = find_eq_sn(arg);
@@ -109,6 +110,7 @@ void	process_export_arg(t_shell *shell, char *arg)
 		handle_export_value(shell, arg, eq_pos);
 	else if (srcd_env(shell, arg) == -1)
 		upd_var(shell, arg, "", eq_pos);
+	status = 0;
 }
 
 void	ft_export(t_shell *shell, char **args)
@@ -116,7 +118,10 @@ void	ft_export(t_shell *shell, char **args)
 	int	i;
 
 	if (!args)
+	{
 		print_env_declare(shell);
+		status = 0;
+	}
 	else
 	{
 		i = 0;
@@ -126,5 +131,4 @@ void	ft_export(t_shell *shell, char **args)
 			i++;
 		}
 	}
-	status = 0;
 }
