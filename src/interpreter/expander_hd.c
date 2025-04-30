@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expander_hd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 13:53:05 by lacerbi           #+#    #+#             */
-/*   Updated: 2025/04/29 19:22:36 by renato           ###   ########.fr       */
+/*   Updated: 2025/04/30 09:18:15 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	HD_var_cases(char **expanded, int *iter_arr, t_shell *shell, char *str)
+void	var_cases_hd(char **expanded, int *iter_arr, t_shell *shell, char *str)
 {
 	char	*var;
 	int		new_len;
@@ -39,17 +39,17 @@ void	HD_var_cases(char **expanded, int *iter_arr, t_shell *shell, char *str)
 	new_len = 0;
 }
 
-void	HD_stoplight(char **expanded, int *iter_arr, t_shell *shell, char *str)
+void	stoplight_hd(char **expanded, int *iter_arr, t_shell *shell, char *str)
 {
 	if (str[iter_arr[0] + 1] == '?')
 		exit_status_var(expanded, iter_arr, shell);
 	else if (ft_isalnum(str[iter_arr[0] + 1]) || str[iter_arr[0] + 1] == '_')
-		HD_var_cases(expanded, iter_arr, shell, str);
+		var_cases_hd(expanded, iter_arr, shell, str);
 	else
 		*expanded[iter_arr[1]++] = str[iter_arr[0]++];
 }
 
-char	*HD_expander(char *str, t_shell *shell)
+char	*expander_hd(char *str, t_shell *shell)
 {
 	int		iter_arr[4];
 	char	*expanded;
@@ -63,7 +63,7 @@ char	*HD_expander(char *str, t_shell *shell)
 	while (str[iter_arr[0]])
 	{
 		if (str[iter_arr[0]] == '$')
-			HD_stoplight(&expanded, iter_arr, shell, str);
+			stoplight_hd(&expanded, iter_arr, shell, str);
 		else
 			expanded[iter_arr[1]++] = str[iter_arr[0]++];
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/04/29 19:19:24 by renato           ###   ########.fr       */
+/*   Updated: 2025/04/30 09:16:15 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ char	*ft_getenv(char *nm_var, t_shell *shell);
 char	*handle_env_variable(char *str, int *i, t_shell *shell, int *new_len);
 
 //expander_hd.c
-char	*HD_expander(char *str, t_shell *shell);
+char	*expander_hd(char *str, t_shell *shell);
 
 // lst_cmd_1.c
 void	pipe_manager(t_shell *shell, char **tokens, int *i);
@@ -212,8 +212,8 @@ void	ni_ctrls(void);
 
 // signal_2.c
 void	handle_ctrl_c_exec(int signum);
-void	handle_ctrl_c(int signum);
 void	handle_ctrl_c_get(int signum);
+void	handle_ctrl_c(int signum);
 
 // utils_1.c
 void	ft_printfd_shell(t_shell *shell, const char *format, char *args);

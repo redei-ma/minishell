@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_cmd_3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 15:51:12 by renato            #+#    #+#             */
-/*   Updated: 2025/04/16 11:15:20 by renato           ###   ########.fr       */
+/*   Updated: 2025/04/30 10:04:30 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int	handle_fdout(char *token, char c, t_shell *shell)
 		shell->cmds->skip = 1;
 		ft_printfd(2, "minishell: %s: No such file or directory\n", token);
 	}
+	status = 0;
 	return (fd);
 }
 
@@ -67,6 +68,7 @@ int	handle_fdin(char *token, t_shell *shell)
 		shell->cmds->skip = 1;
 		ft_printfd(2, "minishell: %s: Error opening file\n", token);
 	}
+	status = 0;
 	return (fd);
 }
 
