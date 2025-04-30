@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 21:52:54 by renato            #+#    #+#             */
-/*   Updated: 2025/04/29 15:10:58 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/30 15:39:25 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,5 +101,5 @@ void	ft_echo(t_shell *shell)
 		}
 		write_to_fd(shell, "\n", 1);
 	}
-	status = 0;
+	shell->exit_status = 0;
 }

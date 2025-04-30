@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:29:45 by renato            #+#    #+#             */
-/*   Updated: 2025/04/30 14:26:52 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/30 15:45:18 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	handle_ctrl_c_exec(int signum)
 	rl_on_new_line();
 }
 
-void handle_ctrl_c_get(int signum)
+void	handle_ctrl_c_get(int signum)
 {
 	(void)signum;
 	g_signal = 130;

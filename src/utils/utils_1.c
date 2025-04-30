@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:23:27 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/04/16 15:56:30 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:02:41 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,6 @@ int	is_empty(t_shell *shell)
 		i++;
 	if (shell->input[i])
 		return (0);
-	return_partial(NULL, shell, 0);
+	return_partial(NULL, shell, shell->exit_status);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:02:16 by renato            #+#    #+#             */
-/*   Updated: 2025/04/29 11:39:12 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/30 15:52:52 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,23 @@ int	ft_wifexit(void)
 	else if (WIFSIGNALED(stat))
 		return (128 + WTERMSIG(stat));
 	return (0);
+}
+
+void	cmd_find_son(t_shell *shell, char *cmd)
+{
+	if (!cmd)
+	{
+		shell->exit_status = 127;
+		return ;
+	}
+	if (is_builtin(cmd))
+		exe_builtin(shell);
+	else if (is_env(cmd))
+		return ;
+	else
+	{
+		signal(SIGINT, handle_ctrl_c_exec);
+		ft_exec(shell);
+	}
+	exit_all(NULL, shell, 0);
 }

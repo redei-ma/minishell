@@ -3,21 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lacerbi <lacerbi@student.42firenze.it>     +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 18:39:24 by lacerbi           #+#    #+#             */
-/*   Updated: 2025/04/16 14:16:34 by lacerbi          ###   ########.fr       */
+/*   Updated: 2025/04/30 15:51:55 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	update_existing_var(t_shell *shell, int index, char *n_full_var)
-{
-	free(shell->env[index]);
-	shell->env[index] = n_full_var;
-	return (1);
-}
 
 int	create_new_env_array(t_shell *shell, char *n_full_var)
 {
@@ -93,4 +86,27 @@ void	sort_env(char **srtd_env)
 		}
 		i++;
 	}
+}
+
+void	print_env_var(t_shell *shell, char *var)
+{
+	int	j;
+	int	iseq;
+
+	j = 0;
+	iseq = 0;
+	while (var[j] != '\0')
+	{
+		write_to_fd(shell, &var[j], 1);
+		if (var[j] == '=')
+		{
+			iseq = 1;
+			write_to_fd(shell, "\"", 1);
+		}
+		j++;
+	}
+	if (iseq)
+		write_to_fd(shell, "\"\n", 2);
+	else
+		write_to_fd(shell, "\n", 1);
 }

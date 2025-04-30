@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:44:34 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/04/29 15:24:58 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/30 15:39:27 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,5 @@ void	ft_cd(char **string, t_shell *shell)
 		new_pwd(shell);
 	}
 	free(cwd);
-	status = 0;
+	shell->exit_status = 0;
 }

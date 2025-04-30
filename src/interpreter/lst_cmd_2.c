@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 13:20:09 by renato            #+#    #+#             */
-/*   Updated: 2025/04/30 10:27:47 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/30 15:40:38 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	handle_heredoc(char *token, t_shell *shell)
 		ft_printfd(2, "minishell: %s: No such file or directory\n", token);
 		return (shell->cmds->skip = 1, -1);
 	}
-	status = 0;
+	shell->exit_status = 0;
 	while (process_heredoc_line(&fd, token, shell))
 		;
 	signal(SIGINT, handle_ctrl_c);

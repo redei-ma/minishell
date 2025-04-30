@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/22 19:33:11 by renato            #+#    #+#             */
-/*   Updated: 2025/04/29 11:47:49 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/30 15:41:04 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	return_partial(char *msg, t_shell *shell, int stat)
 	close_all(shell);
 	delete_heredoc(shell);
 	free_part(shell);
-	status = stat;
+	shell->exit_status = stat;
 	return (stat);
 }
 

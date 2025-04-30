@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/04/30 14:52:49 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/30 15:43:02 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@
 # include <errno.h>
 # include <sys/ioctl.h>
 # include <termios.h> 
-
-# define status (shell->exit_status)
 
 enum e_token
 {
@@ -66,7 +64,7 @@ typedef struct s_shell
 	char	**heredocs;		// heredocs list
 	int		num_heredoc;	// number of heredocs
 	int		trigger;		// error trigger
-	int 	exit_status;	// single quote flag
+	int		exit_status;	// single quote flag
 }	t_shell;
 
 extern int	g_signal;
@@ -104,7 +102,7 @@ char	**ft_minisplit(char const *s);
 // expander_1.c
 void	var_cases(char **expanded, int *iter_arr, t_shell *shell, char *str);
 void	stoplight(char **expanded, int *iter_arr, t_shell *shell, char *str, int in_sd_qts);
-char    *expander(char *str, int *i, t_shell *shell);
+char	*expander(char *str, int *i, t_shell *shell);
 void	expand_vars(t_shell *shell);
 
 // expander_2.c
@@ -226,6 +224,5 @@ int		is_empty(t_shell *shell);
 // utils_2.c
 int		skip_space(char *input);
 char	**copy_mat(char **mat, int *max_env, t_shell *shell);
-
 
 #endif

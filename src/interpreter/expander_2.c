@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:49:18 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/04/29 11:41:31 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/30 15:40:39 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	exit_status_var(char **expanded, int *iter_arr, t_shell *shell)
 {
 	char	*stat;
 
-	stat = ft_itoa(status);
+	stat = ft_itoa(shell->exit_status);
 	if (!stat)
 	{
 		free(*expanded);

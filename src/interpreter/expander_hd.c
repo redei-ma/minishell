@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 13:53:05 by lacerbi           #+#    #+#             */
-/*   Updated: 2025/04/30 09:18:15 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/30 15:48:14 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,3 @@ char	*expander_hd(char *str, t_shell *shell)
 	free(str);
 	return (expanded);
 }
-

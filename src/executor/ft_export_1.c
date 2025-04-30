@@ -6,34 +6,11 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 22:02:16 by renato            #+#    #+#             */
-/*   Updated: 2025/04/29 15:10:59 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/30 15:51:52 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	print_env_var(t_shell *shell, char *var)
-{
-	int	j;
-	int	iseq;
-
-	j = 0;
-	iseq = 0;
-	while (var[j] != '\0')
-	{
-		write_to_fd(shell, &var[j], 1);
-		if (var[j] == '=')
-		{
-			iseq = 1;
-			write_to_fd(shell, "\"", 1);
-		}
-		j++;
-	}
-	if (iseq)
-		write_to_fd(shell, "\"\n", 2);
-	else
-		write_to_fd(shell, "\n", 1);
-}
 
 void	print_env_declare(t_shell *shell)
 {
@@ -96,13 +73,13 @@ void	process_export_arg(t_shell *shell, char *arg)
 	if (arg[0] == '=')
 	{
 		ft_printfd(2, "export: `%s': not a valid identifier\n", arg);
-		status = 1;
+		shell->exit_status = 1;
 		return ;
 	}
 	if (!is_valid_identifier(arg))
 	{
 		ft_printfd(2, "minishell: export: not a valid identifier\n");
-		status = 1;
+		shell->exit_status = 1;
 		return ;
 	}
 	eq_pos = find_eq_sn(arg);
@@ -110,7 +87,7 @@ void	process_export_arg(t_shell *shell, char *arg)
 		handle_export_value(shell, arg, eq_pos);
 	else if (srcd_env(shell, arg) == -1)
 		upd_var(shell, arg, "", eq_pos);
-	status = 0;
+	shell->exit_status = 0;
 }
 
 void	ft_export(t_shell *shell, char **args)
@@ -120,7 +97,7 @@ void	ft_export(t_shell *shell, char **args)
 	if (!args)
 	{
 		print_env_declare(shell);
-		status = 0;
+		shell->exit_status = 0;
 	}
 	else
 	{

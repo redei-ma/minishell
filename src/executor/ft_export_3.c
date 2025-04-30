@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_3.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:21:56 by renato            #+#    #+#             */
-/*   Updated: 2025/04/16 11:23:02 by renato           ###   ########.fr       */
+/*   Updated: 2025/04/30 15:49:13 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,11 @@ int	srcd_env(t_shell *shell, const char *name)
 		i++;
 	}
 	return (-1);
+}
+
+int	update_existing_var(t_shell *shell, int index, char *n_full_var)
+{
+	free(shell->env[index]);
+	shell->env[index] = n_full_var;
+	return (1);
 }

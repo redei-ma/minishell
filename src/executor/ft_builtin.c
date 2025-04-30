@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 22:12:52 by renato            #+#    #+#             */
-/*   Updated: 2025/04/29 15:08:43 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/30 15:47:12 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ void	ft_exit(t_shell *shell, char **args)
 			return ;
 		}
 		else
-			status = ft_natoi(args[0]) % 256;
+			shell->exit_status = ft_natoi(args[0]) % 256;
 	}
-	exit_all(NULL, shell, status);
+	exit_all(NULL, shell, shell->exit_status);
 }
 
 void	ft_env(t_shell *shell)
@@ -47,7 +47,7 @@ void	ft_env(t_shell *shell)
 				ft_printfd_shell(shell, "%s\n", shell->env[i]);
 			i++;
 		}
-		status = 0;
+		shell->exit_status = 0;
 	}
 }
 
@@ -95,9 +95,9 @@ void	ft_unset(t_shell *shell, char **args)
 		i++;
 	}
 	if (stat)
-		status = 1;
+		shell->exit_status = 1;
 	else
-		status = 0;
+		shell->exit_status = 0;
 }
 
 void	ft_pwd(t_shell *shell)
@@ -114,5 +114,5 @@ void	ft_pwd(t_shell *shell)
 		return_partial("pwd: error retrieving current directory", shell, 1);
 	ft_printfd_shell(shell, "%s\n", cwd);
 	free(cwd);
-	status = 0;
+	shell->exit_status = 0;
 }
