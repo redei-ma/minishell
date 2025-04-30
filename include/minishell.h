@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/04/29 13:28:49 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/29 19:19:24 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void	exit_status_var(char **expanded, int *iter_arr, t_shell *shell);
 char	*ft_getenv(char *nm_var, t_shell *shell);
 char	*handle_env_variable(char *str, int *i, t_shell *shell, int *new_len);
 
-//HD_expander.c
+//expander_hd.c
 char	*HD_expander(char *str, t_shell *shell);
 
 // lst_cmd_1.c

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   HD_expander.c                                      :+:      :+:    :+:   */
+/*   expander_hd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lacerbi <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 13:53:05 by lacerbi           #+#    #+#             */
-/*   Updated: 2025/04/29 13:53:06 by lacerbi          ###   ########.fr       */
+/*   Updated: 2025/04/29 19:22:36 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,9 @@
 
 void	HD_var_cases(char **expanded, int *iter_arr, t_shell *shell, char *str)
 {
-	int		x;
 	char	*var;
 	int		new_len;
 
-	x = iter_arr[0];
 	var = handle_env_variable(str, &iter_arr[0], shell, &new_len);
 	if (!var)
 		var = ft_strdup("");
@@ -27,7 +25,6 @@ void	HD_var_cases(char **expanded, int *iter_arr, t_shell *shell, char *str)
 		free(*expanded);
 		exit_all("Error: malloc failed\n", shell, 1);
 	}
-	//new_len = iter_arr[1] + ft_strlen(var) + 1;
 	new_len = (iter_arr[2] + ft_strlen(var)) - new_len + 1;
 	*expanded = ft_realloc(*expanded, iter_arr[2], new_len * sizeof(char));
 	if (!*expanded)

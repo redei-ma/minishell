@@ -12,7 +12,7 @@ SRC =	src/main.c \
 		src/parser/parsing_4.c \
 		src/interpreter/expander_1.c \
 		src/interpreter/expander_2.c \
-		src/interpreter/HD_expander.c \
+		src/interpreter/expander_hd.c \
 		src/interpreter/lst_cmd_1.c \
 		src/interpreter/lst_cmd_2.c \
 		src/interpreter/lst_cmd_3.c \

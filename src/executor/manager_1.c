@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manager_1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lacerbi <lacerbi@student.42firenze.it>     +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 00:04:33 by renato            #+#    #+#             */
-/*   Updated: 2025/04/29 17:45:25 by lacerbi          ###   ########.fr       */
+/*   Updated: 2025/04/29 19:33:55 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,11 @@ void	cmd_find_dad(t_shell *shell, char *cmd)
 {
 	pid_t	pid;
 
-	if (!cmd)
+	if (!cmd || shell->cmds->skip)
 	{
 		status = 127;
-		return ;
-	}
-	if (shell->cmds->skip)
-	{
-		status = 1;
+		if (shell->cmds->skip)
+			status = 1;
 		return ;
 	}
 	else if (is_builtin(cmd))
@@ -86,15 +83,21 @@ void	cmd_find_dad(t_shell *shell, char *cmd)
 		return ;
 	else
 	{
+		// signal(SIGINT, SIG_IGN); 
+		
 		pid = fork();
 		if (pid == -1)
 			exit_all("Error: fork failed\n", shell, 1);
 		else if (pid == 0)
 		{
-			signal(SIGINT, handle_ctrl_c_exec);
+			struct sigaction sa;
+            sa.sa_handler = handle_ctrl_c_exec;
+            sigemptyset(&sa.sa_mask);
+            sa.sa_flags = 0;
+            sigaction(SIGINT, &sa, NULL);
+			
 			ft_exec(shell);
 		}
-		signal(SIGINT, handle_ctrl_c);
 		status = ft_wifexit();
 	}
 }

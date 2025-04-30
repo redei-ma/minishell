@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:35:37 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/04/29 12:51:27 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/29 18:37:00 by renato           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ void	loop_line(t_shell *shell)
 	tokenizator(shell);
 	expand_vars(shell);
 	delete_quotes(&shell->tokens, shell);
-	//ft_printfd(2, "token 1 = %s\ntoken 2 = %s", shell->tokens[0], shell->tokens[1]);
 	create_cmds(shell->tokens, shell);
 	if (shell->trigger)
 	{
