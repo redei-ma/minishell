@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 00:04:33 by renato            #+#    #+#             */
-/*   Updated: 2025/04/30 10:11:10 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/30 14:43:18 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	cmd_find_son(t_shell *shell, char *cmd)
 	else
 	{
 		signal(SIGINT, handle_ctrl_c_exec);
+		// signal(SIGQUIT, handle_ctrl_bl_exec);
 		ft_exec(shell);
 	}
 	exit_all(NULL, shell, 0);
@@ -83,6 +84,7 @@ void	cmd_find_dad(t_shell *shell, char *cmd)
 	else
 	{
 		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, handle_ctrl_bl_exec);
 		pid = fork();
 		if (pid == -1)
 			exit_all("Error: fork failed\n", shell, 1);
@@ -91,8 +93,9 @@ void	cmd_find_dad(t_shell *shell, char *cmd)
 			signal(SIGINT, handle_ctrl_c_exec);
 			ft_exec(shell);
 		}
-		signal(SIGINT, handle_ctrl_c);
 		status = ft_wifexit();
+		signal(SIGQUIT, handle_ctrl_bl);
+		signal(SIGINT, handle_ctrl_c);
 	}
 }
 

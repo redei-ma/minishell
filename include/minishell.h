@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/04/30 09:16:15 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/30 14:52:49 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,6 +206,7 @@ void	free_part(t_shell *shell);
 void	free_all(t_shell *shell);
 
 // signal_1.c
+void	handle_ctrl_bl_exec(int signum);
 void	handle_ctrl_bl(int signum);
 void	interactive_ctrls(void);
 void	ni_ctrls(void);
@@ -225,5 +226,6 @@ int		is_empty(t_shell *shell);
 // utils_2.c
 int		skip_space(char *input);
 char	**copy_mat(char **mat, int *max_env, t_shell *shell);
+
 
 #endif

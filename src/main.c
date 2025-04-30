@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:35:37 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/04/30 10:51:35 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/30 14:26:14 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,11 @@ void	loop_line(t_shell *shell)
 {
 	set_shell(shell);
 	shell->input = readline("minishell> ");
-	if (isatty(STDIN_FILENO))
-		interactive_ctrls();
-	// if (g_signal == 130)
-	// {
-	// 	g_signal = 0;
-	// 	return_partial(NULL, shell, 130);
-	// 	return ;
-	// }
+	if (g_signal == 130)
+	{
+		g_signal = 0;
+		status = 130;
+	}
 	if (!shell->input)
 		exit_all("exit", shell, status);
 	if (shell->input[0])
@@ -71,10 +68,10 @@ int	main(int ac, char **av, char **envp)
 {
 	t_shell	*shell;
 
-	// if (isatty(STDIN_FILENO))
-	// 	interactive_ctrls();
-	// else
-	// 	ni_ctrls();
+	if (isatty(STDIN_FILENO))
+		interactive_ctrls();
+	else
+		ni_ctrls();
 	(void )av;
 	if (ac != 1)
 		return (ft_printfd(2, "Error: too many arguments\n"), 1);
