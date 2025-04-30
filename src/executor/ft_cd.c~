@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lacerbi <lacerbi@student.42firenze.it>     +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:44:34 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/04/30 16:24:38 by lacerbi          ###   ########.fr       */
+/*   Updated: 2025/04/29 15:24:58 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	new_pwd(t_shell *shell)
 	char	*export_args[2];
 	char	*cwd;
 
-	if (srcd_env(shell, "PWD") == -1)
+	if (ft_getenv("PWD", shell) == NULL)
 		return ;
 	cwd = getcwd(NULL, 0);
 	pwd_var = ft_strjoin("PWD=", cwd);
@@ -40,11 +40,10 @@ void	new_old_pwd(char *cwd, t_shell *shell)
 	char	*export_args[2];
 
 	export_args[1] = NULL;
-	if (srcd_env(shell, "OLDPWD") == -1)
+	if (ft_getenv("OLDPWD", shell) == NULL)
 		return ;
-	else if (srcd_env(shell, "PWD") == -1)
+	else if (ft_getenv("PWD", shell) == NULL)
 	{
-		ft_printfd(2, "BOMBER");
 		export_args[0] = "OLDPWD";
 		ft_unset(shell, export_args);
 		ft_export(shell, export_args);
@@ -57,21 +56,9 @@ void	new_old_pwd(char *cwd, t_shell *shell)
 		exit_all("Error: malloc failed\n", shell, 1);
 	}
 	export_args[0] = oldpwd_var;
+	export_args[1] = NULL;
 	ft_export(shell, export_args);
 	free(oldpwd_var);
-}
-
-void	handle_cd_error(char *cwd, t_shell *shell)
-{
-	free(cwd);
-	if (errno == EACCES)
-		return_partial("cd: permission denied", shell, 1);
-	else if (errno == ENOENT)
-		return_partial("cd: no such file or directory", shell, 1);
-	else if (errno == ENOTDIR)
-		return_partial("cd: not a directory", shell, 1);
-	else
-		return_partial("cd: unknown error", shell, 1);
 }
 
 void	ft_cd(char **string, t_shell *shell)
@@ -89,7 +76,15 @@ void	ft_cd(char **string, t_shell *shell)
 	}
 	if (chdir(string[0]) != 0)
 	{
-		handle_cd_error(cwd, shell);
+		free(cwd);
+		if (errno == EACCES)
+			return_partial("cd: permission denied", shell, 1);
+		else if (errno == ENOENT)
+			return_partial("cd: no such file or directory", shell, 1);
+		else if (errno == ENOTDIR)
+			return_partial("cd: not a directory", shell, 1);
+		else
+			return_partial("cd: unknown error", shell, 1);
 		return ;
 	}
 	if (cwd)
@@ -98,5 +93,5 @@ void	ft_cd(char **string, t_shell *shell)
 		free(cwd);
 		new_pwd(shell);
 	}
-	shell->exit_status = 0;
+	status = 0;
 }

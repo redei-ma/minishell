@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lacerbi <lacerbi@student.42firenze.it>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/04/30 15:43:02 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:32:37 by lacerbi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ char	**ft_minisplit(char const *s);
 
 // expander_1.c
 void	var_cases(char **expanded, int *iter_arr, t_shell *shell, char *str);
-void	stoplight(char **expanded, int *iter_arr, t_shell *shell, char *str, int in_sd_qts);
+void	stoplight(char **expanded, int *iter_arr, t_shell *shell, char *str);
 char	*expander(char *str, int *i, t_shell *shell);
 void	expand_vars(t_shell *shell);
 
