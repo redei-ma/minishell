@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:44:34 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/04/30 15:39:27 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:07:18 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	new_pwd(t_shell *shell)
 	char	*export_args[2];
 	char	*cwd;
 
-	if (ft_getenv("PWD", shell) == NULL)
+	if (srcd_env(shell, "PWD") == -1)
 		return ;
 	cwd = getcwd(NULL, 0);
 	pwd_var = ft_strjoin("PWD=", cwd);
@@ -31,6 +31,7 @@ void	new_pwd(t_shell *shell)
 	export_args[1] = NULL;
 	ft_export(shell, export_args);
 	free(pwd_var);
+	free(cwd);
 }
 
 void	new_old_pwd(char *cwd, t_shell *shell)
@@ -38,8 +39,17 @@ void	new_old_pwd(char *cwd, t_shell *shell)
 	char	*oldpwd_var;
 	char	*export_args[2];
 
-	if (ft_getenv("OLDPWD", shell) == NULL || ft_getenv("PWD", shell) == NULL)
+	export_args[1] = NULL;
+	if (srcd_env(shell, "OLDPWD") == -1)
 		return ;
+	else if (srcd_env(shell, "PWD") == -1)
+	{
+		ft_printfd(2, "BOMBER");
+		export_args[0] = "OLDPWD";
+		ft_unset(shell, export_args);
+		ft_export(shell, export_args);
+		return ;
+	}
 	oldpwd_var = ft_strjoin("OLDPWD=", cwd);
 	if (!oldpwd_var)
 	{
@@ -47,7 +57,6 @@ void	new_old_pwd(char *cwd, t_shell *shell)
 		exit_all("Error: malloc failed\n", shell, 1);
 	}
 	export_args[0] = oldpwd_var;
-	export_args[1] = NULL;
 	ft_export(shell, export_args);
 	free(oldpwd_var);
 }
@@ -81,6 +90,7 @@ void	ft_cd(char **string, t_shell *shell)
 	if (cwd)
 	{
 		new_old_pwd(cwd, shell);
+		free(cwd);
 		new_pwd(shell);
 	}
 	free(cwd);
