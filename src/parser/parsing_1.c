@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	find_unclosed_pipe(char **input, int *i, t_shell *shell)
+static int	find_unclosed_pipe(char **input, int *i, t_shell *shell)
 {
 	int	count;
 
@@ -31,7 +31,7 @@ int	find_unclosed_pipe(char **input, int *i, t_shell *shell)
 	return (0);
 }
 
-int	find_unclosed_quotes(char **input, int *i, t_shell *shell)
+static int	find_unclosed_quotes(char **input, int *i, t_shell *shell)
 {
 	char	quote;
 

@@ -12,9 +12,6 @@
 
 #include "minishell.h"
 
-	/*if (shell->tokens[iter_arr[3]])
-	free(shell->tokens[iter_arr[3]]);*/
-
 int	var_init(char ***var_split, int *var_sp_len, t_shell *shell, char *var)
 {
 	*var_split = ft_minisplit(var);

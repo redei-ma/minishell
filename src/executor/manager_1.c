@@ -12,7 +12,26 @@
 
 #include "minishell.h"
 
-void	forking(t_shell *shell, int i)
+static void	cmd_find_son(t_shell *shell, char *cmd)
+{
+	if (!cmd)
+	{
+		shell->exit_status = 127;
+		return ;
+	}
+	if (is_builtin(cmd))
+		exe_builtin(shell);
+	else if (is_env(cmd))
+		return ;
+	else
+	{
+		signal(SIGINT, handle_ctrl_c_exec);
+		ft_exec(shell);
+	}
+	exit_all(NULL, shell, 0);
+}
+
+static void	forking(t_shell *shell, int i)
 {
 	shell->piper->pids[i] = fork();
 	if (shell->piper->pids[i] == -1)
@@ -21,7 +40,7 @@ void	forking(t_shell *shell, int i)
 		cmd_find_son(shell, shell->cmds->cmd);
 }
 
-void	fork_manger(t_shell *shell)
+static void	fork_manger(t_shell *shell)
 {
 	int	i;
 
@@ -45,41 +64,6 @@ void	fork_manger(t_shell *shell)
 	close_all(shell);
 	signal(SIGINT, handle_ctrl_c);
 	shell->exit_status = ft_wifexit();
-}
-
-void	cmd_exec_dad(t_shell *shell)
-{
-	pid_t	pid;
-
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, handle_ctrl_bl_exec);
-	pid = fork();
-	if (pid == -1)
-		exit_all("Error: fork failed\n", shell, 1);
-	else if (pid == 0)
-	{
-		signal(SIGINT, handle_ctrl_c_exec);
-		ft_exec(shell);
-	}
-	shell->exit_status = ft_wifexit();
-	signal(SIGQUIT, handle_ctrl_bl);
-	signal(SIGINT, handle_ctrl_c);
-}
-
-void	cmd_find_dad(t_shell *shell, char *cmd)
-{
-	if (!cmd || shell->cmds->skip)
-	{
-		if (shell->cmds->skip)
-			shell->exit_status = 1;
-		return ;
-	}
-	else if (is_builtin(cmd))
-		exe_builtin(shell);
-	else if (is_env(cmd))
-		return ;
-	else
-		cmd_exec_dad(shell);
 }
 
 void	cmd_manage(t_shell *shell)

@@ -12,7 +12,54 @@
 
 #include "minishell.h"
 
-void	print_env_declare(t_shell *shell)
+static void	print_env_var(t_shell *shell, char *var)
+{
+	int	j;
+	int	iseq;
+
+	j = 0;
+	iseq = 0;
+	while (var[j] != '\0')
+	{
+		write_to_fd(shell, &var[j], 1);
+		if (var[j] == '=')
+		{
+			iseq = 1;
+			write_to_fd(shell, "\"", 1);
+		}
+		j++;
+	}
+	if (iseq)
+		write_to_fd(shell, "\"\n", 2);
+	else
+		write_to_fd(shell, "\n", 1);
+}
+
+static void	sort_env(char **srtd_env)
+{
+	int		i;
+	int		j;
+	char	*tmp;
+
+	i = 0;
+	while (srtd_env[i])
+	{
+		j = i + 1;
+		while (srtd_env[j])
+		{
+			if (ft_strcmp(srtd_env[i], srtd_env[j]) > 0)
+			{
+				tmp = srtd_env[i];
+				srtd_env[i] = srtd_env[j];
+				srtd_env[j] = tmp;
+			}
+			j++;
+		}
+		i++;
+	}
+}
+
+static void	print_env_declare(t_shell *shell)
 {
 	int		i;
 	char	**srtd_env;
@@ -28,66 +75,6 @@ void	print_env_declare(t_shell *shell)
 		print_env_var(shell, srtd_env[i]);
 	}
 	ft_free_char_mat(srtd_env);
-}
-
-int	handle_export_value(t_shell *shell, char *arg, int eq_pos)
-{
-	char	*name;
-	char	*value;
-
-	name = ft_substr(arg, 0, eq_pos);
-	if (!name)
-		return (0);
-	value = ft_substr(arg, eq_pos + 1, ft_strlen(arg) - eq_pos - 1);
-	if (!value)
-	{
-		free(name);
-		return (0);
-	}
-	upd_var(shell, name, value, eq_pos);
-	free(name);
-	free(value);
-	return (1);
-}
-
-int	is_valid_identifier(char *str)
-{
-	int	i;
-
-	if (!str || (!ft_isalpha(str[0]) && str[0] != '_'))
-		return (0);
-	i = 1;
-	while (str[i] && str[i] != '=')
-	{
-		if (!ft_isalnum(str[i]) && str[i] != '_')
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-void	process_export_arg(t_shell *shell, char *arg)
-{
-	int	eq_pos;
-
-	if (arg[0] == '=')
-	{
-		ft_printfd(2, "export: `%s': not a valid identifier\n", arg);
-		shell->exit_status = 1;
-		return ;
-	}
-	if (!is_valid_identifier(arg))
-	{
-		ft_printfd(2, "minishell: export: not a valid identifier\n");
-		shell->exit_status = 1;
-		return ;
-	}
-	eq_pos = find_eq_sn(arg);
-	if (eq_pos != -1)
-		handle_export_value(shell, arg, eq_pos);
-	else if (srcd_env(shell, arg) == -1)
-		upd_var(shell, arg, "", eq_pos);
-	shell->exit_status = 0;
 }
 
 void	ft_export(t_shell *shell, char **args)

@@ -6,48 +6,30 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 18:39:24 by lacerbi           #+#    #+#             */
-/*   Updated: 2025/04/30 15:51:55 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/05/05 17:17:02 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	create_new_env_array(t_shell *shell, char *n_full_var)
+static int	handle_export_value(t_shell *shell, char *arg, int eq_pos)
 {
-	char	**new_env;
-	int		i;
+	char	*name;
+	char	*value;
 
-	new_env = malloc(sizeof(char *) * (shell->max + 2));
-	if (!new_env)
+	name = ft_substr(arg, 0, eq_pos);
+	if (!name)
+		return (0);
+	value = ft_substr(arg, eq_pos + 1, ft_strlen(arg) - eq_pos - 1);
+	if (!value)
 	{
-		free(n_full_var);
+		free(name);
 		return (0);
 	}
-	i = -1;
-	while (++i < shell->max)
-		new_env[i] = shell->env[i];
-	new_env[i] = n_full_var;
-	new_env[i + 1] = NULL;
-	free(shell->env);
-	shell->env = new_env;
-	shell->max++;
+	upd_var(shell, name, value, eq_pos);
+	free(name);
+	free(value);
 	return (1);
-}
-
-void	upd_var(t_shell *shell, const char *nm_var,
-	const char *var_val, int eqp)
-{
-	int		index;
-	char	*n_full_var;
-
-	n_full_var = var_creation(nm_var, var_val, eqp);
-	if (!n_full_var)
-		exit_all("Error: malloc failed\n", shell, 1);
-	index = srcd_env(shell, nm_var);
-	if (index != -1)
-		update_existing_var(shell, index, n_full_var);
-	else
-		create_new_env_array(shell, n_full_var);
 }
 
 int	find_eq_sn(char *str)
@@ -64,49 +46,42 @@ int	find_eq_sn(char *str)
 	return (-1);
 }
 
-void	sort_env(char **srtd_env)
+int	is_valid_identifier(char *str)
 {
-	int		i;
-	int		j;
-	char	*tmp;
+	int	i;
 
-	i = 0;
-	while (srtd_env[i])
+	if (!str || (!ft_isalpha(str[0]) && str[0] != '_'))
+		return (0);
+	i = 1;
+	while (str[i] && str[i] != '=')
 	{
-		j = i + 1;
-		while (srtd_env[j])
-		{
-			if (ft_strcmp(srtd_env[i], srtd_env[j]) > 0)
-			{
-				tmp = srtd_env[i];
-				srtd_env[i] = srtd_env[j];
-				srtd_env[j] = tmp;
-			}
-			j++;
-		}
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (0);
 		i++;
 	}
+	return (1);
 }
 
-void	print_env_var(t_shell *shell, char *var)
+void	process_export_arg(t_shell *shell, char *arg)
 {
-	int	j;
-	int	iseq;
+	int	eq_pos;
 
-	j = 0;
-	iseq = 0;
-	while (var[j] != '\0')
+	if (arg[0] == '=')
 	{
-		write_to_fd(shell, &var[j], 1);
-		if (var[j] == '=')
-		{
-			iseq = 1;
-			write_to_fd(shell, "\"", 1);
-		}
-		j++;
+		ft_printfd(2, "export: `%s': not a valid identifier\n", arg);
+		shell->exit_status = 1;
+		return ;
 	}
-	if (iseq)
-		write_to_fd(shell, "\"\n", 2);
-	else
-		write_to_fd(shell, "\n", 1);
+	if (!is_valid_identifier(arg))
+	{
+		ft_printfd(2, "minishell: export: not a valid identifier\n");
+		shell->exit_status = 1;
+		return ;
+	}
+	eq_pos = find_eq_sn(arg);
+	if (eq_pos != -1)
+		handle_export_value(shell, arg, eq_pos);
+	else if (srcd_env(shell, arg) == -1)
+		upd_var(shell, arg, "", eq_pos);
+	shell->exit_status = 0;
 }

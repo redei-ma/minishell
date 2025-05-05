@@ -12,53 +12,37 @@
 
 #include "minishell.h"
 
-void	exe_builtin(t_shell *shell)
+static void	cmd_exec_dad(t_shell *shell)
 {
-	if (ft_strncmp(shell->cmds->cmd, "echo", 4) == 0)
-		ft_echo(shell);
-	else if (ft_strncmp(shell->cmds->cmd, "cd", 2) == 0)
-		ft_cd((shell)->cmds->args, shell);
-	else if (ft_strncmp(shell->cmds->cmd, "pwd", 3) == 0)
-		ft_pwd(shell);
-	else if (ft_strncmp(shell->cmds->cmd, "export", 6) == 0)
-		ft_export(shell, shell->cmds->args);
-	else if (ft_strncmp(shell->cmds->cmd, "unset", 5) == 0)
-		ft_unset(shell, shell->cmds->args);
-	else if (ft_strncmp(shell->cmds->cmd, "env", 3) == 0)
-		ft_env(shell);
-	else if (ft_strncmp(shell->cmds->cmd, "exit", 4) == 0)
-		ft_exit(shell, shell->cmds->args);
-}
+	pid_t	pid;
 
-int	ft_wifexit(void)
-{
-	int	stat;
-
-	stat = 0;
-	while (wait(&stat) > 0)
-		;
-	if (WIFEXITED(stat))
-		return (WEXITSTATUS(stat));
-	else if (WIFSIGNALED(stat))
-		return (128 + WTERMSIG(stat));
-	return (0);
-}
-
-void	cmd_find_son(t_shell *shell, char *cmd)
-{
-	if (!cmd)
-	{
-		shell->exit_status = 127;
-		return ;
-	}
-	if (is_builtin(cmd))
-		exe_builtin(shell);
-	else if (is_env(cmd))
-		return ;
-	else
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, handle_ctrl_bl_exec);
+	pid = fork();
+	if (pid == -1)
+		exit_all("Error: fork failed\n", shell, 1);
+	else if (pid == 0)
 	{
 		signal(SIGINT, handle_ctrl_c_exec);
 		ft_exec(shell);
 	}
-	exit_all(NULL, shell, 0);
+	shell->exit_status = ft_wifexit();
+	signal(SIGQUIT, handle_ctrl_bl);
+	signal(SIGINT, handle_ctrl_c);
+}
+
+void	cmd_find_dad(t_shell *shell, char *cmd)
+{
+	if (!cmd || shell->cmds->skip)
+	{
+		if (shell->cmds->skip)
+			shell->exit_status = 1;
+		return ;
+	}
+	else if (is_builtin(cmd))
+		exe_builtin(shell);
+	else if (is_env(cmd))
+		return ;
+	else
+		cmd_exec_dad(shell);
 }

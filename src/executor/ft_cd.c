@@ -6,13 +6,13 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:44:34 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/05/05 14:05:11 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/05/05 16:52:47 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	new_pwd(t_shell *shell)
+static void	new_pwd(t_shell *shell)
 {
 	char	*pwd_var;
 	char	*export_args[2];
@@ -34,7 +34,7 @@ void	new_pwd(t_shell *shell)
 	free(cwd);
 }
 
-void	new_old_pwd(char *cwd, t_shell *shell)
+static void	new_old_pwd(char *cwd, t_shell *shell)
 {
 	char	*oldpwd_var;
 	char	*export_args[2];
@@ -61,7 +61,7 @@ void	new_old_pwd(char *cwd, t_shell *shell)
 	free(oldpwd_var);
 }
 
-void	handle_cd_error(char *cwd, t_shell *shell)
+static void	handle_cd_error(char *cwd, t_shell *shell)
 {
 	free(cwd);
 	if (errno == EACCES)

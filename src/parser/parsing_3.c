@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	copy_special_block(char **input, char *spaced, int *i, int *j)
+static void	copy_special_block(char **input, char *spaced, int *i, int *j)
 {
 	char	special;
 
@@ -23,7 +23,7 @@ void	copy_special_block(char **input, char *spaced, int *i, int *j)
 	spaced[(*j)++] = ' ';
 }
 
-void	update_quotes(char c, int *in_single_quote, int *in_double_quote)
+static void	update_quotes(char c, int *in_single_quote, int *in_double_quote)
 {
 	if (c == '\'' && !(*in_double_quote))
 		*in_single_quote = !(*in_single_quote);
@@ -31,7 +31,7 @@ void	update_quotes(char c, int *in_single_quote, int *in_double_quote)
 		*in_double_quote = !(*in_double_quote);
 }
 
-int	count_spec_char(char *input)
+static int	count_spec_char(char *input)
 {
 	int		i;
 	int		count;

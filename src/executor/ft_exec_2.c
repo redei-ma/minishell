@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-char	*test_path(char **cmd_path, char *cmd, int j)
+static char	*test_path(char **cmd_path, char *cmd, int j)
 {
 	int		i;
 	char	*full_path;
@@ -36,7 +36,7 @@ char	*test_path(char **cmd_path, char *cmd, int j)
 	return (NULL);
 }
 
-char	*find_command_path(char *path, char *cmd)
+static char	*find_command_path(char *path, char *cmd)
 {
 	char	**cmd_path;
 	char	*full_path;
@@ -52,5 +52,25 @@ char	*find_command_path(char *path, char *cmd)
 	if (full_path)
 		return (full_path);
 	ft_freemat((void **)cmd_path, j);
+	return (NULL);
+}
+
+char	*get_path(char *cmd, char **envp)
+{
+	int		i;
+	char	*cmd_path;
+
+	i = 0;
+	while (envp[i])
+	{
+		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
+		{
+			cmd_path = find_command_path(envp[i] + 5, cmd);
+			if (!cmd_path)
+				return (NULL);
+			return (cmd_path);
+		}
+		i++;
+	}
 	return (NULL);
 }

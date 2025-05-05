@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	free_part_2(t_shell *shell)
+static void	free_part_2(t_shell *shell)
 {
 	if (shell->piper)
 	{
