@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/05/05 17:41:45 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/05/05 17:55:44 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,6 @@ void	tokenizator(t_shell *shell);
 char	**ft_minisplit(char const *s);
 
 // interpreter
-void	create_cmds(char **tokens, t_shell *shell);
-t_cmd	*ft_newcmd(t_shell *shell);
 // expander_1.c
 void	var_cases(char **expanded, int *iter_arr, t_shell *shell, char *str);
 void	stoplight(char **expanded, int *iter_arr, t_shell *shell, char *str);
@@ -96,23 +94,13 @@ char	*handle_env_variable(char *str, int *i, t_shell *shell, int *new_len);
 //expander_hd.c
 char	*expander_hd(char *str, t_shell *shell);
 
-// lst_cmd_1.c
+void	create_cmds(char **tokens, t_shell *shell);
+t_cmd	*ft_newcmd(t_shell *shell);
 void	pipe_manager(t_shell *shell, char **tokens, int *i);
-void	is_valid_env(char **tokens, int i, t_shell *shell);
-void	parse_cmd(char **tokens, t_shell *shell);
-
-// lst_cmd_2.c
-int		handle_ctrl_c_or_eof(int *fd, char *key, t_shell *shell, char *line);
-int		process_heredoc_line(int *fd, char *key, t_shell *shell);
-int		handle_heredoc(char *token, t_shell *shell);
-void	fileout_manager(t_shell *shell, char **tokens, int *i);
 void	filein_manager(t_shell *shell, char **tokens, int *i);
-
-// lst_cmd_3.c
-void	add_arg(char ***args, char *token, t_shell *shell);
-int		handle_fdout(char *token, char c, t_shell *shell);
 int		handle_fdin(char *token, t_shell *shell);
-char	*search_name(t_shell *shell);
+void	fileout_manager(t_shell *shell, char **tokens, int *i);
+int		handle_heredoc(char *token, t_shell *shell);
 
 // executor
 void	cmd_manage(t_shell *shell);

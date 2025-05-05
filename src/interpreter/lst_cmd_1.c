@@ -40,7 +40,7 @@ static void	add_arg(char ***args, char *token, t_shell *shell)
 	}
 }
 
-staic void	is_valid_env(char **tokens, int i, t_shell *shell)
+static void	is_valid_env(char **tokens, int i, t_shell *shell)
 {
 	if (shell->cmds->cmd)
 		add_arg(&shell->cmds->args, tokens[i], shell);
