@@ -38,7 +38,6 @@ void	write_to_fd(t_shell *shell, const char *str, int len)
 	write(fd, str, len);
 }
 
-
 int	srcd_env(t_shell *shell, const char *name)
 {
 	int	i;

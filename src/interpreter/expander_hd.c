@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/29 13:53:05 by lacerbi           #+#    #+#             */
-/*   Updated: 2025/04/30 15:48:14 by redei-ma         ###   ########.fr       */
+/*   Created: 2025/04/29 13:53:05 by redei-ma          #+#    #+#             */
+/*   Updated: 2025/05/06 12:03:37 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	var_cases_hd(char **expanded, int *iter_arr, t_shell *shell, char *str)
+static void	var_cases_hd(char **exp, int *iter_arr, t_shell *shell, char *str)
 {
 	char	*var;
 	int		new_len;
@@ -22,31 +22,31 @@ void	var_cases_hd(char **expanded, int *iter_arr, t_shell *shell, char *str)
 		var = ft_strdup("");
 	if (!var)
 	{
-		free(*expanded);
+		free(*exp);
 		exit_all("Error: malloc failed\n", shell, 1);
 	}
 	new_len = (iter_arr[2] + ft_strlen(var)) - new_len + 1;
-	*expanded = ft_realloc(*expanded, iter_arr[2], new_len * sizeof(char));
-	if (!*expanded)
+	*exp = ft_realloc(*exp, iter_arr[2], new_len * sizeof(char));
+	if (!*exp)
 	{
 		free(var);
 		exit_all("Error: malloc failed\n", shell, 1);
 	}
-	ft_strlcpy(*expanded + iter_arr[1], var, ft_strlen(var) + 1);
+	ft_strlcpy(*exp + iter_arr[1], var, ft_strlen(var) + 1);
 	iter_arr[1] += ft_strlen(var);
 	iter_arr[2] = new_len;
 	free(var);
 	new_len = 0;
 }
 
-void	stoplight_hd(char **expanded, int *iter_arr, t_shell *shell, char *str)
+static void	stoplight_hd(char **exp, int *iter_arr, t_shell *shell, char *str)
 {
 	if (str[iter_arr[0] + 1] == '?')
-		exit_status_var(expanded, iter_arr, shell);
+		exit_status_var(exp, iter_arr, shell);
 	else if (ft_isalnum(str[iter_arr[0] + 1]) || str[iter_arr[0] + 1] == '_')
-		var_cases_hd(expanded, iter_arr, shell, str);
+		var_cases_hd(exp, iter_arr, shell, str);
 	else
-		*expanded[iter_arr[1]++] = str[iter_arr[0]++];
+		*exp[iter_arr[1]++] = str[iter_arr[0]++];
 }
 
 char	*expander_hd(char *str, t_shell *shell)

@@ -78,6 +78,7 @@ void	var_cases(char **expanded, int *iter_arr, t_shell *shell, char *str)
 	}
 	is_isolated = (x == 0 || !ft_isalnum(str[x - 1]))
 		&& (str[iter_arr[0]] == '\0' || !ft_isalnum(str[iter_arr[0]]));
+	// cosa e sopra?
 	if (iter_arr[3] != -1 && ft_strcmp(var, "") != 0
 		&& is_isolated && var_size(var, iter_arr, shell))
 	{

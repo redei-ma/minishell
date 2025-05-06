@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/05/05 17:55:44 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/05/06 11:47:32 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ typedef struct s_shell
 
 extern int	g_signal;
 
-// parsing
+/*								PARSING									*/
 int		check_unclosed(char **input, t_shell *shell);
 int		check_syntax_error(char *input, t_shell *shell);
 int		check_syntax_pipe(char *input, t_shell *shell);
@@ -79,7 +79,7 @@ void	remove_quotes(char **str);
 void	tokenizator(t_shell *shell);
 char	**ft_minisplit(char const *s);
 
-// interpreter
+/*								INTERPRETER								*/
 // expander_1.c
 void	var_cases(char **expanded, int *iter_arr, t_shell *shell, char *str);
 void	stoplight(char **expanded, int *iter_arr, t_shell *shell, char *str);
@@ -91,9 +91,8 @@ void	exit_status_var(char **expanded, int *iter_arr, t_shell *shell);
 char	*ft_getenv(char *nm_var, t_shell *shell);
 char	*handle_env_variable(char *str, int *i, t_shell *shell, int *new_len);
 
-//expander_hd.c
-char	*expander_hd(char *str, t_shell *shell);
 
+char	*expander_hd(char *str, t_shell *shell);
 void	create_cmds(char **tokens, t_shell *shell);
 t_cmd	*ft_newcmd(t_shell *shell);
 void	pipe_manager(t_shell *shell, char **tokens, int *i);
@@ -102,7 +101,7 @@ int		handle_fdin(char *token, t_shell *shell);
 void	fileout_manager(t_shell *shell, char **tokens, int *i);
 int		handle_heredoc(char *token, t_shell *shell);
 
-// executor
+/*								EXECUTOR								*/
 void	cmd_manage(t_shell *shell);
 void	cmd_find_dad(t_shell *shell, char *cmd);
 void	ft_exit(t_shell *shell, char **args);
@@ -117,10 +116,9 @@ void	ft_export(t_shell *shell, char **args);
 void	process_export_arg(t_shell *shell, char *arg);
 int		is_valid_identifier(char *str);
 int		find_eq_sn(char *str);
-void	upd_var(t_shell *shell, const char *nm_var,
-	const char *var_val, int eqp);
+void	upd_var(t_shell *shell, char *nm_var, char *var_val, int eqp);
 
-// utils
+/*								UTILS									*/
 // error_1.c
 void	delete_heredoc(t_shell *shell);
 void	close_all(t_shell *shell);

@@ -57,8 +57,7 @@ static char	*var_creation(const char *nm_var, const char *var_val, int eqp)
 		return (ft_strdup(nm_var));
 }
 
-void	upd_var(t_shell *shell, const char *nm_var,
-	const char *var_val, int eqp)
+void	upd_var(t_shell *shell, char *nm_var, char *var_val, int eqp)
 {
 	int		index;
 	char	*n_full_var;
