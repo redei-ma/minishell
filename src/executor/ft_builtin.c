@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 22:12:52 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/05/05 14:05:10 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/05/06 17:17:40 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void	ft_exit(t_shell *shell, char **args)
 			exit_all("exit: numeric argument required", shell, 2);
 		else if (args[1])
 		{
-			return_partial("exit: too many arguments", shell, 1);
+			ft_printfd(2, "exit: too many arguments\n");
+			shell->exit_status = 1;
 			return ;
 		}
 		else

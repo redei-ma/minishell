@@ -24,7 +24,7 @@ static int	handle_fdout(char *token, char c, t_shell *shell)
 	if (fd < 0)
 	{
 		shell->cmds->skip = 1;
-		ft_printfd(2, "minishell: %s: No such file or directory\n", token);
+		ft_printfd(2, "minishell: %s: Error opening file\n", token);
 	}
 	shell->exit_status = 0;
 	return (fd);

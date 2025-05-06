@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:44:34 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/05/05 16:52:47 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/05/06 16:46:11 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ static void	new_old_pwd(char *cwd, t_shell *shell)
 		return ;
 	else if (srcd_env(shell, "PWD") == -1)
 	{
-		ft_printfd(2, "BOMBER");
 		export_args[0] = "OLDPWD";
 		ft_unset(shell, export_args);
 		ft_export(shell, export_args);

@@ -28,7 +28,7 @@ static void	cmd_find_son(t_shell *shell, char *cmd)
 		signal(SIGINT, handle_ctrl_c_exec);
 		ft_exec(shell);
 	}
-	exit_all(NULL, shell, 0);
+	exit_all(NULL, shell, shell->exit_status);
 }
 
 static void	forking(t_shell *shell, int i)
