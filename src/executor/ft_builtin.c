@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/21 22:12:52 by renato            #+#    #+#             */
-/*   Updated: 2025/04/16 13:45:06 by redei-ma         ###   ########.fr       */
+/*   Created: 2025/03/21 22:12:52 by redei-ma          #+#    #+#             */
+/*   Updated: 2025/05/06 17:17:40 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,23 @@
 
 void	ft_exit(t_shell *shell, char **args)
 {
-	int	exit_code;
-
-	exit_code = 0;
+	if (ft_cmd_size(shell->head) == 1)
+		ft_printfd(1, "exit\n");
 	if (args && args[0])
 	{
-		if (args[1])
-			return_partial("exit: too many arguments", shell, 36);
-		else if (ft_natoi(args[0]) == 0
-			&& (args[0][0] != 0 || args[0][0] != '\0'))
-			return_partial("exit: numeric argument required", shell, 44);
+		if (ft_natoi(args[0]) == 0
+			&& !(args[0][0] == 0 && args[0][1] == '\0'))
+			exit_all("exit: numeric argument required", shell, 2);
+		else if (args[1])
+		{
+			ft_printfd(2, "exit: too many arguments\n");
+			shell->exit_status = 1;
+			return ;
+		}
 		else
-			exit_code = ft_natoi(args[0]) % 256;
+			shell->exit_status = ft_natoi(args[0]) % 256;
 	}
-	ft_printfd(1, "exit\n");
-	exit_all(NULL, shell, exit_code);
+	exit_all(NULL, shell, shell->exit_status);
 }
 
 void	ft_env(t_shell *shell)
@@ -46,37 +48,57 @@ void	ft_env(t_shell *shell)
 				ft_printfd_shell(shell, "%s\n", shell->env[i]);
 			i++;
 		}
-		g_exit_status = 0;
+		shell->exit_status = 0;
+	}
+}
+
+static void	process_unset_arg(t_shell *shell, char *arg, int *stat)
+{
+	int	index;
+	int	j;
+
+	if (!is_valid_identifier(arg))
+	{
+		ft_printfd(2, "unset: '%s' not a valide identifier\n", arg);
+		*stat = 1;
+		return ;
+	}
+	index = srcd_env(shell, arg);
+	if (index != -1)
+	{
+		free(shell->env[index]);
+		j = index;
+		while (shell->env[j])
+		{
+			shell->env[j] = shell->env[j + 1];
+			j++;
+		}
+		shell->env[j] = NULL;
+		shell->max--;
 	}
 }
 
 void	ft_unset(t_shell *shell, char **args)
 {
-	int	index;
 	int	i;
-	int	j;
+	int	stat;
 
-	if (!args[0])
+	stat = 0;
+	if (!args || !args[0])
+	{
 		return_partial("unset: too few arguments", shell, 1);
+		return ;
+	}
 	i = 0;
 	while (args[i])
 	{
-		index = srcd_env(shell, args[i]);
-		if (index != -1)
-		{
-			free(shell->env[index]);
-			j = index;
-			while (shell->env[j])
-			{
-				shell->env[j] = shell->env[j + 1];
-				j++;
-			}
-			shell->env[j] = NULL;
-			shell->max--;
-		}
+		process_unset_arg(shell, args[i], &stat);
 		i++;
 	}
-	g_exit_status = 0;
+	if (stat)
+		shell->exit_status = 1;
+	else
+		shell->exit_status = 0;
 }
 
 void	ft_pwd(t_shell *shell)
@@ -93,5 +115,5 @@ void	ft_pwd(t_shell *shell)
 		return_partial("pwd: error retrieving current directory", shell, 1);
 	ft_printfd_shell(shell, "%s\n", cwd);
 	free(cwd);
-	g_exit_status = 0;
+	shell->exit_status = 0;
 }

@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/20 20:33:33 by renato            #+#    #+#             */
+/*   Created: 2025/03/20 20:33:33 by redei-ma         #+#    #+#             */
 /*   Updated: 2025/04/16 13:35:50 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	find_unclosed_pipe(char **input, int *i, t_shell *shell)
+static int	find_unclosed_pipe(char **input, int *i, t_shell *shell)
 {
 	int	count;
 
@@ -31,7 +31,7 @@ int	find_unclosed_pipe(char **input, int *i, t_shell *shell)
 	return (0);
 }
 
-int	find_unclosed_quotes(char **input, int *i, t_shell *shell)
+static int	find_unclosed_quotes(char **input, int *i, t_shell *shell)
 {
 	char	quote;
 

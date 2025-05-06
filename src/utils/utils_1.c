@@ -6,35 +6,52 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:23:27 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/04/16 15:56:30 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/05/05 17:27:18 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_printfd_shell(t_shell *shell, const char *format, char *args)
+char	**copy_mat(char **mat, int *max_env, t_shell *shell)
 {
-	int	fd;
-
-	if (shell->cmds->file_a == -1 && shell->cmds->file_o == -1)
-		fd = 1;
-	else if (shell->cmds->file_a != -1)
-		fd = shell->cmds->file_a;
-	else
-		fd = shell->cmds->file_o;
-	ft_printfd(fd, format, args);
-}
-
-int	is_env(char *cmd)
-{
-	int	i;
+	int		i;
+	char	**new_mat;
 
 	i = 0;
-	while (cmd[i] && cmd[i] != '=' && (ft_isalnum(cmd[i]) || cmd[i] == '_'))
+	while (mat[i])
 		i++;
-	if (cmd[i] && cmd[i] == '=' && i > 0)
-		return (1);
-	return (0);
+	new_mat = ft_calloc((i + 1), sizeof(char *));
+	if (!new_mat)
+		exit_all("Error: malloc failed\n", shell, 1);
+	i = 0;
+	while (mat[i])
+	{
+		new_mat[i] = ft_strdup(mat[i]);
+		if (!new_mat[i])
+			exit_all("Error: malloc failed\n", shell, 1);
+		i++;
+	}
+	if (max_env)
+		*max_env = i;
+	return (new_mat);
+}
+
+void	exe_builtin(t_shell *shell)
+{
+	if (ft_strncmp(shell->cmds->cmd, "echo", 4) == 0)
+		ft_echo(shell);
+	else if (ft_strncmp(shell->cmds->cmd, "cd", 2) == 0)
+		ft_cd((shell)->cmds->args, shell);
+	else if (ft_strncmp(shell->cmds->cmd, "pwd", 3) == 0)
+		ft_pwd(shell);
+	else if (ft_strncmp(shell->cmds->cmd, "export", 6) == 0)
+		ft_export(shell, shell->cmds->args);
+	else if (ft_strncmp(shell->cmds->cmd, "unset", 5) == 0)
+		ft_unset(shell, shell->cmds->args);
+	else if (ft_strncmp(shell->cmds->cmd, "env", 3) == 0)
+		ft_env(shell);
+	else if (ft_strncmp(shell->cmds->cmd, "exit", 4) == 0)
+		ft_exit(shell, shell->cmds->args);
 }
 
 int	is_builtin(char *cmd)
@@ -56,19 +73,16 @@ int	is_builtin(char *cmd)
 	return (0);
 }
 
-int	ft_cmd_size(t_cmd *lst)
+int	is_env(char *cmd)
 {
-	t_cmd	*tmp;
-	int		count;
+	int	i;
 
-	tmp = lst;
-	count = 0;
-	while (tmp)
-	{
-		tmp = tmp->next;
-		count++;
-	}
-	return (count);
+	i = 0;
+	while (cmd[i] && cmd[i] != '=' && (ft_isalnum(cmd[i]) || cmd[i] == '_'))
+		i++;
+	if (cmd[i] && cmd[i] == '=' && i > 0)
+		return (1);
+	return (0);
 }
 
 int	is_empty(t_shell *shell)
@@ -80,6 +94,6 @@ int	is_empty(t_shell *shell)
 		i++;
 	if (shell->input[i])
 		return (0);
-	return_partial(NULL, shell, 0);
+	return_partial(NULL, shell, shell->exit_status);
 	return (1);
 }

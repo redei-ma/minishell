@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/22 19:33:11 by renato            #+#    #+#             */
-/*   Updated: 2025/04/16 11:28:49 by renato           ###   ########.fr       */
+/*   Created: 2025/03/22 19:33:11 by redei-ma         #+#    #+#             */
+/*   Updated: 2025/04/30 15:41:04 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,35 +54,23 @@ void	close_all(t_shell *shell)
 	}
 }
 
-int	return_partial(char *msg, t_shell *shell, int status)
+int	return_partial(char *msg, t_shell *shell, int stat)
 {
 	if (msg)
 		ft_printfd(2, "%s\n", msg);
 	close_all(shell);
 	delete_heredoc(shell);
 	free_part(shell);
-	g_exit_status = status;
-	return (status);
+	shell->exit_status = stat;
+	return (stat);
 }
 
-void	exit_partial(char *msg, t_shell *shell, int status)
-{
-	if (msg)
-		ft_printfd(2, "%s\n", msg);
-	close_all(shell);
-	delete_heredoc(shell);
-	free_part(shell);
-	g_exit_status = status;
-	exit(status);
-}
-
-void	exit_all(char *msg, t_shell *shell, int status)
+void	exit_all(char *msg, t_shell *shell, int stat)
 {
 	if (msg)
 		ft_printfd(2, "%s\n", msg);
 	close_all(shell);
 	delete_heredoc(shell);
 	free_all(shell);
-	g_exit_status = status;
-	exit(status);
+	exit(stat);
 }

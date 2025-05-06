@@ -5,41 +5,44 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 11:02:16 by renato            #+#    #+#             */
-/*   Updated: 2025/04/16 13:43:58 by redei-ma         ###   ########.fr       */
+/*   Created: 2025/04/16 11:02:16 by redei-ma         #+#    #+#             */
+/*   Updated: 2025/04/30 15:52:52 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	exe_builtin(t_shell *shell)
+static void	cmd_exec_dad(t_shell *shell)
 {
-	if (ft_strncmp(shell->cmds->cmd, "echo", 4) == 0)
-		ft_echo(shell);
-	else if (ft_strncmp(shell->cmds->cmd, "cd", 2) == 0)
-		ft_cd((shell)->cmds->args, shell);
-	else if (ft_strncmp(shell->cmds->cmd, "pwd", 3) == 0)
-		ft_pwd(shell);
-	else if (ft_strncmp(shell->cmds->cmd, "export", 6) == 0)
-		ft_export(shell, shell->cmds->args);
-	else if (ft_strncmp(shell->cmds->cmd, "unset", 5) == 0)
-		ft_unset(shell, shell->cmds->args);
-	else if (ft_strncmp(shell->cmds->cmd, "env", 3) == 0)
-		ft_env(shell);
-	else if (ft_strncmp(shell->cmds->cmd, "exit", 4) == 0)
-		ft_exit(shell, shell->cmds->args);
+	pid_t	pid;
+
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, handle_ctrl_bl_exec);
+	pid = fork();
+	if (pid == -1)
+		exit_all("Error: fork failed\n", shell, 1);
+	else if (pid == 0)
+	{
+		signal(SIGINT, handle_ctrl_c_exec);
+		ft_exec(shell);
+	}
+	shell->exit_status = ft_wifexit();
+	signal(SIGQUIT, handle_ctrl_bl);
+	signal(SIGINT, handle_ctrl_c);
 }
 
-int	ft_wifexit(void)
+void	cmd_find_dad(t_shell *shell, char *cmd)
 {
-	int	status;
-
-	status = 0;
-	while (wait(NULL) > 0)
-		;
-	if (WIFEXITED(status))
-		return (WEXITSTATUS(status));
-	else if (WIFSIGNALED(status))
-		return (128 + WTERMSIG(status));
-	return (0);
+	if (!cmd || shell->cmds->skip)
+	{
+		if (shell->cmds->skip)
+			shell->exit_status = 1;
+		return ;
+	}
+	else if (is_builtin(cmd))
+		exe_builtin(shell);
+	else if (is_env(cmd))
+		return ;
+	else
+		cmd_exec_dad(shell);
 }

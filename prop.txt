@@ -1,15 +1,8 @@
-echo $HOME$ci (invalid read)
+echo $'' 										(togliere il $ prima delle virgolette)
 
-echo $123 (invalid read)
+echo $"$ho'me' $HOME" '$HO'ME$$$' $home' 		(ha un comportamnto strano)
 
-echo $'' (togliere il $ prima delle virgolette)
-
-echo $"$ho'me' $HOME" '$HO'ME$$$' $home' (invalid read)
-
-export ciao="echo cioa"(CONSIGLIO DI FARLO)
-
-export 1aa=a
-
+export ciao="echo cioa"(CONSIGLIO DI FARLO)	
 
 
 

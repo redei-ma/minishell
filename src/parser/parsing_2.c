@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/20 20:40:21 by renato            #+#    #+#             */
-/*   Updated: 2025/04/16 17:41:29 by renato           ###   ########.fr       */
+/*   Created: 2025/03/20 20:40:21 by redei-ma         #+#    #+#             */
+/*   Updated: 2025/04/16 15:35:52 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_redir_error(char c, char next, t_shell *shell)
+static void	print_redir_error(char c, char next, t_shell *shell)
 {
 	if (c == '>')
 	{
@@ -30,7 +30,7 @@ void	print_redir_error(char c, char next, t_shell *shell)
 	}
 }
 
-int	check_syntax_redir(char *input, char c, t_shell *shell)
+static int	check_syntax_redir(char *input, char c, t_shell *shell)
 {
 	int	i;
 
@@ -70,7 +70,7 @@ int	check_syntax_pipe(char *input, t_shell *shell)
 	return (0);
 }
 
-void	skip_quotes(char *input, int *i)
+static void	skip_quotes(char *input, int *i)
 {
 	char	quote;
 

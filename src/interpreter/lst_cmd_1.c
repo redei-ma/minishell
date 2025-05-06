@@ -5,53 +5,42 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/20 13:17:38 by renato            #+#    #+#             */
+/*   Created: 2025/03/20 13:17:38 by redei-ma         #+#    #+#             */
 /*   Updated: 2025/04/16 13:35:12 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	pipe_manager(t_shell *shell, char **tokens, int *i)
+static void	add_arg(char ***args, char *token, t_shell *shell)
 {
-	t_pipex	*piper;
+	int	count;
 
-	piper = shell->piper;
-	if (tokens[*i + 1])
+	if (!(*args))
 	{
-		shell->cmds->next = ft_newcmd(shell);
-		piper->fds = ft_realloc(piper->fds, (piper->n_pipes + 1)
-				* sizeof(int [2]), (piper->n_pipes + 2) * sizeof(int [2]));
-		if (!piper->fds)
+		*args = (char **)ft_calloc(2, sizeof(char *));
+		if (!*args)
 			exit_all("Error: malloc failed\n", shell, 1);
-		if (pipe(piper->fds[piper->n_pipes]) < 0)
-			exit_all("Error: pipe failed\n", shell, 1);
-		if (shell->cmds->file_o == -1)
-			shell->cmds->file_o = piper->fds[piper->n_pipes][1];
-		shell->cmds->next->file_i = piper->fds[piper->n_pipes][0];
-		piper->n_pipes++;
-		shell->cmds = shell->cmds->next;
+		(*args)[0] = ft_strdup(token);
+		if (!(*args)[0])
+			exit_all("Error: malloc failed\n", shell, 1);
+	}
+	else
+	{
+		count = 0;
+		while ((*args)[count])
+			count++;
+		*args = ft_realloc(*args, (count + 1) * sizeof(char *),
+				(count + 2) * sizeof(char *));
+		if (!*args)
+			exit_all("Error: malloc failed\n", shell, 1);
+		(*args)[count] = ft_strdup(token);
+		if (!(*args)[count])
+			exit_all("Error: malloc failed\n", shell, 1);
 	}
 }
 
-t_cmd	*ft_newcmd(t_shell *shell)
-{
-	t_cmd	*new;
-
-	new = malloc(sizeof(t_cmd));
-	if (!new)
-		exit_all("Error: malloc failed\n", shell, 1);
-	new->cmd = NULL;
-	new->args = NULL;
-	new->file_i = -1;
-	new->file_o = -1;
-	new->file_a = -1;
-	new->skip = 0;
-	new->next = NULL;
-	return (new);
-}
-
-void	is_valid_env(char **tokens, int i, t_shell *shell)
+static void	is_valid_env(char **tokens, int i, t_shell *shell)
 {
 	if (shell->cmds->cmd)
 		add_arg(&shell->cmds->args, tokens[i], shell);
@@ -64,7 +53,7 @@ void	is_valid_env(char **tokens, int i, t_shell *shell)
 	}
 }
 
-void	parse_cmd(char **tokens, t_shell *shell)
+static void	parse_cmd(char **tokens, t_shell *shell)
 {
 	int	i;
 
@@ -90,6 +79,23 @@ void	parse_cmd(char **tokens, t_shell *shell)
 		if (!tokens[++i] || shell->trigger)
 			break ;
 	}
+}
+
+t_cmd	*ft_newcmd(t_shell *shell)
+{
+	t_cmd	*new;
+
+	new = malloc(sizeof(t_cmd));
+	if (!new)
+		exit_all("Error: malloc failed\n", shell, 1);
+	new->cmd = NULL;
+	new->args = NULL;
+	new->file_i = -1;
+	new->file_o = -1;
+	new->file_a = -1;
+	new->skip = 0;
+	new->next = NULL;
+	return (new);
 }
 
 void	create_cmds(char **tokens, t_shell *shell)

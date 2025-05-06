@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/20 13:12:06 by renato            #+#    #+#             */
-/*   Updated: 2025/04/15 19:21:26 by renato           ###   ########.fr       */
+/*   Created: 2025/03/20 13:12:06 by redei-ma         #+#    #+#             */
+/*   Updated: 2025/05/05 14:04:59 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	copy_special_block(char **input, char *spaced, int *i, int *j)
+static void	copy_special_block(char **input, char *spaced, int *i, int *j)
 {
 	char	special;
 
@@ -23,7 +23,7 @@ void	copy_special_block(char **input, char *spaced, int *i, int *j)
 	spaced[(*j)++] = ' ';
 }
 
-void	update_quotes(char c, int *in_single_quote, int *in_double_quote)
+static void	update_quotes(char c, int *in_single_quote, int *in_double_quote)
 {
 	if (c == '\'' && !(*in_double_quote))
 		*in_single_quote = !(*in_single_quote);
@@ -31,7 +31,7 @@ void	update_quotes(char c, int *in_single_quote, int *in_double_quote)
 		*in_double_quote = !(*in_double_quote);
 }
 
-int	count_spec_char(char *input)
+static int	count_spec_char(char *input)
 {
 	int		i;
 	int		count;

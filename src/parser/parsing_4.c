@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/15 18:57:04 by renato            #+#    #+#             */
-/*   Updated: 2025/04/16 13:38:52 by redei-ma         ###   ########.fr       */
+/*   Created: 2025/04/15 18:57:04 by redei-ma         #+#    #+#             */
+/*   Updated: 2025/04/30 15:32:10 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,7 @@ void	delete_quotes(char ***tokens, t_shell *shell)
 		j = 0;
 		while ((*tokens)[i][j])
 		{
-			if ((*tokens)[i][j] == '$' && (ft_isalnum((*tokens)[i][j + 1])
-				|| (*tokens)[i][j + 1] == '_' || (*tokens)[i][j + 1] == '?'))
-				break ;
-			else if (!(*tokens)[i][j + 1])
+			if (!(*tokens)[i][j + 1])
 			{
 				remove_quotes(&(*tokens)[i]);
 				if (!(*tokens)[i])

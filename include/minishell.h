@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 18:11:00 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/04/16 15:19:21 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/05/06 15:07:53 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,159 +64,84 @@ typedef struct s_shell
 	char	**heredocs;		// heredocs list
 	int		num_heredoc;	// number of heredocs
 	int		trigger;		// error trigger
+	int		exit_status;	// single quote flag
 }	t_shell;
 
-extern int	g_exit_status;
+extern int	g_signal;
 
-// main.c
-void	set_shell(t_shell *shell);
-void	loop_line(t_shell *shell);
-
-// parsing_1.c
-int		find_unclosed_pipe(char **input, int *i, t_shell *shell);
-int		find_unclosed_quotes(char **input, int *i, t_shell *shell);
+/*								PARSING										*/
 int		check_unclosed(char **input, t_shell *shell);
-
-// parsing_2.c
-void	print_redir_error(char c, char next, t_shell *shell);
-int		check_syntax_redir(char *input, char c, t_shell *shell);
-int		check_syntax_pipe(char *input, t_shell *shell);
-void	skip_quotes(char *input, int *i);
 int		check_syntax_error(char *input, t_shell *shell);
-
-// parsing_3.c
-void	copy_special_block(char **input, char *spaced, int *i, int *j);
-void	update_quotes(char c, int *in_single_quote, int *in_double_quote);
-int		count_spec_char(char *input);
+int		check_syntax_pipe(char *input, t_shell *shell);
 void	set_spaces(char **input, t_shell *shell);
-
-// parsing_4.c
-void	tokenizator(t_shell *shell);
-void	remove_quotes(char **str);
 void	delete_quotes(char ***tokens, t_shell *shell);
-
-// ft_minisplit.c
+void	remove_quotes(char **str);
+void	tokenizator(t_shell *shell);
 char	**ft_minisplit(char const *s);
 
-// expander_1.c
-void	var_cases(char **expanded, int *iter_arr, t_shell *shell, char *str);
-void	stoplight(char **expanded, int *iter_arr, t_shell *shell, char *str);
-char	*expander(char *str, t_shell *shell);
-void	expand_vars(char ***tokens, t_shell *shell);
-
-// expander_2.c
+/*								INTERPRETER									*/
+void	expand_vars(t_shell *shell);
 void	exit_status_var(char **expanded, int *iter_arr, t_shell *shell);
-char	*ft_getenv(char *nm_var, t_shell *shell);
-char	*handle_env_variable(char *str, int *i, t_shell *shell);
-
-// lst_cmd_1.c
-void	pipe_manager(t_shell *shell, char **tokens, int *i);
-t_cmd	*ft_newcmd(t_shell *shell);
-void	is_valid_env(char **tokens, int i, t_shell *shell);
-void	parse_cmd(char **tokens, t_shell *shell);
+void	var_cases(char **expanded, int *iter_arr, t_shell *shell, char *str);
+char	*handle_env_variable(char *str, int *i, t_shell *shell, int *new_len);
+char	*expander_hd(char *str, t_shell *shell);
 void	create_cmds(char **tokens, t_shell *shell);
-
-// lst_cmd_2.c
-int		handle_ctrl_c_or_eof(int *fd, char *key, t_shell *shell, char *line);
-int		process_heredoc_line(int *fd, char *key, t_shell *shell);
-int		handle_heredoc(char *token, t_shell *shell);
-void	fileout_manager(t_shell *shell, char **tokens, int *i);
+t_cmd	*ft_newcmd(t_shell *shell);
+void	pipe_manager(t_shell *shell, char **tokens, int *i);
 void	filein_manager(t_shell *shell, char **tokens, int *i);
-
-// lst_cmd_3.c
-void	add_arg(char ***args, char *token, t_shell *shell);
-int		handle_fdout(char *token, char c, t_shell *shell);
 int		handle_fdin(char *token, t_shell *shell);
-char	*search_name(t_shell *shell);
+void	fileout_manager(t_shell *shell, char **tokens, int *i);
+int		handle_heredoc(char *token, t_shell *shell);
 
-// manager_1.c
-void	cmd_find_son(t_shell *shell, char *cmd);
-void	forking(t_shell *shell, int i);
-void	fork_manger(t_shell *shell);
-void	cmd_find_dad(t_shell *shell, char *cmd);
+/*								EXECUTOR									*/
 void	cmd_manage(t_shell *shell);
-
-// manager_2.c
-void	exe_builtin(t_shell *shell);
-int		ft_wifexit(void);
-
-// ft_builtin.c
+void	cmd_find_dad(t_shell *shell, char *cmd);
 void	ft_exit(t_shell *shell, char **args);
 void	ft_env(t_shell *shell);
 void	ft_unset(t_shell *shell, char **args);
 void	ft_pwd(t_shell *shell);
-
-// ft_cd.c
-void	new_pwd(char *cwd, t_shell *shell);
 void	ft_cd(char **string, t_shell *shell);
-
-// ft_echo_1.c
-int		handle_quotes(char c, int *in_single_quote, int *in_double_quote);
-void	write_to_fd(t_shell *shell, const char *str, int len);
-int		str_vars(char *str, t_shell *shell);
-void	n_finder(int *i, t_shell *shell);
 void	ft_echo(t_shell *shell);
-
-// ft_exec_1.c
-char	*get_path(char *cmd, char **envp);
-char	**ft_cmd_join(char *cmd, char **args, t_shell *shell);
-void	set_dups(t_cmd *cmd, t_shell *shell);
 void	ft_exec(t_shell *shell);
-
-// ft_exec_2.c
-char	*test_path(char **cmd_path, char *cmd, int j);
-char	*find_command_path(char *path, char *cmd);
-
-// ft_export_1.c
-void	print_env_var(t_shell *shell, char *env_var);
-void	print_env_declare(t_shell *shell);
-int		handle_export_value(t_shell *shell, char *arg, int eq_pos);
-void	process_export_arg(t_shell *shell, char *arg);
+char	*get_path(char *cmd, char **envp);
 void	ft_export(t_shell *shell, char **args);
-
-// ft_export_2.c
-int		update_existing_var(t_shell *shell, int index, char *n_full_var);
-int		create_new_env_array(t_shell *shell, char *n_full_var);
-void	upd_var(t_shell *shell, const char *nm_var,
-			const char *var_val, int eqp);
+void	process_export_arg(t_shell *shell, char *arg);
+int		is_valid_identifier(char *str);
 int		find_eq_sn(char *str);
-void	sort_env(char **env);
+void	upd_var(t_shell *shell, char *nm_var, char *var_val, int eqp);
 
-// ft_export_3.c
-char	*var_creation(const char *nm_var, const char *var_val, int eqp);
-int		srcd_env(t_shell *shell, const char *name);
-
+/*								UTILS										*/
 // error_1.c
 void	delete_heredoc(t_shell *shell);
 void	close_all(t_shell *shell);
-int		return_partial(char *msg, t_shell *shell, int status);
-void	exit_partial(char *msg, t_shell *shell, int status);
-void	exit_all(char *msg, t_shell *shell, int status);
-
+int		return_partial(char *msg, t_shell *shell, int stat);
+void	exit_all(char *msg, t_shell *shell, int stat);
 // error_2.c
-void	free_part_2(t_shell *shell);
 void	free_part(t_shell *shell);
 void	free_all(t_shell *shell);
-
 // signal_1.c
+void	handle_ctrl_bl_exec(int signum);
 void	handle_ctrl_bl(int signum);
 void	interactive_ctrls(void);
 void	ni_ctrls(void);
-
 // signal_2.c
 void	handle_ctrl_c_exec(int signum);
-void	handle_ctrl_c(int signum);
 void	handle_ctrl_c_get(int signum);
-
+void	handle_ctrl_c(int signum);
 // utils_1.c
-void	ft_printfd_shell(t_shell *shell, const char *format, char *args);
-int		is_env(char *cmd);
-int		is_builtin(char *cmd);
-int		ft_cmd_size(t_cmd *lst);
-int		is_empty(t_shell *shell);
-
-// utils_2.c
-int		skip_space(char *input);
 char	**copy_mat(char **mat, int *max_env, t_shell *shell);
+void	exe_builtin(t_shell *shell);
+int		is_builtin(char *cmd);
+int		is_env(char *cmd);
+int		is_empty(t_shell *shell);
+// utils_2.c
+void	ft_printfd_shell(t_shell *shell, const char *format, char *args);
+void	write_to_fd(t_shell *shell, const char *str, int len);
+int		srcd_env(t_shell *shell, const char *name);
+int		handle_quotes(char c, int *in_single_quote, int *in_double_quote);
+int		skip_space(char *input);
+// utils_3.c
+int		ft_wifexit(void);
+int		ft_cmd_size(t_cmd *lst);
 
 #endif

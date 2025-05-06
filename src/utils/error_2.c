@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   error_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 11:28:54 by renato            #+#    #+#             */
-/*   Updated: 2025/04/16 11:29:11 by renato           ###   ########.fr       */
+/*   Created: 2025/04/16 11:28:54 by redei-ma         #+#    #+#             */
+/*   Updated: 2025/05/05 14:06:35 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_part_2(t_shell *shell)
+static void	free_part_2(t_shell *shell)
 {
 	if (shell->piper)
 	{

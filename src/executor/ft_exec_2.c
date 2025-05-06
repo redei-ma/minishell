@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/27 08:11:35 by renato            #+#    #+#             */
-/*   Updated: 2025/04/02 18:06:40 by redei-ma         ###   ########.fr       */
+/*   Created: 2025/03/27 08:11:35 by redei-ma         #+#    #+#             */
+/*   Updated: 2025/05/05 14:05:04 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*test_path(char **cmd_path, char *cmd, int j)
+static char	*test_path(char **cmd_path, char *cmd, int j)
 {
 	int		i;
 	char	*full_path;
@@ -36,7 +36,7 @@ char	*test_path(char **cmd_path, char *cmd, int j)
 	return (NULL);
 }
 
-char	*find_command_path(char *path, char *cmd)
+static char	*find_command_path(char *path, char *cmd)
 {
 	char	**cmd_path;
 	char	*full_path;
@@ -52,5 +52,25 @@ char	*find_command_path(char *path, char *cmd)
 	if (full_path)
 		return (full_path);
 	ft_freemat((void **)cmd_path, j);
+	return (NULL);
+}
+
+char	*get_path(char *cmd, char **envp)
+{
+	int		i;
+	char	*cmd_path;
+
+	i = 0;
+	while (envp[i])
+	{
+		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
+		{
+			cmd_path = find_command_path(envp[i] + 5, cmd);
+			if (!cmd_path)
+				return (NULL);
+			return (cmd_path);
+		}
+		i++;
+	}
 	return (NULL);
 }

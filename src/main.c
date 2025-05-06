@@ -3,16 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: renato <renato@student.42.fr>              +#+  +:+       +#+        */
+/*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:35:37 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/04/16 21:58:53 by renato           ###   ########.fr       */
+/*   Updated: 2025/04/30 15:57:56 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	g_exit_status = 0;
+int	g_signal = 0;
+
+void	handle_signal(t_shell *shell)
+{
+	if (g_signal == 130)
+	{
+		g_signal = 0;
+		shell->exit_status = 130;
+	}
+	if (!shell->input)
+		exit_all("exit", shell, shell->exit_status);
+}
 
 void	set_shell(t_shell *shell)
 {
@@ -36,8 +47,7 @@ void	loop_line(t_shell *shell)
 {
 	set_shell(shell);
 	shell->input = readline("minishell> ");
-	if (!shell->input)
-		exit_all("exit", shell, 0);
+	handle_signal(shell);
 	if (shell->input[0])
 		add_history(shell->input);
 	if (is_empty(shell) || check_syntax_error(shell->input, shell)
@@ -47,9 +57,9 @@ void	loop_line(t_shell *shell)
 	shell->tokens = ft_minisplit(shell->input);
 	if (!shell->tokens)
 		exit_all("Error: malloc failed\n", shell, 1);
+	expand_vars(shell);
 	tokenizator(shell);
 	delete_quotes(&shell->tokens, shell);
-	expand_vars(&shell->tokens, shell);
 	create_cmds(shell->tokens, shell);
 	if (shell->trigger)
 	{
@@ -70,8 +80,8 @@ int	main(int ac, char **av, char **envp)
 	(void )av;
 	if (ac != 1)
 		return (ft_printfd(2, "Error: too many arguments\n"), 1);
-	g_exit_status = 0;
 	shell = ft_calloc(1, sizeof(t_shell));
+	shell->exit_status = 0;
 	if (!shell)
 		return (ft_printf("Error: malloc failed"), 1);
 	shell->piper = ft_calloc(1, sizeof(t_pipex));

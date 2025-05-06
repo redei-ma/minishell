@@ -2,7 +2,7 @@ NAME = minishell
 CC = cc
 CFLAG = -Wall -Wextra -Werror -g
 VALGRIND = valgrind --suppressions=$(CURDIR)/readline.supp --leak-check=full --show-leak-kinds=all \
-			--track-origins=yes --track-fds=yes --trace-children=yes #--log-file=valgrind-log.txt
+			--track-origins=yes --track-fds=yes --trace-children=yes
 
 SRC =	src/main.c \
 		src/parser/ft_minisplit.c \
@@ -12,6 +12,8 @@ SRC =	src/main.c \
 		src/parser/parsing_4.c \
 		src/interpreter/expander_1.c \
 		src/interpreter/expander_2.c \
+		src/interpreter/expander_3.c \
+		src/interpreter/expander_hd.c \
 		src/interpreter/lst_cmd_1.c \
 		src/interpreter/lst_cmd_2.c \
 		src/interpreter/lst_cmd_3.c \
@@ -30,7 +32,8 @@ SRC =	src/main.c \
 		src/utils/signal_1.c \
 		src/utils/signal_2.c \
 		src/utils/utils_1.c \
-		src/utils/utils_2.c
+		src/utils/utils_2.c \
+		src/utils/utils_3.c
 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
@@ -53,7 +56,19 @@ $(NAME): $(SRC) $(LIBFT)
 
 val: $(NAME)
 	@echo "Using Valgrind..."
-	$(VALGRIND) ./$(NAME)
+	@$(VALGRIND) ./$(NAME)
+
+banner: $(NAME)
+	@clear
+	@sleep 0.1;echo "\033[1;97m"
+	@sleep 0.1;echo "███╗   ███╗██╗███╗   ██╗██ ██╗  ██╗███████╗██╗     ██╗     "
+	@sleep 0.1;echo "████╗ ████║██║████╗  ██║██║██║  ██║██╔════╝██║     ██║     "
+	@sleep 0.1;echo "██╔████╔██║██║██╔██╗ ██║██║███████║█████╗  ██║     ██║     "
+	@sleep 0.1;echo "██║╚██╔╝██║██║██║╚██╗██║██║██╔══██║██╔══╝  ██║     ██║     "
+	@sleep 0.1;echo "██║ ╚═╝ ██║██║██║ ╚████║██║██║  ██║███████╗███████╗███████╗"
+	@sleep 0.1;echo "╚═╝     ╚═╝╚═╝╚═╝  ╚═══╝╚═╝╚═╝  ╚═╝╚══════╝╚══════╝╚══════╝"
+	@echo "\033[0m"
+	@./$(NAME)
 
 clean:
 	@echo "Removing object files..."

@@ -5,18 +5,18 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/21 00:04:33 by renato            #+#    #+#             */
-/*   Updated: 2025/04/16 15:59:03 by redei-ma         ###   ########.fr       */
+/*   Created: 2025/03/21 00:04:33 by redei-ma         #+#    #+#             */
+/*   Updated: 2025/04/30 15:59:21 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	cmd_find_son(t_shell *shell, char *cmd)
+static void	cmd_find_son(t_shell *shell, char *cmd)
 {
 	if (!cmd)
 	{
-		g_exit_status = 127;
+		shell->exit_status = 127;
 		return ;
 	}
 	if (is_builtin(cmd))
@@ -28,10 +28,10 @@ void	cmd_find_son(t_shell *shell, char *cmd)
 		signal(SIGINT, handle_ctrl_c_exec);
 		ft_exec(shell);
 	}
-	exit_all(NULL, shell, 0);
+	exit_all(NULL, shell, shell->exit_status);
 }
 
-void	forking(t_shell *shell, int i)
+static void	forking(t_shell *shell, int i)
 {
 	shell->piper->pids[i] = fork();
 	if (shell->piper->pids[i] == -1)
@@ -40,7 +40,7 @@ void	forking(t_shell *shell, int i)
 		cmd_find_son(shell, shell->cmds->cmd);
 }
 
-void	fork_manger(t_shell *shell)
+static void	fork_manger(t_shell *shell)
 {
 	int	i;
 
@@ -63,38 +63,7 @@ void	fork_manger(t_shell *shell)
 	shell->piper->n_pids = i;
 	close_all(shell);
 	signal(SIGINT, handle_ctrl_c);
-	g_exit_status = ft_wifexit();
-}
-
-void	cmd_find_dad(t_shell *shell, char *cmd)
-{
-	pid_t	pid;
-
-	if (!cmd)
-	{
-		g_exit_status = 127;
-		return ;
-	}
-	if (shell->cmds->skip)
-	{
-		g_exit_status = 1;
-		return ;
-	}
-	else if (is_builtin(cmd))
-		exe_builtin(shell);
-	else if (is_env(cmd))
-		return ;
-	else
-	{
-		signal(SIGINT, handle_ctrl_c_exec);
-		pid = fork();
-		if (pid == -1)
-			exit_all("Error: fork failed\n", shell, 1);
-		else if (pid == 0)
-			ft_exec(shell);
-		signal(SIGINT, handle_ctrl_c);
-		g_exit_status = ft_wifexit();
-	}
+	shell->exit_status = ft_wifexit();
 }
 
 void	cmd_manage(t_shell *shell)
@@ -106,5 +75,5 @@ void	cmd_manage(t_shell *shell)
 		fork_manger(shell);
 	else
 		cmd_find_dad(shell, shell->cmds->cmd);
-	return_partial(NULL, shell, g_exit_status);
+	return_partial(NULL, shell, shell->exit_status);
 }
