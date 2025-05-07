@@ -68,7 +68,7 @@ banner: $(NAME)
 	@echo "\033[0m"
 	@./$(NAME)
 
-val: $(NAME) $(SUP_FILE)
+val: $(NAME)
 	@echo "Using Valgrind..."
 	@$(VALGRIND) ./$(NAME)
 
