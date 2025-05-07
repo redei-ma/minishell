@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 16:35:37 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/04/30 15:57:56 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/05/07 17:47:45 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	set_shell(t_shell *shell)
 void	loop_line(t_shell *shell)
 {
 	set_shell(shell);
-	shell->input = readline("minishell> ");
+	shell->input = readline("minihell> ");
 	handle_signal(shell);
 	if (shell->input[0])
 		add_history(shell->input);

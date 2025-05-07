@@ -37,9 +37,15 @@ void	fileout_manager(t_shell *shell, char **tokens, int *i)
 	j = 0;
 	while (tokens[*i][j] == '>')
 		j++;
-	if (j == 1 && tokens[++(*i)])
+	if (!tokens[++(*i)])
+		return ;
+	if (shell->cmds->file_o != -1)
+		safe_close(&shell->cmds->file_o);
+	if (shell->cmds->file_a != -1)
+		safe_close(&shell->cmds->file_a);
+	if (j == 1)
 		shell->cmds->file_o = handle_fdout(tokens[*i], 'o', shell);
-	else if (j == 2 && tokens[++(*i)])
+	else if (j == 2)
 		shell->cmds->file_a = handle_fdout(tokens[*i], 'a', shell);
 }
 
@@ -64,9 +70,13 @@ void	filein_manager(t_shell *shell, char **tokens, int *i)
 	j = 0;
 	while (tokens[*i][j] == '<')
 		j++;
-	if (j == 1 && tokens[++(*i)])
+	if (!tokens[++(*i)])
+		return ;
+	if (shell->cmds->file_i != -1)
+		safe_close(&shell->cmds->file_i);
+	if (j == 1)
 		shell->cmds->file_i = handle_fdin(tokens[*i], shell);
-	else if (j == 2 && tokens[++(*i)])
+	else if (j == 2)
 		shell->cmds->file_i = handle_heredoc(tokens[*i], shell);
 }
 

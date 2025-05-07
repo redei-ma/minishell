@@ -1,7 +1,7 @@
 NAME = minishell
 CC = cc
 CFLAG = -Wall -Wextra -Werror -g
-VALGRIND = valgrind --suppressions=$(CURDIR)/readline.supp --leak-check=full --show-leak-kinds=all \
+VALGRIND = valgrind --suppressions=$(SUP_FILE_ABS) --leak-check=full --show-leak-kinds=all \
 			--track-origins=yes --track-fds=yes --trace-children=yes
 
 SRC =	src/main.c \
@@ -37,8 +37,10 @@ SRC =	src/main.c \
 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
-# OBJDIR = .obj
-# OBJ = $(SRC:%.c=$(OBJDIR)/%.o)
+SUP_FILE = suppression/readline.supp
+SUP_FILE_ABS = $(shell pwd)/$(SUP_FILE)
+OBJ_DIR = .obj
+OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)
 
 all: $(NAME)
 
@@ -46,17 +48,13 @@ $(LIBFT):
 	@echo "Compiling libft..."
 	@$(MAKE) -C $(LIBFT_DIR) --quiet
 
-# $(OBJDIR)/%.o: %.c $(LIBFT)
-# 	@mkdir -p $(@D)
-# 	@$(CC) $(CFLAG) -I$(CURDIR) -I$(LIBFT_DIR) -c $< -o $@
+$(OBJ_DIR)/%.o: %.c $(LIBFT)
+	@mkdir -p $(@D)
+	@$(CC) $(CFLAG) -Iinclude -I$(LIBFT_DIR) -c $< -o $@
 
-$(NAME): $(SRC) $(LIBFT)
+$(NAME): $(OBJ) $(LIBFT)
 	@echo "Compiling $(NAME)..."
-	@$(CC) $(CFLAG) $(SRC) $(LIBFT) -Iinclude -o $(NAME) -lreadline
-
-val: $(NAME)
-	@echo "Using Valgrind..."
-	@$(VALGRIND) ./$(NAME)
+	@$(CC) $(CFLAG) $(OBJ) $(LIBFT) -Iinclude -o $(NAME) -lreadline
 
 banner: $(NAME)
 	@clear
@@ -70,15 +68,20 @@ banner: $(NAME)
 	@echo "\033[0m"
 	@./$(NAME)
 
+val: $(NAME) $(SUP_FILE)
+	@echo "Using Valgrind..."
+	@$(VALGRIND) ./$(NAME)
+
 clean:
 	@echo "Removing object files..."
-#	@rm -rf $(OBJDIR)
+	@rm -rf $(OBJ_DIR)
 	@$(MAKE) -C $(LIBFT_DIR) clean --quiet
 
 fclean: clean
 	@echo "Removing library and executables..."
 	@rm -rf $(NAME)
 	@$(MAKE) -C $(LIBFT_DIR) fclean --quiet
+	@rm -rf $(SUP_FILE_DIR)
 
 re: fclean all
 
