@@ -37,7 +37,7 @@ SRC =	src/main.c \
 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
-SUP_FILE = suppression/readline.supp
+SUP_FILE = valgrind.supp
 SUP_FILE_ABS = $(shell pwd)/$(SUP_FILE)
 OBJ_DIR = .obj
 OBJ = $(SRC:%.c=$(OBJ_DIR)/%.o)

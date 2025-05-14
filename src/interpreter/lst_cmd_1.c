@@ -76,7 +76,7 @@ static void	parse_cmd(char **tokens, t_shell *shell)
 		}
 		else
 			add_arg(&shell->cmds->args, tokens[i], shell);
-		if (!tokens[++i] || shell->trigger)
+		if (!tokens[++i] || shell->trigger || shell->cmds->skip)
 			break ;
 	}
 }
