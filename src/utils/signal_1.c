@@ -6,7 +6,7 @@
 /*   By: redei-ma <redei-ma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/24 17:39:04 by redei-ma          #+#    #+#             */
-/*   Updated: 2025/04/30 14:41:26 by redei-ma         ###   ########.fr       */
+/*   Updated: 2025/05/20 17:43:05 by redei-ma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,8 @@ void	handle_ctrl_bl_exec(int signum)
 
 void	handle_ctrl_bl(int signum)
 {
-	struct termios	term;
-
 	(void)signum;
-	tcgetattr(STDIN_FILENO, &term);
-	term.c_lflag &= ~ECHOCTL;
-	tcsetattr(STDIN_FILENO, TCSANOW, &term);
+	ft_printfd(2, "\b\b  \b\b");
 }
 
 void	interactive_ctrls(void)
